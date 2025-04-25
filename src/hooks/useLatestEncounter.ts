@@ -1,9 +1,8 @@
 import useSWR, { type KeyedMutator } from 'swr';
 import { openmrsFetch, restBaseUrl, type FetchResponse } from '@openmrs/esm-framework';
 import pickBy from 'lodash/pickBy';
-import type { OpenmrsEncounter } from '../types'; // Asegúrate de importar el tipo correcto
+import type { OpenmrsEncounter } from '../types';
 
-// Representación personalizada para incluir observaciones
 const latestEncounterRepresentation =
   'custom:(uuid,encounterDatetime,encounterType:(uuid,display),location:(uuid,display),patient:(uuid,display),' +
   'obs:(uuid,obsDatetime,concept:(uuid,display),value:(uuid,display,name:(uuid,name)),groupMembers:(uuid,concept:(uuid,display),value:(uuid,display))),form:(uuid,name))';
@@ -16,31 +15,24 @@ interface UseLatestEncounterResponse {
 }
 
 export const useLatestValidEncounter = (patientUuid: string, encounterTypeUuid: string): UseLatestEncounterResponse => {
-  if (!patientUuid || !encounterTypeUuid) {
-    return {
-      encounter: undefined,
-      isLoading: false,
-      error: new Error('patientUuid and encounterTypeUuid are required'),
-      mutate: () => Promise.resolve(undefined),
-    };
-  }
-
   const params = new URLSearchParams(
     pickBy(
       {
         patient: patientUuid,
         encounterType: encounterTypeUuid,
         v: latestEncounterRepresentation,
-        _sort: '-encounterDatetime', // Ordenar por fecha descendente
-        _count: '1', // Limitar a 1 resultado
+        _sort: '-encounterDatetime',
+        _count: '1',
       },
       (value) => value,
     ),
   );
 
-  const url = `${restBaseUrl}/encounter?${params.toString()}`;
+  // Define the URL only if both parameters are valid, otherwise null
+  const url = patientUuid && encounterTypeUuid ? `${restBaseUrl}/encounter?${params.toString()}` : null;
 
-  const { data, isLoading, error, mutate } = useSWR<FetchResponse<{ results: OpenmrsEncounter[] }>, Error>(
+  // Always call useSWR, but with a key that may be null
+  const { data, isLoading, error: swrError, mutate } = useSWR<FetchResponse<{ results: OpenmrsEncounter[] }>, Error>(
     url,
     async (url) => {
       const response = await openmrsFetch(url);
@@ -54,13 +46,13 @@ export const useLatestValidEncounter = (patientUuid: string, encounterTypeUuid: 
     },
   );
 
-  // Acceder al primer resultado
-  const encounter = data?.data?.results?.[0];
+  // Set final error: custom error if URL is null, otherwise use SWR error (or null if undefined)
+  const finalError = !url ? new Error('patientUuid and encounterTypeUuid are required') : (swrError || null);
 
   return {
-    encounter,
+    encounter: data?.data?.results?.[0],
     isLoading,
-    error,
+    error: finalError,
     mutate,
   };
 };

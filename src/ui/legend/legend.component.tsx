@@ -7,7 +7,7 @@ import { type ConfigObject } from '../../config-schema';
 import styles from './legend.scss';
 
 interface LegendItem {
-  type: string; // Use string to accommodate custom colors (e.g., hex, named colors)
+  type: string;
   display: string;
   label: string;
 }
@@ -16,15 +16,14 @@ interface LegendTileProps {
   conceptSetUUID: string;
 }
 
-const LegendTile: React.FC<LegendTileProps> = ({}) => {
+const LegendTile: React.FC<LegendTileProps> = ({ conceptSetUUID }) => {
   const { t } = useTranslation();
   const config = useConfig<ConfigObject>();
   const { schemasConceptSet, isLoading, error } = useSchemasConceptSet(config.legend);
 
-  // Map concept data to legend items
   const legendItems: LegendItem[] = useMemo(() => {
     if (!schemasConceptSet) {
-      return []; // Return empty array if no concept is loaded
+      return [];
     }
 
     const concept = schemasConceptSet;
@@ -66,7 +65,6 @@ const LegendTile: React.FC<LegendTileProps> = ({}) => {
                   aria-label={t(item.display, item.label)}
                   title={t(item.display, item.label)}
                   className={styles.legendTag}
-                  style={{ backgroundColor: item.type }} // Support custom colors
                 >
                   {t(item.display, item.label)}
                 </Tag>
