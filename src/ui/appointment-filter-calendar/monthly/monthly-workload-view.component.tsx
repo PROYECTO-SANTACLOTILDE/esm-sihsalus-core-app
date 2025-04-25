@@ -24,9 +24,7 @@ const MonthlyWorkloadView: React.FC<MonthlyWorkloadViewProps> = ({ dateTime, eve
     [dateTime, events],
   );
 
-  const handleAppoiment = (serviceUuid: string) => {
-     
-  };
+  const handleAppoiment = (serviceUuid: string) => {};
 
   return (
     <div
