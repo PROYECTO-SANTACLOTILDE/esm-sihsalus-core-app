@@ -1,0 +1,32 @@
+.form {
+  padding: 1rem;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.row {
+  margin-bottom: 1rem;
+}
+
+.button {
+  margin-right: 1rem;
+}
+
+.errorContainer {
+  margin-top: 1rem;
+}
