@@ -1,9 +1,9 @@
 {
-  "name": "@openmrs/esm-template-app",
+  "name": "@pucp-gidis-hiisc/esm-sihsalus-app",
   "version": "4.0.0",
   "license": "MPL-2.0",
   "description": "An OpenMRS seed application for building microfrontends",
-  "browser": "dist/openmrs-esm-template-app.js",
+  "browser": "dist/pucp-gidis-hiisc-esm-sihsalus-app.js",
   "main": "src/index.ts",
   "source": true,
   "scripts": {
@@ -40,11 +40,16 @@
     "url": "https://github.com/openmrs/openmrs-esm-template-app/issues"
   },
   "dependencies": {
+    "@carbon/charts-react": "^1.23.6",
     "@carbon/react": "^1.76.0",
     "@hookform/resolvers": "^5.0.1",
+    "chart.js": "^4.4.9",
+    "chartjs-plugin-annotation": "^3.1.0",
     "classnames": "^2.5.1",
     "lodash-es": "^4.17.21",
+    "react-chartjs-2": "^5.3.0",
     "react-hook-form": "^7.56.1",
+    "react-virtualized-auto-sizer": "^1.0.26",
     "xlsx": "^0.18.5",
     "zod": "^3.24.3"
   },
@@ -58,7 +63,7 @@
   },
   "devDependencies": {
     "@carbon/pictograms-react": "^11.76.0",
-    "@openmrs/esm-framework": "next",
+    "@openmrs/esm-framework": "^6.2.1-pre.2876",
     "@openmrs/esm-patient-common-lib": "next",
     "@openmrs/esm-styleguide": "next",
     "@playwright/test": "^1.42.1",
@@ -94,7 +99,7 @@
     "jest-cli": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^15.2.2",
-    "openmrs": "next",
+    "openmrs": "^6.2.1-pre.2876",
     "prettier": "^3.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
