@@ -21,21 +21,18 @@ const ChildImmunizationSchedule: React.FC<{ patientUuid: string }> = ({ patientU
     return years * 12 + months;
   }, [patient?.birthDate]);
 
-  const tabs: TabConfig[] = useMemo(
-    () => [
-      {
-        labelKey: 'Calendario de Vacunación',
-        icon: Eyedropper,
-        slotName: 'vaccination-schedule-slot',
-      },
-      {
-        labelKey: 'Reacciones Adversas',
-        icon: Pills,
-        slotName: 'vaccination-appointment-slot',
-      },
-    ],
-    [t],
-  );
+  const tabs: TabConfig[] = [
+    {
+      labelKey: 'Calendario de Vacunación',
+      icon: Eyedropper,
+      slotName: 'vaccination-schedule-slot',
+    },
+    {
+      labelKey: 'Reacciones Adversas',
+      icon: Pills,
+      slotName: 'vaccination-appointment-slot',
+    },
+  ];
 
   if (isVisitLoading || isPatientLoading) {
     return (

@@ -2,7 +2,7 @@
   "name": "@pucp-gidis-hiisc/esm-sihsalus-app",
   "version": "4.0.0",
   "license": "MPL-2.0",
-  "description": "An OpenMRS seed application for building microfrontends",
+  "description": "Main openmrs O3 peruhce microfrontend",
   "browser": "dist/pucp-gidis-hiisc-esm-sihsalus-app.js",
   "main": "src/index.ts",
   "source": true,
@@ -21,6 +21,13 @@
     "extract-translations": "i18next 'src/**/*.component.tsx' --config ./tools/i18next-parser.config.js",
     "test-e2e": "playwright test"
   },
+  "files": [
+    "dist",
+    "src",
+    "translations",
+    "package.json",
+    "README.md"
+  ],
   "browserslist": [
     "extends browserslist-config-openmrs"
   ],
@@ -110,7 +117,8 @@
     "turbo": "^2.2.3",
     "typescript": "^4.9.5",
     "webpack": "^5.88.1",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.2.1"
   },
   "lint-staged": {
     "packages/**/src/**/*.{ts,tsx}": "eslint --cache --fix --max-warnings 0",
