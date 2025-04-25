@@ -30,14 +30,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openmrs/openmrs-esm-template-app.git"
+    "url": "git+https://github.com/PROYECTO-SANTACLOTILDE/esm-sihsalus-app.git"
   },
-  "homepage": "https://github.com/openmrs/openmrs-esm-template-app#readme",
+  "homepage": "https://github.com/PROYECTO-SANTACLOTILDE/esm-sihsalus-app#readme",
   "publishConfig": {
     "access": "public"
   },
   "bugs": {
-    "url": "https://github.com/openmrs/openmrs-esm-template-app/issues"
+    "url": "https://github.com/PROYECTO-SANTACLOTILDE/esm-sihsalus-app/issues"
   },
   "dependencies": {
     "@carbon/charts-react": "^1.23.6",
