@@ -41,7 +41,12 @@
   },
   "dependencies": {
     "@carbon/react": "^1.76.0",
-    "lodash-es": "^4.17.21"
+    "@hookform/resolvers": "^5.0.1",
+    "classnames": "^2.5.1",
+    "lodash-es": "^4.17.21",
+    "react-hook-form": "^7.56.1",
+    "xlsx": "^0.18.5",
+    "zod": "^3.24.3"
   },
   "peerDependencies": {
     "@openmrs/esm-framework": "*",
@@ -52,7 +57,9 @@
     "rxjs": "6.x"
   },
   "devDependencies": {
+    "@carbon/pictograms-react": "^11.76.0",
     "@openmrs/esm-framework": "next",
+    "@openmrs/esm-patient-common-lib": "next",
     "@openmrs/esm-styleguide": "next",
     "@playwright/test": "^1.42.1",
     "@swc/cli": "^0.3.12",
@@ -62,6 +69,7 @@
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.6",
     "@testing-library/user-event": "^14.5.2",
+    "@types/carbon__pictograms-react": "^11",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
@@ -71,6 +79,7 @@
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
     "css-loader": "^6.8.1",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.0.3",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^8.8.0",

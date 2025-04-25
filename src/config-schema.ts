@@ -1,4 +1,4 @@
-import { Type } from '@openmrs/esm-framework';
+import { Type, validator } from '@openmrs/esm-framework';
 
 export const configSchema = {
   // 1. Tipos de Encuentro
