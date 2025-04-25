@@ -32,7 +32,12 @@ export const useLatestValidEncounter = (patientUuid: string, encounterTypeUuid: 
   const url = patientUuid && encounterTypeUuid ? `${restBaseUrl}/encounter?${params.toString()}` : null;
 
   // Always call useSWR, but with a key that may be null
-  const { data, isLoading, error: swrError, mutate } = useSWR<FetchResponse<{ results: OpenmrsEncounter[] }>, Error>(
+  const {
+    data,
+    isLoading,
+    error: swrError,
+    mutate,
+  } = useSWR<FetchResponse<{ results: OpenmrsEncounter[] }>, Error>(
     url,
     async (url) => {
       const response = await openmrsFetch(url);
@@ -47,7 +52,7 @@ export const useLatestValidEncounter = (patientUuid: string, encounterTypeUuid: 
   );
 
   // Set final error: custom error if URL is null, otherwise use SWR error (or null if undefined)
-  const finalError = !url ? new Error('patientUuid and encounterTypeUuid are required') : (swrError || null);
+  const finalError = !url ? new Error('patientUuid and encounterTypeUuid are required') : swrError || null;
 
   return {
     encounter: data?.data?.results?.[0],

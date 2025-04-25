@@ -86,7 +86,6 @@ export const AdverseReactionForm: React.FC<AdverseReactionFormProps> = ({ patien
           ...formData,
           occurrenceDate: new Date(formData.occurrenceDate).toISOString(),
         });
-        // Resetear formulario después de enviar
         setFormData({
           vaccineName: '',
           reactionDescription: '',
