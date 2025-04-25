@@ -19,26 +19,23 @@ const WellChildControl: React.FC<{ patientUuid: string }> = ({ patientUuid }) =>
     return (today.getFullYear() - birthDate.getFullYear()) * 12 + (today.getMonth() - birthDate.getMonth());
   }, [patient?.birthDate]);
 
-  const tabs: TabConfig[] = useMemo(
-    () => [
-      {
-        labelKey: 'Controles CRED',
-        icon: Friendship,
-        slotName: 'cred-schedule-slot',
-      },
-      {
-        labelKey: 'Controles NO CRED',
-        icon: ReminderMedical,
-        slotName: 'non-cred-control-slot',
-      },
-      {
-        labelKey: 'Pediatría y Servicios Adicionales',
-        icon: ReminderMedical,
-        slotName: 'additional-health-services-slot',
-      },
-    ],
-    [t],
-  );
+  const tabs: TabConfig[] = [
+    {
+      labelKey: 'Controles CRED',
+      icon: Friendship,
+      slotName: 'cred-schedule-slot',
+    },
+    {
+      labelKey: 'Controles NO CRED',
+      icon: ReminderMedical,
+      slotName: 'non-cred-control-slot',
+    },
+    {
+      labelKey: 'Pediatría y Servicios Adicionales',
+      icon: ReminderMedical,
+      slotName: 'additional-health-services-slot',
+    },
+  ];
 
   if (isVisitLoading || isPatientLoading) {
     return (
