@@ -1,6 +1,6 @@
 {
   "name": "@pucp-gidis-hiisc/esm-sihsalus-app",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "license": "MPL-2.0",
   "description": "Main openmrs O3 peruhce microfrontend",
   "browser": "dist/pucp-gidis-hiisc-esm-sihsalus-app.js",
