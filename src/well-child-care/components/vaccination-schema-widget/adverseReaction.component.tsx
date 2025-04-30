@@ -55,7 +55,7 @@ export const AdverseReactionForm: React.FC<AdverseReactionFormProps> = ({ patien
 
   const handleInputChange = useCallback((field: keyof AdverseReaction, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    setError(null); // Limpiar error al cambiar cualquier campo
+    setError(null);
   }, []);
 
   const validateForm = (): boolean => {
@@ -94,7 +94,7 @@ export const AdverseReactionForm: React.FC<AdverseReactionFormProps> = ({ patien
         });
       }
     },
-    [formData, onSubmit, t],
+    [formData, onSubmit, t, validateForm],
   );
 
   return (
