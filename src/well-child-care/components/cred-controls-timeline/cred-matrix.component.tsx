@@ -19,7 +19,7 @@ import { CardHeader, EmptyState, ErrorState, useVisitOrOfflineVisit } from '@ope
 import { Add, Analytics, TrashCan } from '@carbon/react/icons';
 import { useConfig, useLayoutType, launchWorkspace } from '@openmrs/esm-framework';
 import useEncountersCRED from '../../../hooks/useEncountersCRED';
-import styles from './cred-schedule.scss';
+import styles from './cred-matrix.scss';
 import type { ConfigObject } from '../../../config-schema';
 
 interface CredEntry {
@@ -113,63 +113,58 @@ const CredControlsMatrix: React.FC<CredControlsMatrixProps> = ({ patientUuid, on
   if (error) return <ErrorState error={error} headerTitle={headerTitle} />;
 
   return (
-    <div className={styles.matrixWrapper}>
-      <div className={styles.widgetCard}>
-        <CardHeader title={headerTitle}>
-          <div className={styles.backgroundDataFetchingIndicator}>
-            <span>{isLoading ? <InlineLoading /> : null}</span>
-          </div>
-          <div className={styles.clinicalDataHeaderActionItems}>
-            <Button kind="ghost" renderIcon={Add} iconDescription={t('addData', 'Add data')} onClick={launchForm}>
-              {t('add', 'Add')}
-            </Button>
-          </div>
-        </CardHeader>
-        <Table size="sm" useZebraStyles>
-          <TableHead>
-            <TableRow>
-              {ageGroupsCRED.map((group) => (
-                <TableHeader key={group.label + (group.sublabel || '')}>
-                  {group.label}
-                  {group.sublabel && <div className={styles.sublabel}>{group.sublabel}</div>}
-                </TableHeader>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              {ageGroupsCRED.map((group) => {
-                const key = group.label + (group.sublabel || '');
-                return (
-                  <TableCell key={key} className={styles.cellContent}>
-                    {groupedEntries[key].map((entry) => (
-                      <Tile key={entry.id} className={styles.credTile}>
-                        <div className={styles.entryInfo}>
-                          <strong>{`CRED Nº ${entry.number}`}</strong>
-                          <br />
-                          {dayjs(entry.date).format('DD-MM-YYYY')}
-                        </div>
-                        {entry.createdByCurrentUser && (
-                          <Button
-                            kind="ghost"
-                            size="sm"
-                            hasIconOnly
-                            iconDescription="Eliminar"
-                            onClick={() => onDelete(entry.id)}
-                            renderIcon={TrashCan}
-                            tooltipAlignment="center"
-                            tooltipPosition="bottom"
-                          />
-                        )}
-                      </Tile>
-                    ))}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          </TableBody>
-        </Table>
-      </div>
+    <div className={styles.widgetCard}>
+      <CardHeader title={headerTitle}>
+        <div className={styles.clinicalDataHeaderActionItems}>
+          <Button kind="ghost" renderIcon={Add} iconDescription={t('addData', 'Add data')} onClick={launchForm}>
+            {t('add', 'Add')}
+          </Button>
+        </div>
+      </CardHeader>
+      <Table size="sm" useZebraStyles>
+        <TableHead>
+          <TableRow>
+            {ageGroupsCRED.map((group) => (
+              <TableHeader key={group.label + (group.sublabel || '')}>
+                {group.label}
+                {group.sublabel && <div className={styles.sublabel}>{group.sublabel}</div>}
+              </TableHeader>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            {ageGroupsCRED.map((group) => {
+              const key = group.label + (group.sublabel || '');
+              return (
+                <TableCell key={key} className={styles.cellContent}>
+                  {groupedEntries[key].map((entry) => (
+                    <Tile key={entry.id} className={styles.credTile}>
+                      <div className={styles.entryInfo}>
+                        <strong>{`CRED Nº ${entry.number}`}</strong>
+                        <br />
+                        {dayjs(entry.date).format('DD-MM-YYYY')}
+                      </div>
+                      {entry.createdByCurrentUser && (
+                        <Button
+                          kind="ghost"
+                          size="sm"
+                          hasIconOnly
+                          iconDescription="Eliminar"
+                          onClick={() => onDelete(entry.id)}
+                          renderIcon={TrashCan}
+                          tooltipAlignment="center"
+                          tooltipPosition="bottom"
+                        />
+                      )}
+                    </Tile>
+                  ))}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        </TableBody>
+      </Table>
     </div>
   );
 };
