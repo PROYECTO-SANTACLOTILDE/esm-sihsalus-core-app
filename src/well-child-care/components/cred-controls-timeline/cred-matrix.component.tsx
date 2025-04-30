@@ -1,6 +1,18 @@
 import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
-import { Tile, Button, Table, TableHead, TableHeader, TableRow, TableBody, TableCell } from '@carbon/react';
+import { useTranslation } from 'react-i18next';
+import {
+  Tile,
+  Button,
+  Table,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableBody,
+  TableCell,
+  DataTableSkeleton,
+} from '@carbon/react';
+import { CardHeader, EmptyState, ErrorState, useVisitOrOfflineVisit } from '@openmrs/esm-patient-common-lib';
 import { TrashCan } from '@carbon/react/icons';
 import { useConfig } from '@openmrs/esm-framework';
 import useEncountersCRED from '../../../hooks/useEncountersCRED';
@@ -22,8 +34,10 @@ interface CredControlsMatrixProps {
 
 const CredControlsMatrix: React.FC<CredControlsMatrixProps> = ({ patientUuid, onDelete }) => {
   const { ageGroupsCRED, encounterTypes } = useConfig<ConfigObject>();
+  const { encounters, isLoading, error } = useEncountersCRED(patientUuid);
+  const { t } = useTranslation();
 
-  const { encounters, isLoading } = useEncountersCRED(patientUuid);
+  const headerTitle = `${t('inactiveCases', 'Inactive Cases')}`;
 
   const entries: CredEntry[] = useMemo(() => {
     return (encounters || []).map((encounter) => {
@@ -36,7 +50,7 @@ const CredControlsMatrix: React.FC<CredControlsMatrixProps> = ({ patientUuid, on
         number: parseInt(String(numberObs?.value ?? '0'), 10),
         date: encounter.encounterDatetime,
         type: typeObs?.value === true ? 'complementary' : 'regular',
-        createdByCurrentUser: encounter?.creator?.uuid === encounter?.provider?.uuid, // crude check
+        createdByCurrentUser: encounter?.creator?.uuid === encounter?.provider?.uuid,
       };
     });
   }, [encounters]);
@@ -80,7 +94,8 @@ const CredControlsMatrix: React.FC<CredControlsMatrixProps> = ({ patientUuid, on
     }
   });
 
-  if (isLoading) return <div>Cargando controles CRED...</div>;
+  if (isLoading) return <DataTableSkeleton role="progressbar" compact zebra />;
+  if (error) return <ErrorState error={error} headerTitle={headerTitle} />;
 
   return (
     <div className={styles.matrixWrapper}>

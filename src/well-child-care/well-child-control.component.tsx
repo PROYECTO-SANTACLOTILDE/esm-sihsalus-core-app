@@ -21,6 +21,11 @@ const WellChildControl: React.FC<{ patientUuid: string }> = ({ patientUuid }) =>
 
   const tabs: TabConfig[] = [
     {
+      labelKey: 'Seguimiento',
+      icon: Friendship,
+      slotName: 'cred-following-slot',
+    },
+    {
       labelKey: 'Controles CRED',
       icon: Friendship,
       slotName: 'cred-schedule-slot',

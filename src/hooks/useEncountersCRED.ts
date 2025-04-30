@@ -91,16 +91,26 @@ const dummyData: DummyEncounter[] = [
 const useEncountersCRED = (patientUuid: string) => {
   const [encounters, setEncounters] = useState<DummyEncounter[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    setIsLoading(true);
+    setError(null);
     // Simulate async loading
-    setTimeout(() => {
-      setEncounters(dummyData);
-      setIsLoading(false);
+    const timeout = setTimeout(() => {
+      try {
+        setEncounters(dummyData);
+      } catch (err) {
+        setError(err as Error);
+      } finally {
+        setIsLoading(false);
+      }
     }, 500);
+
+    return () => clearTimeout(timeout);
   }, [patientUuid]);
 
-  return { encounters, isLoading };
+  return { encounters, isLoading, error };
 };
 
 export default useEncountersCRED;
