@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { Tile, Button, Table, TableHead, TableHeader, TableRow, TableBody, TableCell } from '@carbon/react';
-import { Add, Edit, TrashCan } from '@carbon/react/icons';
-
+import { TrashCan } from '@carbon/react/icons';
 import { useConfig } from '@openmrs/esm-framework';
+import useEncountersCRED from '../../../hooks/useEncountersCRED';
 import styles from './cred-controls-matrix.scss';
 import type { ConfigObject } from '../../../config-schema';
 
@@ -16,12 +16,30 @@ interface CredEntry {
 }
 
 interface CredControlsMatrixProps {
-  entries: CredEntry[];
+  patientUuid: string;
   onDelete: (id: string) => void;
 }
 
-const CredControlsMatrix: React.FC<CredControlsMatrixProps> = ({ entries, onDelete }) => {
-  const { ageGroupsCRED } = useConfig<ConfigObject>();
+const CredControlsMatrix: React.FC<CredControlsMatrixProps> = ({ patientUuid, onDelete }) => {
+  const { ageGroupsCRED, encounterTypes } = useConfig<ConfigObject>();
+
+  const { encounters, isLoading } = useEncountersCRED(patientUuid);
+
+  const entries: CredEntry[] = useMemo(() => {
+    return (encounters || []).map((encounter) => {
+      const obs = encounter.obs || [];
+      const numberObs = obs.find((o) => o.concept?.display?.includes('Número de control'));
+      const typeObs = obs.find((o) => o.concept?.display?.includes('complementario'));
+
+      return {
+        id: encounter.uuid,
+        number: parseInt(String(numberObs?.value ?? '0'), 10),
+        date: encounter.encounterDatetime,
+        type: typeObs?.value === true ? 'complementary' : 'regular',
+        createdByCurrentUser: encounter?.creator?.uuid === encounter?.provider?.uuid, // crude check
+      };
+    });
+  }, [encounters]);
 
   const getAgeInDays = (date: string) => dayjs().diff(dayjs(date), 'days');
   const getAgeInMonths = (date: string) => dayjs().diff(dayjs(date), 'months');
@@ -61,6 +79,8 @@ const CredControlsMatrix: React.FC<CredControlsMatrixProps> = ({ entries, onDele
       groupedEntries[key]?.push(entry);
     }
   });
+
+  if (isLoading) return <div>Cargando controles CRED...</div>;
 
   return (
     <div className={styles.matrixWrapper}>
