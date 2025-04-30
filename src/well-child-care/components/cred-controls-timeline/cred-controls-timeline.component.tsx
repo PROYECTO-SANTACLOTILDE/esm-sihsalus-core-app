@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tile } from '@carbon/react';
-import { usePatient, useConfig, launchWorkspace } from '@openmrs/esm-framework';
+import { usePatient, age, useConfig, launchWorkspace } from '@openmrs/esm-framework';
 import styles from './cred-schedule.scss';
 import type { ConfigObject } from '../../../config-schema';
+import dayjs from 'dayjs';
 
 interface CredAgeGroupsProps {
   patientUuid: string;
@@ -18,11 +19,11 @@ const CredAgeGroups: React.FC<CredAgeGroupsProps> = ({ patientUuid }) => {
   const patientAge = useMemo(() => {
     if (!patient?.birthDate) return { inDays: 0, inMonths: 0 };
 
-    const birthDate = new Date(patient.birthDate);
-    const today = new Date();
+    const birthDate = dayjs(patient.birthDate);
+    const today = dayjs();
 
-    const inDays = Math.floor((today.getTime() - birthDate.getTime()) / (1000 * 60 * 60 * 24));
-    const inMonths = (today.getFullYear() - birthDate.getFullYear()) * 12 + (today.getMonth() - birthDate.getMonth());
+    const inDays = today.diff(birthDate, 'days');
+    const inMonths = today.diff(birthDate, 'months');
 
     return { inDays, inMonths };
   }, [patient]);
