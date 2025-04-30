@@ -1247,7 +1247,7 @@ export const configSchema = {
     _type: Type.Array,
     _description: 'Configuración de grupos etarios para CRED',
     _default: [
-      { label: '0 AÑOS', sublabel: '0 A 29 DÍAS', minDays: 0, maxDays: 29 },
+      { label: 'RECIÉN NACIDO', sublabel: '0 A 29 DÍAS', minDays: 0, maxDays: 29 },
       { label: '0 AÑOS', sublabel: '1 A 11 MESES', minMonths: 1, maxMonths: 11 },
       { label: '1 AÑO', sublabel: '12 A 23 MESES', minMonths: 12, maxMonths: 23 },
       { label: '2 AÑOS', sublabel: '24 A 35 MESES', minMonths: 24, maxMonths: 35 },
