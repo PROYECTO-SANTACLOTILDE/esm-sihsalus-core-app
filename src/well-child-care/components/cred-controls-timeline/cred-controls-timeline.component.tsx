@@ -23,16 +23,19 @@ const CredAgeGroups: React.FC<CredAgeGroupsProps> = ({ patientUuid }) => {
 
   const ageGroups = [
     { min: 0, max: 1, label: '0 AÑOS', sublabel: '0 A 29 DÍAS' },
-    { min: 1, max: 12, label: '1 AÑO', sublabel: '1 A 11 MESES' },
-    { min: 12, max: 24, label: '2 AÑOS', sublabel: '12 A 23 MESES' },
-    { min: 24, max: 36, label: '3 AÑOS', sublabel: '24 A 35 MESES' },
-    { min: 36, max: 48, label: '4 AÑOS', sublabel: '36 A 47 MESES' },
-    { min: 48, max: 60, label: '5 AÑOS', sublabel: '48 A 59 MESES' },
-    { min: 60, max: 72, label: '6 AÑOS' },
-    { min: 72, max: 84, label: '7 AÑOS' },
-    { min: 84, max: 96, label: '8 AÑOS' },
+    { min: 1, max: 12, label: '0 AÑOS', sublabel: '1 A 11 MESES' },
+    { min: 12, max: 24, label: '1 AÑO', sublabel: '12 A 23 MESES' },
+    { min: 24, max: 36, label: '2 AÑOS', sublabel: '24 A 35 MESES' },
+    { min: 36, max: 48, label: '3 AÑOS', sublabel: '36 A 47 MESES' },
+    { min: 48, max: 60, label: '4 AÑOS', sublabel: '48 A 59 MESES' },
+    { min: 60, max: 72, label: '5 AÑOS' },
+    { min: 72, max: 84, label: '6 AÑOS' },
+    { min: 84, max: 96, label: '7 AÑOS' },
+    { min: 96, max: 108, label: '8 AÑOS' },
+    { min: 108, max: 120, label: '9 AÑOS' },
+    { min: 120, max: 132, label: '10 AÑOS' },
+    { min: 132, max: 144, label: '11 AÑOS' },
   ];
-
   const currentAgeGroup = useMemo(
     () => ageGroups.find((group) => patientAgeInMonths >= group.min && patientAgeInMonths < group.max),
     [patientAgeInMonths, ageGroups],
