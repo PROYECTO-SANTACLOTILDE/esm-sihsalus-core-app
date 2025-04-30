@@ -1242,6 +1242,35 @@ export const configSchema = {
       { uuid: 'a2b5c9f8-0d2a-4bdf-8d9b-6f3b2d1e5a2f', display: 'Otro' },
     ],
   },
+
+  ageGroupsCRED: {
+    _type: Type.Array,
+    _description: 'Configuración de grupos etarios para CRED',
+    _default: [
+      { label: '0 AÑOS', sublabel: '0 A 29 DÍAS', minDays: 0, maxDays: 29 },
+      { label: '0 AÑOS', sublabel: '1 A 11 MESES', minMonths: 1, maxMonths: 11 },
+      { label: '1 AÑO', sublabel: '12 A 23 MESES', minMonths: 12, maxMonths: 23 },
+      { label: '2 AÑOS', sublabel: '24 A 35 MESES', minMonths: 24, maxMonths: 35 },
+      { label: '3 AÑOS', sublabel: '36 A 47 MESES', minMonths: 36, maxMonths: 47 },
+      { label: '4 AÑOS', sublabel: '48 A 59 MESES', minMonths: 48, maxMonths: 59 },
+      { label: '5 AÑOS', minMonths: 60, maxMonths: 71 },
+      { label: '6 AÑOS', minMonths: 72, maxMonths: 83 },
+      { label: '7 AÑOS', minMonths: 84, maxMonths: 95 },
+      { label: '8 AÑOS', minMonths: 96, maxMonths: 107 },
+      { label: '9 AÑOS', minMonths: 108, maxMonths: 119 },
+      { label: '10 AÑOS', minMonths: 120, maxMonths: 131 },
+      { label: '11 AÑOS', minMonths: 132, maxMonths: 143 },
+    ],
+    _elements: {
+      _type: Type.Object,
+      label: { _type: Type.String },
+      sublabel: { _type: Type.String, _optional: true },
+      minDays: { _type: Type.Number, _optional: true },
+      maxDays: { _type: Type.Number, _optional: true },
+      minMonths: { _type: Type.Number, _optional: true },
+      maxMonths: { _type: Type.Number, _optional: true },
+    },
+  },
 };
 
 // --------------- INTERFACES ---------------
@@ -1269,6 +1298,22 @@ export interface PartographyConfigObject {
   };
 }
 
+export interface PartograpyComponents {
+  id: string;
+  date: string;
+  fetalHeartRate: number;
+  cervicalDilation: number;
+  descentOfHead: string;
+}
+
+interface AgeRange {
+  label: string;
+  sublabel?: string;
+  minDays?: number;
+  maxDays?: number;
+  minMonths?: number;
+  maxMonths?: number;
+}
 export interface ConfigObject {
   encounterTypes: {
     specializedConsultation: string;
@@ -1412,12 +1457,5 @@ export interface ConfigObject {
     display: string;
     sexual: boolean;
   }>;
-}
-
-export interface PartograpyComponents {
-  id: string;
-  date: string;
-  fetalHeartRate: number;
-  cervicalDilation: number;
-  descentOfHead: string;
+  ageGroupsCRED: AgeRange[];
 }
