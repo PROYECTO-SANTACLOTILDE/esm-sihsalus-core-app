@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tile } from '@carbon/react';
-import { usePatient, age, useConfig, launchWorkspace } from '@openmrs/esm-framework';
+import { usePatient, useConfig, launchWorkspace } from '@openmrs/esm-framework';
 import styles from './cred-schedule.scss';
 import type { ConfigObject } from '../../../config-schema';
 import dayjs from 'dayjs';
