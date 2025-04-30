@@ -445,7 +445,7 @@
     {
       "name": "cred-matrix",
       "component": "credControlsMatrix",
-      "slot": "cred-schedule-slot",
+      "slot": "cred-following-slot",
       "order": 3,
       "meta": {
         "fullWidth": true
