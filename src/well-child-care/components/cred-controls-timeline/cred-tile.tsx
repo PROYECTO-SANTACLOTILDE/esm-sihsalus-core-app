@@ -22,18 +22,16 @@ const CredTile: React.FC<CREDEncounter> = ({
   labelUser,
 }) => {
   return (
-    <Tile key={uuid} className={styles.ageGroups}>
-      <div className={styles.ageTile}>
-        <strong>{`CRED Nº ${number}`}</strong>
-        <br />
-        {dayjs(date).format('DD-MM-YYYY')}
-        {labelUser && (
-          <>
-            <br />
-            <small className={styles.labelUser}>{labelUser}</small>
-          </>
-        )}
-      </div>
+    <Tile key={uuid} className={styles.ageTile}>
+      <strong>{`CRED Nº ${number}`}</strong>
+      <br />
+      {dayjs(date).format('DD-MM-YYYY')}
+      {labelUser && (
+        <>
+          <br />
+          <small className={styles.labelUser}>{labelUser}</small>
+        </>
+      )}
       {createdByCurrentUser && (
         <Button
           kind="ghost"
