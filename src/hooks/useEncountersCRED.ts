@@ -19,6 +19,42 @@ export interface DummyEncounter {
 
 const dummyData: DummyEncounter[] = [
   {
+    uuid: 'enc-rn-000',
+    encounterDatetime: new Date().toISOString(),
+    obs: [
+      {
+        concept: { display: 'Número de control' },
+        value: '0',
+      },
+      {
+        concept: { display: 'Es control complementario' },
+        value: false,
+      },
+      {
+        concept: { display: 'Edad del niño en días' },
+        value: 15,
+      },
+      {
+        concept: { display: 'Peso (kg)' },
+        value: 3.2,
+      },
+      {
+        concept: { display: 'Talla (cm)' },
+        value: 50,
+      },
+      {
+        concept: { display: 'Apgar al minuto' },
+        value: 8,
+      },
+      {
+        concept: { display: 'Apgar a los 5 minutos' },
+        value: 9,
+      },
+    ],
+    creator: { uuid: 'user-rn' },
+    provider: { uuid: 'user-rn' },
+  },
+  {
     uuid: 'enc-001',
     encounterDatetime: new Date().toISOString(),
     obs: [
