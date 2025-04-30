@@ -81,8 +81,10 @@ import NeonatalAttention from './well-child-care/components/neonatal-attention/n
 import LabourHistory from './well-child-care/components/neonatal-register/labour-history/labour-history.component';
 import PrenatalAntecedents from './well-child-care/components/neonatal-register/prenatal-history/prenatal-history.component';
 import ChildMedicalHistory from './well-child-care/components/neonatal-register/family-history/child-medical-history.component';
-import credControlsTimeline from './well-child-care/components/cred-controls-timeline/cred-controls-timeline.component';
-import credControlsCheckout from './well-child-care/components/cred-controls-timeline/cred-checkups.component';
+import CredControlsTimeline from './well-child-care/components/cred-controls-timeline/cred-controls-timeline.component';
+import CredControlsCheckout from './well-child-care/components/cred-controls-timeline/cred-checkups.component';
+import CredControlsMatrix from './well-child-care/components/cred-controls-timeline/cred-matrix.component';
+
 
 import VaccinationSchedule from './well-child-care/components/vaccination-schema-widget/vaccinationSchedule.component';
 import { AdverseReactionForm } from './well-child-care/components/vaccination-schema-widget/adverseReaction.component';
@@ -229,8 +231,10 @@ export const childMedicalHistory = getSyncLifecycle(ChildMedicalHistory, options
 export const newbornBiometricsBaseChart = getSyncLifecycle(NewbornBiometricsBase, options);
 export const newbornBalanceOverviewChart = getSyncLifecycle(NewbornBalanceOverview, options);
 
-export const credControls = getSyncLifecycle(credControlsTimeline, options);
-export const credCheckouts = getSyncLifecycle(credControlsCheckout, options);
+export const credControls = getSyncLifecycle(CredControlsTimeline, options);
+export const credCheckouts = getSyncLifecycle(CredControlsCheckout, options);
+export const credControlsMatrix = getSyncLifecycle(CredControlsMatrix, options);
+
 
 export const vaccinationSchedule = getSyncLifecycle(VaccinationSchedule, options);
 export const vaccinationAppointment = getSyncLifecycle(AdverseReactionForm, options);

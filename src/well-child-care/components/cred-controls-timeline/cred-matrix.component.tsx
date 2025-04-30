@@ -4,7 +4,7 @@ import { Tile, Button, Table, TableHead, TableHeader, TableRow, TableBody, Table
 import { TrashCan } from '@carbon/react/icons';
 import { useConfig } from '@openmrs/esm-framework';
 import useEncountersCRED from '../../../hooks/useEncountersCRED';
-import styles from './cred-controls-matrix.scss';
+import styles from './cred-schedule.scss';
 import type { ConfigObject } from '../../../config-schema';
 
 interface CredEntry {

@@ -443,6 +443,15 @@
       }
     },
     {
+      "name": "cred-matrix",
+      "component": "credControlsMatrix",
+      "slot": "cred-schedule-slot",
+      "order": 3,
+      "meta": {
+        "fullWidth": true
+      }
+    },
+    {
       "name": "vaccination-schedule",
       "component": "vaccinationSchedule",
       "slot": "vaccination-schedule-slot",
