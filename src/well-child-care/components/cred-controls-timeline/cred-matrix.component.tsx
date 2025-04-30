@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import {
-  Tile,
   Button,
   Table,
   TableHead,
@@ -11,15 +10,13 @@ import {
   TableBody,
   TableCell,
   DataTableSkeleton,
-  ContentSwitcher,
-  IconSwitch,
-  InlineLoading,
 } from '@carbon/react';
-import { CardHeader, EmptyState, ErrorState, useVisitOrOfflineVisit } from '@openmrs/esm-patient-common-lib';
-import { Add, Analytics, TrashCan } from '@carbon/react/icons';
+import { CardHeader, ErrorState } from '@openmrs/esm-patient-common-lib';
+import { Add } from '@carbon/react/icons';
 import { useConfig, useLayoutType, launchWorkspace } from '@openmrs/esm-framework';
 import useEncountersCRED from '../../../hooks/useEncountersCRED';
 import styles from './cred-matrix.scss';
+import CredTile from './cred-tile';
 import type { ConfigObject } from '../../../config-schema';
 
 interface CredEntry {
@@ -36,8 +33,7 @@ interface CredControlsMatrixProps {
 }
 
 const CredControlsMatrix: React.FC<CredControlsMatrixProps> = ({ patientUuid, onDelete }) => {
-  const { ageGroupsCRED, encounterTypes } = useConfig<ConfigObject>();
-  const isTablet = useLayoutType() === 'tablet';
+  const { ageGroupsCRED } = useConfig<ConfigObject>();
   const { encounters, isLoading, error } = useEncountersCRED(patientUuid);
   const { t } = useTranslation();
 
@@ -139,25 +135,14 @@ const CredControlsMatrix: React.FC<CredControlsMatrixProps> = ({ patientUuid, on
               return (
                 <TableCell key={key} className={styles.cellContent}>
                   {groupedEntries[key].map((entry) => (
-                    <Tile key={entry.id} className={styles.credTile}>
-                      <div className={styles.entryInfo}>
-                        <strong>{`CRED Nº ${entry.number}`}</strong>
-                        <br />
-                        {dayjs(entry.date).format('DD-MM-YYYY')}
-                      </div>
-                      {entry.createdByCurrentUser && (
-                        <Button
-                          kind="ghost"
-                          size="sm"
-                          hasIconOnly
-                          iconDescription="Eliminar"
-                          onClick={() => onDelete(entry.id)}
-                          renderIcon={TrashCan}
-                          tooltipAlignment="center"
-                          tooltipPosition="bottom"
-                        />
-                      )}
-                    </Tile>
+                    <CredTile
+                      key={entry.id}
+                      uuid={entry.id}
+                      number={entry.number}
+                      date={entry.date}
+                      createdByCurrentUser={entry.createdByCurrentUser}
+                      onDelete={onDelete}
+                    />
                   ))}
                 </TableCell>
               );
