@@ -1,6 +1,6 @@
-import { Button, ButtonSet, Column, ComboBox, DatePicker, DatePickerInput, Form, Stack } from '@carbon/react';
+import { Button, ButtonSet, Column, ComboBox, Form, Stack } from '@carbon/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useConfig, useSession } from '@openmrs/esm-framework';
+import { useConfig, useSession, showSnackbar } from '@openmrs/esm-framework';
 import React from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -85,15 +85,37 @@ const FamilyRelationshipForm: React.FC<RelationshipFormProps> = ({ closeWorkspac
       closeWorkspace();
     } catch (error) {
       console.error('Failed to save relationship:', error);
+
+      showSnackbar({
+        isLowContrast: false,
+        title: t('error', 'Error'),
+        subtitle: `${t('failedSavingRelationship', 'Relationship could not be saved')}`,
+        kind: 'error',
+      });
     }
   };
 
   return (
     <FormProvider {...form}>
-      <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <Form
+        className={styles.form}
+        onSubmit={handleSubmit(onSubmit)}
+        onInvalid={(event) => {
+          event.preventDefault();
+          const fieldsWithError = Object.keys(form.formState.errors).join(', ');
+          console.warn('Validation errors:', form.formState.errors);
+
+          showSnackbar({
+            title: t('error', 'Error'),
+            subtitle: t('formInvalidFields', 'Please review the following fields:') + ` ${fieldsWithError}`,
+            kind: 'error',
+          });
+        }}
+      >
         <Stack gap={5} className={styles.grid}>
           <PatientSearchCreate />
           <span className={styles.sectionHeader}>{t('relationship', 'Relationship')}</span>
+
           <Column>
             <Controller
               name="relationshipType"
@@ -108,11 +130,23 @@ const FamilyRelationshipForm: React.FC<RelationshipFormProps> = ({ closeWorkspac
                   onChange={(e) => field.onChange(e.selectedItem?.id)}
                   invalid={!!fieldState.error}
                   invalidText={fieldState.error?.message}
+                  selectedItem={relationshipTypes.find((item) => item.id === field.value)}
                 />
               )}
             />
           </Column>
+
+          <Column>
+            <div style={{ color: 'red', fontSize: '0.9em' }}>
+              {Object.entries(form.formState.errors).map(([field, error]) => (
+                <div key={field}>
+                  {field}: {(error as any)?.message}
+                </div>
+              ))}
+            </div>
+          </Column>
         </Stack>
+
         <ButtonSet className={styles.buttonSet}>
           <Button className={styles.button} kind="secondary" onClick={closeWorkspace}>
             {t('discard', 'Discard')}
