@@ -33,7 +33,13 @@ const NeonatalCare: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   ];
 
   return (
-    <TabbedDashboard patientUuid={patientUuid} titleKey="neonatalCare" tabs={tabs} ariaLabelKey="neonatalCareTabs" />
+    <TabbedDashboard
+      patientUuid={patientUuid}
+      titleKey="neonatalCare"
+      tabs={tabs}
+      ariaLabelKey="neonatalCareTabs"
+      state={{ patientUuid }}
+    />
   );
 };
 
