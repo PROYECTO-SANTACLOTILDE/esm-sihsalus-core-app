@@ -21,7 +21,7 @@ const NewbornBalanceOverview: React.FC<BalanceOverviewProps> = ({ patientUuid, p
     () => [
       {
         key: 'date',
-        label: 'dateAndTime',
+        label: t('date&Time', 'Date & time'),
         isSortable: true,
         sortFunc: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
         format: (date) => formatDate(parseDate(date), { mode: 'wide', time: true }),

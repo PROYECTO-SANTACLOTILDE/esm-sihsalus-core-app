@@ -20,8 +20,7 @@ const NewbornBiometricsBase: React.FC<BiometricsBaseProps> = ({ patientUuid, pag
     () => [
       {
         key: 'date',
-        conceptUuid: '',
-        label: 'dateAndTime',
+        label: t('date&Time', 'Date & time'),
         isSortable: true,
         sortFunc: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
         format: (date) => formatDatetime(parseDate(date), { mode: 'wide' }),
