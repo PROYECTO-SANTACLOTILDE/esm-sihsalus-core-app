@@ -1,6 +1,6 @@
 {
   "name": "@pucp-gidis-hiisc/esm-sihsalus-app",
-  "version": "4.0.1",
+  "version": "6.3.0",
   "license": "MPL-2.0",
   "description": "Main openmrs O3 peruhce microfrontend",
   "browser": "dist/pucp-gidis-hiisc-esm-sihsalus-app.js",
@@ -70,7 +70,7 @@
   },
   "devDependencies": {
     "@carbon/pictograms-react": "^11.76.0",
-    "@openmrs/esm-framework": "^6.2.1-pre.2876",
+    "@openmrs/esm-framework": "6.3.0",
     "@openmrs/esm-patient-common-lib": "next",
     "@openmrs/esm-styleguide": "next",
     "@playwright/test": "^1.42.1",
