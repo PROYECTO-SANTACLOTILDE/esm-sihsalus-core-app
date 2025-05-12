@@ -12,7 +12,7 @@ import { useChartDataForGender, useVitalsAndBiometrics, usePatientBirthdateAndGe
 import { CardHeader, EmptyState, ErrorState, useVisitOrOfflineVisit } from '@openmrs/esm-patient-common-lib';
 import { launchWorkspace, useLayoutType } from '@openmrs/esm-framework';
 import { launchStartVisitPrompt } from '@openmrs/esm-patient-common-lib';
-import { ChartSelector } from './growth-chart-selector/chartSelector';
+import { ChartSelector } from './growth-chart-builder/chartSelector';
 import { GrowthChartBuilder } from './growth-chart-builder/growthChartBuilder';
 
 import styles from './growthchart-overview.scss';

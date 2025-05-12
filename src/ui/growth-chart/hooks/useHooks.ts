@@ -213,11 +213,6 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
   return { data: formattedObs, isLoading, error };
 }
 
-/**
- * Hook para obtener la edad y género del paciente.
- * @param patientUuid Identificador único del paciente
- * @returns { gender, birthdate, birthdateEstimated, isLoading, error }
- */
 export const usePatientBirthdateAndGender = (patientUuid) => {
   const { data, isLoading, error } = useSWRImmutable<{ data: PatientInfo }>(
     `${restBaseUrl}/person/${patientUuid}?v=custom:(uuid,gender,birthdate,birthdateEstimated)`,
