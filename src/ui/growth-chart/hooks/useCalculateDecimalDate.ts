@@ -1,6 +1,10 @@
 import { DataSetLabels } from '../config-schema';
-import { useEffect, useRef, useState } from 'react';
-import { CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../config-schema';
+import { useMemo, useEffect, useRef, useState } from 'react';
+import { restBaseUrl, fhirBaseUrl, openmrsFetch, useConfig } from '@openmrs/esm-framework';
+import useSWR from 'swr';
+import useSWRImmutable from 'swr/immutable';
+import { ChartLineColorPicker } from '../grow-chart-options';
+import { GenderCodes, CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../config-schema';
 import type { ChartData } from '../config-schema';
 
 export const useAppropriateChartData = (
@@ -135,10 +139,6 @@ export function useCalculateMinMaxValues(datasetValues: Array<Record<string, unk
   return { min, max };
 }
 
-import { useMemo } from 'react';
-import { fhirBaseUrl, openmrsFetch, useConfig } from '@openmrs/esm-framework';
-import useSWR from 'swr';
-
 export interface MeasurementData {
   eventDate: Date;
   dataValues: {
@@ -216,10 +216,6 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
 
   return { data: formattedObs, isLoading, error };
 }
-
-import useSWRImmutable from 'swr/immutable';
-import { restBaseUrl } from '@openmrs/esm-framework';
-import { GenderCodes } from '../config-schema';
 
 export interface PatientInfo {
   uuid: string;
@@ -324,8 +320,6 @@ export const useChartDataForGender = ({ gender, chartData = {} }: ChartDataForGe
 
   return { chartDataForGender };
 };
-
-import { ChartLineColorPicker } from '../grow-chart-options';
 
 export interface MeasurementDataEntry {
   eventDate: string | Date;
