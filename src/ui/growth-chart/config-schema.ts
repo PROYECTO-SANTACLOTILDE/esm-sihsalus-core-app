@@ -1,7 +1,7 @@
 import { Type } from '@openmrs/esm-framework';
 
 export interface MeasurementData {
-  eventDate: string;
+  eventDate: Date;
   dataValues: {
     weight: string;
     headCircumference: string;

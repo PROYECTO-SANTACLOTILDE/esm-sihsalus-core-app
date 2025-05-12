@@ -55,7 +55,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     () =>
       rawObservations.map((obs) => ({
         ...obs,
-        eventDate: new Date(obs.eventDate).toISOString(),
+        eventDate: new Date(obs.eventDate),
       })),
     [rawObservations],
   );
