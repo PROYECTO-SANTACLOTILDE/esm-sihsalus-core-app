@@ -11,8 +11,8 @@ import { CategoryCodes, DataSetLabels, MeasurementTypeCodes } from '../chartData
 
 import type { CategoryToLabel, ChartDataTypes } from '../chartDataTypes';
 
-import { GrowthChartAnnotations, AnnotateLineEnd } from '../utils/ChartOptions';
-import { useMeasurementPlotting, useChartLines } from '../utils/Hooks/ChartDataVisualization';
+import { GrowthChartAnnotations, AnnotateLineEnd } from '../ChartOptions';
+import { useMeasurementPlotting, useChartLines } from '../Hooks/ChartDataVisualization';
 import { ChartTooltip } from './chartTooltip';
 interface GrowthChartBuilderProps extends ChartDataTypes {
   category: keyof typeof CategoryToLabel;

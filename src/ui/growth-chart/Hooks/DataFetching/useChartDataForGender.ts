@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { ChartData } from '../../../chartDataTypes';
+import type { ChartData } from '../../chartDataTypes';
 
 interface ChartDataForGenderProps {
   gender: string;

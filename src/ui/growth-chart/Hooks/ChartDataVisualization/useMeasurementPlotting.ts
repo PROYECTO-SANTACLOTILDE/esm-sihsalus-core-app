@@ -1,5 +1,5 @@
 import { calculateDecimalDate } from '../Calculations/useCalculateDecimalDate';
-import { DataSetLabels, CategoryCodes } from '../../../chartDataTypes';
+import { DataSetLabels, CategoryCodes } from '../../chartDataTypes';
 
 export interface MeasurementDataEntry {
   eventDate: string | Date;

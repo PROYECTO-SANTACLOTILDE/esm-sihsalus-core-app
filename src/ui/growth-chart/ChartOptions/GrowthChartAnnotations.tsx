@@ -1,4 +1,4 @@
-import { timeUnitData, TimeUnitCodes, MeasurementTypeCodesLabel } from '../../chartDataTypes';
+import { timeUnitData, TimeUnitCodes, MeasurementTypeCodesLabel } from '../chartDataTypes';
 
 export interface AnnotationLabelType {
   display: boolean;
