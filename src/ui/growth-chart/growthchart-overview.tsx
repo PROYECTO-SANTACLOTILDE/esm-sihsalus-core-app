@@ -8,8 +8,11 @@ import { Printer } from '@carbon/react/icons';
 import { chartData } from './DataSets/WhoStandardDataSets/ChartData';
 import type { ChartData, MeasurementData } from './types/chartDataTypes';
 import { useAppropriateChartData, useCalculateMinMaxValues } from './utils/Hooks/Calculations';
-import { useChartDataForGender } from './utils/Sorting';
-import { useVitalsAndBiometrics, usePatientBirthdateAndGender } from './utils/Hooks/DataFetching';
+import {
+  useChartDataForGender,
+  useVitalsAndBiometrics,
+  usePatientBirthdateAndGender,
+} from './utils/Hooks/DataFetching';
 import { CardHeader, EmptyState, ErrorState, useVisitOrOfflineVisit } from '@openmrs/esm-patient-common-lib';
 import { launchWorkspace, useLayoutType } from '@openmrs/esm-framework';
 import { launchStartVisitPrompt } from '@openmrs/esm-patient-common-lib';

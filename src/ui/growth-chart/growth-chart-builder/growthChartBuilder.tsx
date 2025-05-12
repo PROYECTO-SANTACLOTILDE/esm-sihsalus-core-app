@@ -95,7 +95,6 @@ export const GrowthChartBuilder = ({
         ticks: {
           stepSize: 1,
           callback: (value: number, index, values) => {
-            // Manejamos la lógica de "Months" para ver Años / Meses
             if (datasetMetadata.xAxisLabel === 'Months') {
               const isFirstTick = index === 0;
               const isLastTick = index === values.length - 1;
