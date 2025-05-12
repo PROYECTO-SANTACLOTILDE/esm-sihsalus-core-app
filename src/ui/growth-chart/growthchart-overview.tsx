@@ -28,7 +28,6 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const headerTitle = t('growthChart', 'Growth Chart');
 
   // Lógica de estado local
-  const [defaultIndicatorError, setDefaultIndicatorError] = useState(false);
   const [genderParse, setGenderParser] = useState('');
 
   // Hooks para cargar datos del paciente
@@ -69,14 +68,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     selectedDataset,
     setSelectedCategory: setCategory,
     setSelectedDataset: setDataset,
-  } = useAppropriateChartData(
-    chartDataForGender,
-    defaultIndicator,
-    genderParse,
-    setDefaultIndicatorError,
-    childAgeInWeeks,
-    childAgeInMonths,
-  );
+  } = useAppropriateChartData(chartDataForGender, defaultIndicator, genderParse, childAgeInWeeks, childAgeInMonths);
 
   // Sacamos el entry (los valores en sí) del chart
   const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];

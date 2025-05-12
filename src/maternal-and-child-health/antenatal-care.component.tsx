@@ -25,7 +25,7 @@ const AntenatalCare: React.FC<AntenatalCareProps> = ({ patientUuid }) => {
         slotName: 'maternal-history-slot',
       },
       {
-        label: t('EmbarazoActual', 'Embarazo Actual'),
+        label: t('embarazoActual', 'Embarazo Actual'),
         slotName: 'current-pregnancy-slot',
       },
       {

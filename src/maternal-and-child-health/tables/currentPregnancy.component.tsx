@@ -36,7 +36,7 @@ const CurrentPregnancyTable: React.FC<ProgramsDetailedSummaryProps> = ({ patient
 
   const handleAddPrenatalAttention = useCallback(() => {
     launchPatientWorkspace('patient-form-entry-workspace', {
-      workspaceTitle: t('EmbarazoActual', 'Embarazo Actual'),
+      workspaceTitle: t('embarazoActual', 'Embarazo Actual'),
       formInfo: {
         encounterUuid: '',
         formUuid: formAntenatalUuid,

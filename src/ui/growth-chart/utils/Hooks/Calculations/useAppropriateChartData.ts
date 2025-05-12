@@ -6,7 +6,6 @@ export const useAppropriateChartData = (
   chartDataForGender: ChartData,
   defaultIndicator: string,
   gender: string,
-  setDefaultIndicatorError: (value: boolean) => void,
   childAgeInWeeks: number,
   childAgeInMonths: number,
 ) => {
@@ -62,9 +61,6 @@ export const useAppropriateChartData = (
   useEffect(() => {
     const key = `${defaultIndicator}`;
 
-    if (!isKeyOfCategoryCodes(key)) {
-      setDefaultIndicatorError(true);
-    }
     if (isKeyOfCategoryCodes(key) && chartDataForGender[key]) {
       const newCategory = CategoryCodes[key];
 
@@ -72,7 +68,7 @@ export const useAppropriateChartData = (
       const newDataset = Object.keys(chartDataForGender[newCategory].datasets)[0];
       setSelectedDataset(newDataset);
     }
-  }, [chartDataForGender, defaultIndicator, gender, setDefaultIndicatorError]);
+  }, [chartDataForGender, defaultIndicator, gender]);
 
   return {
     selectedCategory,
