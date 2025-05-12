@@ -1,5 +1,64 @@
 import { Type } from '@openmrs/esm-framework';
 
+export interface DatasetMap {
+  [x: string]: () => string;
+}
+
+export interface MeasurementData {
+  eventDate: Date;
+  dataValues: {
+    weight: string;
+    height: string;
+    headCircumference: string;
+  };
+}
+
+export interface PatientInfo {
+  uuid: string;
+  gender: string;
+  birthdate: string;
+  birthdateEstimated?: boolean;
+}
+
+type Observation = {
+  id: string;
+  effectiveDateTime: string;
+  valueQuantity: {
+    value: number;
+    unit: string;
+  };
+  code: {
+    coding: Array<{
+      code: string;
+      display: string;
+    }>;
+  };
+};
+
+export interface ObservationResponse {
+  resourceType: string;
+  entry: Array<{
+    resource: Observation;
+  }>;
+}
+
+export interface ChartDataForGenderProps {
+  gender: string;
+  chartData: ChartData;
+}
+
+export interface MeasurementDataEntry {
+  eventDate: string | Date;
+  dataValues: {
+    [key: string]: number | string;
+  };
+}
+
+export type DataSetLabelValues = (typeof DataSetLabels)[keyof typeof DataSetLabels];
+
+export interface DatasetValues {
+  [key: string]: number;
+}
 export interface MeasurementData {
   eventDate: Date;
   dataValues: {
@@ -26,7 +85,6 @@ export interface ChartDataTypes {
   keysDataSet: string[];
   measurementData: MeasurementData[];
 }
-
 export interface ChartData {
   [key: string]: {
     categoryMetadata?: {

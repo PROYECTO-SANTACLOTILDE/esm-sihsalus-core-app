@@ -4,66 +4,17 @@ import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import { ChartLineColorPicker } from '../grow-chart-options';
 import { DataSetLabels, GenderCodes, CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../config-schema';
-import type { ChartData } from '../config-schema';
-
-interface DatasetMap {
-  [x: string]: () => string;
-}
-
-export interface MeasurementData {
-  eventDate: Date;
-  dataValues: {
-    weight: string;
-    height: string;
-    headCircumference: string;
-  };
-}
-
-export interface PatientInfo {
-  uuid: string;
-  gender: string;
-  birthdate: string;
-  birthdateEstimated?: boolean;
-}
-
-type Observation = {
-  id: string;
-  effectiveDateTime: string;
-  valueQuantity: {
-    value: number;
-    unit: string;
-  };
-  code: {
-    coding: Array<{
-      code: string;
-      display: string;
-    }>;
-  };
-};
-
-type ObservationResponse = {
-  resourceType: string;
-  entry: Array<{
-    resource: Observation;
-  }>;
-};
-
-interface ChartDataForGenderProps {
-  gender: string;
-  chartData: ChartData;
-}
-
-export interface MeasurementDataEntry {
-  eventDate: string | Date;
-  dataValues: {
-    [key: string]: number | string;
-  };
-}
-type DataSetLabelValues = (typeof DataSetLabels)[keyof typeof DataSetLabels];
-
-interface DatasetValues {
-  [key: string]: number;
-}
+import type {
+  ChartData,
+  MeasurementData,
+  PatientInfo,
+  DatasetValues,
+  ChartDataForGenderProps,
+  ObservationResponse,
+  DataSetLabelValues,
+  MeasurementDataEntry,
+  DatasetMap,
+} from '../config-schema';
 
 export const useAppropriateChartData = (
   chartDataForGender: ChartData,
