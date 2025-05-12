@@ -6,6 +6,67 @@ import { ChartLineColorPicker } from '../grow-chart-options';
 import { DataSetLabels, GenderCodes, CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../config-schema';
 import type { ChartData } from '../config-schema';
 
+interface DatasetMap {
+  [x: string]: () => string;
+}
+
+export interface MeasurementData {
+  eventDate: Date;
+  dataValues: {
+    weight: string;
+    height: string;
+    headCircumference: string;
+  };
+}
+
+export interface PatientInfo {
+  uuid: string;
+  gender: string;
+  birthdate: string;
+  birthdateEstimated?: boolean;
+}
+
+type Observation = {
+  id: string;
+  effectiveDateTime: string;
+  valueQuantity: {
+    value: number;
+    unit: string;
+  };
+  code: {
+    coding: Array<{
+      code: string;
+      display: string;
+    }>;
+  };
+};
+
+type ObservationResponse = {
+  resourceType: string;
+  entry: Array<{
+    resource: Observation;
+  }>;
+};
+
+interface ChartDataForGenderProps {
+  gender: string;
+  chartData: ChartData;
+}
+
+export interface MeasurementDataEntry {
+  eventDate: string | Date;
+  dataValues: {
+    [key: string]: number | string;
+  };
+}
+type DataSetLabelValues = (typeof DataSetLabels)[keyof typeof DataSetLabels];
+
+interface DatasetValues {
+  [key: string]: number;
+}
+
+const customRepresentation = 'custom:(uuid,gender,birthdate,birthdateEstimated)';
+
 export const useAppropriateChartData = (
   chartDataForGender: ChartData,
   defaultIndicator: string,
@@ -82,10 +143,6 @@ export const useAppropriateChartData = (
   };
 };
 
-interface DatasetMap {
-  [x: string]: () => string;
-}
-
 export const calculateDecimalDate = (date: string, dataset: string, dateOfBirth: Date): string => {
   const millisecondsInDay = 1000 * 60 * 60 * 24;
   const formattedDate: Date = new Date(date);
@@ -136,15 +193,6 @@ export function useCalculateMinMaxValues(datasetValues: Array<Record<string, unk
   const max = flatValues.reduce((acc, val) => Math.max(acc, val), -Infinity);
 
   return { min, max };
-}
-
-export interface MeasurementData {
-  eventDate: Date;
-  dataValues: {
-    weight: string;
-    height: string;
-    headCircumference: string;
-  };
 }
 
 export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals' | 'biometrics' | 'both' = 'vitals') {
@@ -216,14 +264,6 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
   return { data: formattedObs, isLoading, error };
 }
 
-export interface PatientInfo {
-  uuid: string;
-  gender: string;
-  birthdate: string;
-  birthdateEstimated?: boolean;
-}
-
-const customRepresentation = 'custom:(uuid,gender,birthdate,birthdateEstimated)';
 
 /**
  * Hook para obtener la edad y género del paciente.
@@ -247,27 +287,6 @@ export const usePatientBirthdateAndGender = (patientUuid) => {
   };
 };
 
-type Observation = {
-  id: string;
-  effectiveDateTime: string;
-  valueQuantity: {
-    value: number;
-    unit: string;
-  };
-  code: {
-    coding: Array<{
-      code: string;
-      display: string;
-    }>;
-  };
-};
-
-type ObservationResponse = {
-  resourceType: string;
-  entry: Array<{
-    resource: Observation;
-  }>;
-};
 export function usePatientObservations(patientUuid: string, codes: string[]) {
   const fetchUrl = useMemo(() => {
     const codeParams = codes.join(',');
@@ -298,11 +317,6 @@ export function usePatientObservations(patientUuid: string, codes: string[]) {
   };
 }
 
-interface ChartDataForGenderProps {
-  gender: string;
-  chartData: ChartData;
-}
-
 export const useChartDataForGender = ({ gender, chartData = {} }: ChartDataForGenderProps) => {
   const [chartDataForGender, setChartDataForGender] = useState<ChartData>({});
 
@@ -319,14 +333,6 @@ export const useChartDataForGender = ({ gender, chartData = {} }: ChartDataForGe
 
   return { chartDataForGender };
 };
-
-export interface MeasurementDataEntry {
-  eventDate: string | Date;
-  dataValues: {
-    [key: string]: number | string;
-  };
-}
-type DataSetLabelValues = (typeof DataSetLabels)[keyof typeof DataSetLabels];
 
 export const useMeasurementPlotting = (
   measurementData: MeasurementDataEntry[] | undefined,
@@ -386,10 +392,6 @@ export const useMeasurementPlotting = (
     },
   ];
 };
-
-interface DatasetValues {
-  [key: string]: number;
-}
 
 export const useChartLines = (
   datasetValues: DatasetValues[],
