@@ -65,8 +65,6 @@ interface DatasetValues {
   [key: string]: number;
 }
 
-const customRepresentation = 'custom:(uuid,gender,birthdate,birthdateEstimated)';
-
 export const useAppropriateChartData = (
   chartDataForGender: ChartData,
   defaultIndicator: string,
@@ -271,7 +269,7 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
  */
 export const usePatientBirthdateAndGender = (patientUuid) => {
   const { data, isLoading, error } = useSWRImmutable<{ data: PatientInfo }>(
-    `${restBaseUrl}/person/${patientUuid}?v=${customRepresentation}`,
+    `${restBaseUrl}/person/${patientUuid}?v=custom:(uuid,gender,birthdate,birthdateEstimated)`,
     openmrsFetch,
   );
 
