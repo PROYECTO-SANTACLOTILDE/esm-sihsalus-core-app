@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChartLineColorPicker } from '../../grow-chart-options';
+import { ChartLineColorPicker } from '../grow-chart-options';
 
 interface DatasetValues {
   [key: string]: number;
