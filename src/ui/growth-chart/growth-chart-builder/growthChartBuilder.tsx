@@ -11,7 +11,7 @@ import { CategoryCodes, DataSetLabels, MeasurementTypeCodes } from '../config-sc
 
 import type { CategoryToLabel, ChartDataTypes } from '../config-schema';
 
-import { GrowthChartAnnotations, AnnotateLineEnd } from '../grow-chart-options';
+import { GrowthChartAnnotations, AnnotateLineEnd } from './GrowthChartAnnotations';
 import { useMeasurementPlotting, useChartLines } from '../hooks/useHooks';
 import { ChartTooltip } from './chartTooltip';
 interface GrowthChartBuilderProps extends ChartDataTypes {

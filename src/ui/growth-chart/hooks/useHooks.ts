@@ -2,7 +2,7 @@ import { useMemo, useEffect, useRef, useState } from 'react';
 import { restBaseUrl, fhirBaseUrl, openmrsFetch, useConfig } from '@openmrs/esm-framework';
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
-import { ChartLineColorPicker } from '../grow-chart-options';
+import { ChartLineColorPicker } from '../growth-chart-builder/ChartLineColorPicker';
 import { DataSetLabels, GenderCodes, CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../config-schema';
 import type {
   ChartData,
