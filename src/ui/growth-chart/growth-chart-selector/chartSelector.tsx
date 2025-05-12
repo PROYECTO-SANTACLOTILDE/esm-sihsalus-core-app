@@ -1,5 +1,5 @@
 import React from 'react';
-import { type ChartData, type CategoryCodes, GenderCodes, CategoryToLabel } from '../chartDataTypes';
+import { type ChartData, type CategoryCodes, GenderCodes, CategoryToLabel } from '../config-schema';
 import { ChartSelectorDropdown } from './chartSelectorDropdown';
 
 interface ChartSelectorProps {

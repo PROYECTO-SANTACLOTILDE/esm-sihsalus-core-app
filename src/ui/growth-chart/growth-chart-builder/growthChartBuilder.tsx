@@ -7,9 +7,9 @@ import Chart from 'chart.js/auto';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
-import { CategoryCodes, DataSetLabels, MeasurementTypeCodes } from '../chartDataTypes';
+import { CategoryCodes, DataSetLabels, MeasurementTypeCodes } from '../config-schema';
 
-import type { CategoryToLabel, ChartDataTypes } from '../chartDataTypes';
+import type { CategoryToLabel, ChartDataTypes } from '../config-schema';
 
 import { GrowthChartAnnotations, AnnotateLineEnd } from '../grow-chart-options';
 import { useMeasurementPlotting, useChartLines } from '../hooks/useCalculateDecimalDate';

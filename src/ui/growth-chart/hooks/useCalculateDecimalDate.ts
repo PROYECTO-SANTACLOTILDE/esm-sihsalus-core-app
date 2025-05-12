@@ -1,7 +1,7 @@
-import { DataSetLabels } from '../chartDataTypes';
+import { DataSetLabels } from '../config-schema';
 import { useEffect, useRef, useState } from 'react';
-import { CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../chartDataTypes';
-import type { ChartData } from '../chartDataTypes';
+import { CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../config-schema';
+import type { ChartData } from '../config-schema';
 
 export const useAppropriateChartData = (
   chartDataForGender: ChartData,
@@ -219,7 +219,7 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
 
 import useSWRImmutable from 'swr/immutable';
 import { restBaseUrl } from '@openmrs/esm-framework';
-import { GenderCodes } from '../chartDataTypes';
+import { GenderCodes } from '../config-schema';
 
 export interface PatientInfo {
   uuid: string;

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import type { Scriptable, ScriptableTooltipContext, TooltipPositionerMap } from 'chart.js';
 import { differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns';
-import { CategoryCodes, unitCodes, timeUnitData, TimeUnitCodes } from '../chartDataTypes';
+import { CategoryCodes, unitCodes, timeUnitData, TimeUnitCodes } from '../config-schema';
 interface TooltipConfig {
   enabled: boolean;
   intersect: boolean;
