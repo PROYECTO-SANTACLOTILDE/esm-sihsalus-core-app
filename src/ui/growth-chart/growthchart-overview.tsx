@@ -6,7 +6,7 @@ import { Button, DataTableSkeleton, InlineLoading } from '@carbon/react';
 import { Printer } from '@carbon/react/icons';
 
 import { chartData } from './DataSets/WhoStandardDataSets/ChartData';
-import type { ChartData, MeasurementData } from './types/chartDataTypes';
+import type { ChartData, MeasurementData } from './chartDataTypes';
 import { useAppropriateChartData, useCalculateMinMaxValues } from './utils/Hooks/Calculations';
 import {
   useChartDataForGender,

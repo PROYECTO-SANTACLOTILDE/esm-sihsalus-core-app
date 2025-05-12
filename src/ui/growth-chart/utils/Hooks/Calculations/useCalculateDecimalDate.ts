@@ -1,4 +1,4 @@
-import { DataSetLabels } from '../../../types/chartDataTypes';
+import { DataSetLabels } from '../../../chartDataTypes';
 
 interface DatasetMap {
   [x: string]: () => string;

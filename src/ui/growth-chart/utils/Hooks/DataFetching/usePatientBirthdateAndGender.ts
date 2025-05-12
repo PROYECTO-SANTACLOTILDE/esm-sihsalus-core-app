@@ -1,6 +1,6 @@
 import useSWRImmutable from 'swr/immutable';
 import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
-import { GenderCodes } from '../../../types/chartDataTypes';
+import { GenderCodes } from '../../../chartDataTypes';
 
 export interface PatientInfo {
   uuid: string;
