@@ -12,7 +12,7 @@ import {
   useChartDataForGender,
   useVitalsAndBiometrics,
   usePatientBirthdateAndGender,
-} from './hooks/useChartDataForGender';
+} from './hooks/useCalculateDecimalDate';
 import { CardHeader, EmptyState, ErrorState, useVisitOrOfflineVisit } from '@openmrs/esm-patient-common-lib';
 import { launchWorkspace, useLayoutType } from '@openmrs/esm-framework';
 import { launchStartVisitPrompt } from '@openmrs/esm-patient-common-lib';
