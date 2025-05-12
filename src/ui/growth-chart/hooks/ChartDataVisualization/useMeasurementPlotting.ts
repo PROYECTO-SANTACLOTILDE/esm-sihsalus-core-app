@@ -1,4 +1,4 @@
-import { calculateDecimalDate } from '../Calculations/useCalculateDecimalDate';
+import { calculateDecimalDate } from '../useCalculateDecimalDate';
 import { DataSetLabels, CategoryCodes } from '../../chartDataTypes';
 
 export interface MeasurementDataEntry {
