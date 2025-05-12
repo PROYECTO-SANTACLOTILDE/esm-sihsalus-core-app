@@ -1,7 +1,14 @@
 import { Type } from '@openmrs/esm-framework';
 
-export interface DatasetMap {
-  [x: string]: () => string;
+/** ============================== */
+/**           INTERFACES          */
+/** ============================== */
+
+export interface PatientInfo {
+  uuid: string;
+  gender: string;
+  birthdate: string;
+  birthdateEstimated?: boolean;
 }
 
 export interface MeasurementData {
@@ -11,40 +18,6 @@ export interface MeasurementData {
     height: string;
     headCircumference: string;
   };
-}
-
-export interface PatientInfo {
-  uuid: string;
-  gender: string;
-  birthdate: string;
-  birthdateEstimated?: boolean;
-}
-
-type Observation = {
-  id: string;
-  effectiveDateTime: string;
-  valueQuantity: {
-    value: number;
-    unit: string;
-  };
-  code: {
-    coding: Array<{
-      code: string;
-      display: string;
-    }>;
-  };
-};
-
-export interface ObservationResponse {
-  resourceType: string;
-  entry: Array<{
-    resource: Observation;
-  }>;
-}
-
-export interface ChartDataForGenderProps {
-  gender: string;
-  chartData: ChartData;
 }
 
 export interface MeasurementDataEntry {
@@ -54,23 +27,24 @@ export interface MeasurementDataEntry {
   };
 }
 
-export type DataSetLabelValues = (typeof DataSetLabels)[keyof typeof DataSetLabels];
+export interface DatasetMap {
+  [x: string]: () => string;
+}
 
 export interface DatasetValues {
   [key: string]: number;
 }
-export interface MeasurementData {
-  eventDate: Date;
-  dataValues: {
-    weight: string;
-    headCircumference: string;
-    height: string;
-  };
+
+export interface ChartDataForGenderProps {
+  gender: string;
+  chartData: ChartData;
 }
 
-interface TimeUnitData {
-  singular: string;
-  plural: string;
+export interface ObservationResponse {
+  resourceType: string;
+  entry: Array<{
+    resource: Observation;
+  }>;
 }
 
 export interface ChartDataTypes {
@@ -85,6 +59,7 @@ export interface ChartDataTypes {
   keysDataSet: string[];
   measurementData: MeasurementData[];
 }
+
 export interface ChartData {
   [key: string]: {
     categoryMetadata?: {
@@ -106,6 +81,54 @@ export interface ChartData {
   };
 }
 
+export interface ConfigObjectWithUuids {
+  concepts: {
+    headCircumferenceUuid: string;
+    heightUuid: string;
+    weightUuid: string;
+    growthMeasurementConceptSetUuid: string;
+  };
+}
+
+export type ConfigObject = {
+  settings: {
+    customReferences: boolean;
+    usePercentiles: boolean;
+    weightInGrams: boolean;
+    defaultIndicator: string;
+  };
+};
+
+export type DataSetLabelValues = (typeof DataSetLabels)[keyof typeof DataSetLabels];
+
+/** ============================== */
+/**         FHIR OBS TYPE         */
+/** ============================== */
+
+type Observation = {
+  id: string;
+  effectiveDateTime: string;
+  valueQuantity: {
+    value: number;
+    unit: string;
+  };
+  code: {
+    coding: Array<{
+      code: string;
+      display: string;
+    }>;
+  };
+};
+
+/** ============================== */
+/**         UNIT DATA MAP         */
+/** ============================== */
+
+interface TimeUnitData {
+  singular: string;
+  plural: string;
+}
+
 export const TimeUnitCodes = Object.freeze({
   years: 'Years',
   months: 'Months',
@@ -113,19 +136,14 @@ export const TimeUnitCodes = Object.freeze({
 });
 
 export const timeUnitData: { [key: string]: TimeUnitData } = {
-  [TimeUnitCodes.years]: {
-    singular: 'year',
-    plural: 'years',
-  },
-  [TimeUnitCodes.months]: {
-    singular: 'month',
-    plural: 'months',
-  },
-  [TimeUnitCodes.weeks]: {
-    singular: 'week',
-    plural: 'weeks',
-  },
+  [TimeUnitCodes.years]: { singular: 'year', plural: 'years' },
+  [TimeUnitCodes.months]: { singular: 'month', plural: 'months' },
+  [TimeUnitCodes.weeks]: { singular: 'week', plural: 'weeks' },
 };
+
+/** ============================== */
+/**         LABELS & CODES        */
+/** ============================== */
 
 export const MeasurementTypeCodesLabel = Object.freeze({
   headCircumference: 'Head circumference',
@@ -242,6 +260,10 @@ export const GenderCodes = Object.freeze({
   CGC_Female: 'F',
 });
 
+/** ============================== */
+/**         CONFIG SCHEMA         */
+/** ============================== */
+
 export const configSchema = {
   settings: {
     customReferences: {
@@ -258,7 +280,7 @@ export const configSchema = {
     },
     defaultIndicator: {
       _type: Type.String,
-      _default: 'wfa', // "Weight for age"
+      _default: 'wfa',
     },
   },
   concepts: {
@@ -280,21 +302,3 @@ export const configSchema = {
     },
   },
 };
-
-export type ConfigObject = {
-  settings: {
-    customReferences: boolean;
-    usePercentiles: boolean;
-    weightInGrams: boolean;
-    defaultIndicator: string;
-  };
-};
-
-export interface ConfigObjectWithUuids {
-  concepts: {
-    headCircumferenceUuid: string;
-    heightUuid: string;
-    weightUuid: string;
-    growthMeasurementConceptSetUuid: string;
-  };
-}
