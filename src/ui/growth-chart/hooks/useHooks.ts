@@ -264,7 +264,6 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
   return { data: formattedObs, isLoading, error };
 }
 
-
 /**
  * Hook para obtener la edad y género del paciente.
  * @param patientUuid Identificador único del paciente
