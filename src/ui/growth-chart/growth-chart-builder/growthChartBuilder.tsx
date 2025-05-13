@@ -2,8 +2,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Line } from 'react-chartjs-2';
 import type { ChartOptions } from 'chart.js/auto';
-import type { Scriptable, ScriptableTooltipContext, TooltipPositionerMap } from 'chart.js';
-import { Chart, type Animation } from 'chart.js';
+import Chart from 'chart.js/auto';
+import type { Animation, Scriptable, ScriptableTooltipContext, TooltipPositionerMap } from 'chart.js';
+
 import annotationPlugin from 'chartjs-plugin-annotation';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns';
