@@ -1,5 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Dropdown, Tooltip, TextInput } from '@carbon/react';
 import { type ChartData, type CategoryCodes, GenderCodes, CategoryToLabel } from '../config-schema';
+
+interface DropdownItem {
+  id: string;
+  text: string;
+}
 
 interface ChartSelectorProps {
   category: keyof typeof CategoryCodes;
@@ -22,24 +29,38 @@ export const ChartSelector = ({
   gender,
   setGender,
 }: ChartSelectorProps) => {
-  const genderItems = Object.values(GenderCodes).map((code) => ({
-    id: code,
-    text: code === GenderCodes.CGC_Female ? 'Female' : 'Male',
-  }));
+  const genderItems = useMemo(
+    () =>
+      Object.values(GenderCodes).map((code) => ({
+        id: code,
+        text: code === GenderCodes.CGC_Female ? 'Female' : 'Male',
+      })),
+    [],
+  );
 
-  const categoryItems = Object.keys(chartData).map((key) => ({
-    id: key,
-    text: chartData[key].categoryMetadata.label,
-  }));
+  const categoryItems = useMemo(
+    () =>
+      Object.keys(chartData).map((key) => ({
+        id: key,
+        text: chartData[key].categoryMetadata.label,
+      })),
+    [chartData],
+  );
 
-  const datasetItems = Object.keys(chartData[category].datasets).map((key) => ({
-    id: key,
-    text: key,
-  }));
+  const datasetItems = useMemo(
+    () =>
+      Object.keys(chartData[category]?.datasets || {}).map((key) => ({
+        id: key,
+        text: key,
+      })),
+    [chartData, category],
+  );
 
   const handleCategoryChange = (categoryKey: string) => {
-    setCategory(categoryKey as keyof typeof CategoryCodes);
-    setDataset(Object.keys(chartData[categoryKey].datasets)[0]);
+    const newCategory = categoryKey as keyof typeof CategoryCodes;
+    setCategory(newCategory);
+    const firstDataset = Object.keys(chartData[newCategory]?.datasets || {})[0];
+    setDataset(firstDataset);
   };
 
   return (
@@ -77,14 +98,6 @@ export const ChartSelector = ({
   );
 };
 
-import { useTranslation } from 'react-i18next';
-import { Dropdown, Tooltip, TextInput } from '@carbon/react';
-
-interface DropdownItem {
-  id: string;
-  text: string;
-}
-
 interface ChartSelectorDropdownProps {
   title: string;
   items: DropdownItem[];
@@ -102,27 +115,34 @@ const ChartSelectorDropdown = ({
 }: ChartSelectorDropdownProps) => {
   const { t } = useTranslation();
 
-  const genderMap = {
-    M: t('male', 'Male'),
-    F: t('female', 'Female'),
-    other: t('other', 'Other'),
-    unknown: t('unknown', 'Unknown'),
-  };
+  const genderMap: Record<string, string> = useMemo(
+    () => ({
+      M: t('male', 'Male'),
+      F: t('female', 'Female'),
+      other: t('other', 'Other'),
+      unknown: t('unknown', 'Unknown'),
+    }),
+    [t],
+  );
 
-  const getGender = (gender: string): string => genderMap[gender] ?? gender;
+  const getLabel = (val: string): string => genderMap[val] ?? val;
 
-  return isDisabled ? (
-    <Tooltip align="bottom" label={t('genderPreselected', 'Gender is pre-selected based on the profile')}>
-      <TextInput
-        id={`${dataTest}-disabled`}
-        value={getGender(title)}
-        disabled
-        size="sm"
-        data-testid={`${dataTest}-disabled`}
-        labelText=""
-      />
-    </Tooltip>
-  ) : (
+  if (isDisabled) {
+    return (
+      <Tooltip align="bottom" label={t('genderPreselected', 'Gender is pre-selected based on the profile')}>
+        <TextInput
+          id={`${dataTest}-disabled`}
+          value={getLabel(title)}
+          disabled
+          size="sm"
+          data-testid={`${dataTest}-disabled`}
+          labelText=""
+        />
+      </Tooltip>
+    );
+  }
+
+  return (
     <Dropdown
       id={`${dataTest}-dropdown`}
       titleText=""
