@@ -20,13 +20,6 @@ export interface MeasurementData {
   };
 }
 
-export interface MeasurementDataEntry {
-  eventDate: string | Date;
-  dataValues: {
-    [key: string]: number | string;
-  };
-}
-
 export interface DatasetMap {
   [x: string]: () => string;
 }

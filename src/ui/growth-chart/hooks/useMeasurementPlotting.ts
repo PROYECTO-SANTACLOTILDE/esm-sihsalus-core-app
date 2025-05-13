@@ -1,9 +1,9 @@
 import { DataSetLabels, CategoryCodes } from '../config-schema';
 import { calculateDecimalDate } from '../utils/calculateDecimalDate';
-import type { DataSetLabelValues, MeasurementDataEntry } from '../config-schema';
+import type { DataSetLabelValues, MeasurementData } from '../config-schema';
 
 export function useMeasurementPlotting(
-  measurementData: MeasurementDataEntry[] | undefined,
+  measurementData: MeasurementData[] | undefined,
   fieldName: string,
   category: string,
   dataset: string,
@@ -12,30 +12,22 @@ export function useMeasurementPlotting(
 ) {
   const measurementDataValues: { x: Date | number | string; y: number; eventDate?: Date }[] = [];
 
-  if (!measurementData) {
-    return [];
-  }
+  if (!measurementData) return [];
 
-  const processEntry = (entry: MeasurementDataEntry) => {
+  const processEntry = (entry: MeasurementData) => {
     let xValue: Date | number | string;
     let yValue: number;
 
     if (category === CategoryCodes.wflh_b || category === CategoryCodes.wflh_g) {
-      xValue = parseFloat(String(entry.dataValues.height));
-      yValue = parseFloat(String(entry.dataValues.weight));
+      xValue = parseFloat(entry.dataValues.height);
+      yValue = parseFloat(entry.dataValues.weight);
     } else {
-      const dateString: string = typeof entry.eventDate === 'string' ? entry.eventDate : entry.eventDate.toISOString();
-      const xValueDecimalDate: string = calculateDecimalDate(dateString, dataset, dateOfBirth);
+      const xValueDecimalDate = calculateDecimalDate(entry.eventDate.toISOString(), dataset, dateOfBirth);
       xValue = xValueDecimalDate;
-      yValue = parseFloat(String(entry.dataValues[fieldName]));
+      yValue = parseFloat(entry.dataValues[fieldName]);
     }
 
-    const eventDateValue = new Date(entry.eventDate);
-    measurementDataValues.push({
-      x: xValue,
-      y: yValue,
-      eventDate: eventDateValue,
-    });
+    measurementDataValues.push({ x: xValue, y: yValue, eventDate: entry.eventDate });
   };
 
   const validDatasets = Object.values(DataSetLabels) as DataSetLabelValues[];
