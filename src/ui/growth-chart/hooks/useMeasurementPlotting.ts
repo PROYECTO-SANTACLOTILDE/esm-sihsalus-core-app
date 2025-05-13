@@ -14,7 +14,7 @@ import type {
   MeasurementDataEntry,
 } from '../config-schema';
 
-export function useMeasurementPlotting (
+export function useMeasurementPlotting(
   measurementData: MeasurementDataEntry[] | undefined,
   fieldName: string,
   category: string,
@@ -72,4 +72,3 @@ export function useMeasurementPlotting (
     },
   ];
 }
-

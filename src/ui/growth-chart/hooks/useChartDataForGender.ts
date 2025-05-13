@@ -14,7 +14,7 @@ import type {
   MeasurementDataEntry,
 } from '../config-schema';
 
-export function useChartDataForGender ({ gender, chartData = {} }: ChartDataForGenderProps) {
+export function useChartDataForGender({ gender, chartData = {} }: ChartDataForGenderProps) {
   const [chartDataForGender, setChartDataForGender] = useState<ChartData>({});
 
   useEffect(() => {

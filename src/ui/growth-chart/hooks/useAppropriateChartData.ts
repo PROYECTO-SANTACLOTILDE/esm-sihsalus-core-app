@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../config-schema';
 import type { ChartData } from '../config-schema';
 
-export function useAppropriateChartData (
+export function useAppropriateChartData(
   chartDataForGender: ChartData,
   defaultIndicator: string,
   gender: string,
@@ -16,8 +16,7 @@ export function useAppropriateChartData (
   selectDatasetForCategoryRef.current = (category) => {
     const { datasets } = chartDataForGender[category];
 
-    const isMeasurementType = (xAxis: string) =>
-      (Object.values(MeasurementTypeCodesLabel) as string[]).includes(xAxis);
+    const isMeasurementType = (xAxis: string) => (Object.values(MeasurementTypeCodesLabel) as string[]).includes(xAxis);
 
     const isWeeksInRange = (xAxis: string) => xAxis === TimeUnitCodes.weeks && childAgeInWeeks < 13;
 

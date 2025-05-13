@@ -14,7 +14,7 @@ import type {
   MeasurementDataEntry,
 } from '../config-schema';
 
-export function usePatientBirthdateAndGender (patientUuid) {
+export function usePatientBirthdateAndGender(patientUuid) {
   const { data, isLoading, error } = useSWRImmutable<{ data: PatientInfo }>(
     `${restBaseUrl}/person/${patientUuid}?v=custom:(uuid,gender,birthdate,birthdateEstimated)`,
     openmrsFetch,

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import type {
-  DatasetValues,
-} from '../config-schema';
+import type { DatasetValues } from '../config-schema';
 
 export const ChartLineColorPicker = (key: string, percentiles: boolean): string => {
   if (percentiles) {
