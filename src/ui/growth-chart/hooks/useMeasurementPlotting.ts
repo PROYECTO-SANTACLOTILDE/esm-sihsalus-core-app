@@ -1,18 +1,6 @@
-import { useMemo, useEffect, useState } from 'react';
-import { restBaseUrl, fhirBaseUrl, openmrsFetch, useConfig } from '@openmrs/esm-framework';
-import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
-import { DataSetLabels, GenderCodes, CategoryCodes } from '../config-schema';
+import { DataSetLabels, CategoryCodes } from '../config-schema';
 import { calculateDecimalDate } from '../utils/calculateDecimalDate';
-import type {
-  ChartData,
-  MeasurementData,
-  PatientInfo,
-  ChartDataForGenderProps,
-  ObservationResponse,
-  DataSetLabelValues,
-  MeasurementDataEntry,
-} from '../config-schema';
+import type { DataSetLabelValues, MeasurementDataEntry } from '../config-schema';
 
 export function useMeasurementPlotting(
   measurementData: MeasurementDataEntry[] | undefined,
