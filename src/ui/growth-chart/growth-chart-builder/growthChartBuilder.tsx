@@ -2,21 +2,23 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Line } from 'react-chartjs-2';
 import type { ChartOptions } from 'chart.js/auto';
-
+import type { Scriptable, ScriptableTooltipContext, TooltipPositionerMap } from 'chart.js';
+import { Chart, type Animation } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import AutoSizer from 'react-virtualized-auto-sizer';
-
-import { CategoryCodes, DataSetLabels, MeasurementTypeCodes } from '../config-schema';
-import { unitCodes, timeUnitData, TimeUnitCodes } from '../config-schema';
+import { differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns';
+import {
+  CategoryCodes,
+  DataSetLabels,
+  MeasurementTypeCodes,
+  MeasurementTypeCodesLabel,
+  TimeUnitCodes,
+  timeUnitData,
+  unitCodes,
+} from '../config-schema';
 import type { CategoryToLabel, ChartDataTypes } from '../config-schema';
-
 import { useMeasurementPlotting } from '../hooks/useMeasurementPlotting';
 import { useChartLines } from '../utils/chartLineColorPicker';
-import type { Scriptable, ScriptableTooltipContext, TooltipPositionerMap } from 'chart.js';
-import { differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns';
-
-import { MeasurementTypeCodesLabel } from '../config-schema';
-import { type Animation, Chart } from 'chart.js';
 
 interface TooltipConfig {
   enabled: boolean;
