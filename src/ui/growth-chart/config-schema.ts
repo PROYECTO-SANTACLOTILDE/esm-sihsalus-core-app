@@ -20,10 +20,6 @@ export interface MeasurementData {
   };
 }
 
-export interface DatasetValues {
-  [key: string]: number;
-}
-
 export interface ChartDataForGenderProps {
   gender: string;
   chartData: ChartData;

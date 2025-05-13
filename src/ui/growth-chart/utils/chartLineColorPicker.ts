@@ -1,7 +1,38 @@
 import { useEffect, useState } from 'react';
-import type { DatasetValues } from '../config-schema';
 
-export const ChartLineColorPicker = (key: string, percentiles: boolean): string => {
+interface DatasetValues {
+  [key: string]: number;
+}
+
+export const useChartLines = (
+  datasetValues: DatasetValues[],
+  keysDataSet: string[],
+  datasetMetadata: any,
+  category: string,
+  dataset: string | number,
+  startIndex: number,
+  isPercentiles: boolean,
+) => {
+  const [ChartLines, setChartLines] = useState<any[]>([]);
+
+  useEffect(() => {
+    const newChartLines = keysDataSet.map((key) => ({
+      data: datasetValues.map((entry, index) => ({
+        x: startIndex + index,
+        y: entry[key],
+      })),
+      borderWidth: 0.9,
+      borderColor: chartLineColorPicker(key, isPercentiles),
+      label: key,
+    }));
+
+    setChartLines(newChartLines);
+  }, [datasetValues, keysDataSet, datasetMetadata, category, dataset, startIndex, isPercentiles]);
+
+  return ChartLines;
+};
+
+const chartLineColorPicker = (key: string, percentiles: boolean): string => {
   if (percentiles) {
     const value = parseFloat(key.substring(1)) / 1000;
     if (value < 0.015 || value > 0.085) return 'red';
@@ -30,32 +61,4 @@ export const ChartLineColorPicker = (key: string, percentiles: boolean): string 
     }
   }
   return 'gray';
-};
-
-export const useChartLines = (
-  datasetValues: DatasetValues[],
-  keysDataSet: string[],
-  datasetMetadata: any,
-  category: string,
-  dataset: string | number,
-  startIndex: number,
-  isPercentiles: boolean,
-) => {
-  const [ChartLines, setChartLines] = useState<any[]>([]);
-
-  useEffect(() => {
-    const newChartLines = keysDataSet.map((key) => ({
-      data: datasetValues.map((entry, index) => ({
-        x: startIndex + index,
-        y: entry[key],
-      })),
-      borderWidth: 0.9,
-      borderColor: ChartLineColorPicker(key, isPercentiles),
-      label: key,
-    }));
-
-    setChartLines(newChartLines);
-  }, [datasetValues, keysDataSet, datasetMetadata, category, dataset, startIndex, isPercentiles]);
-
-  return ChartLines;
 };
