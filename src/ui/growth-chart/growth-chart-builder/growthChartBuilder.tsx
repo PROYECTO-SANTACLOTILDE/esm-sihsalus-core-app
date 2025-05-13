@@ -76,7 +76,7 @@ export const GrowthChartBuilder = ({
       height: '400px',
       tooltip: { enabled: true },
       points: {
-        enabled: false, // global: sí hay puntos
+        enabled: false,
       },
       style: {
         Paciente: {
