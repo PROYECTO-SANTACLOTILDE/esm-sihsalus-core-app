@@ -81,15 +81,6 @@ export interface ChartData {
   };
 }
 
-export interface ConfigObjectWithUuids {
-  concepts: {
-    headCircumferenceUuid: string;
-    heightUuid: string;
-    weightUuid: string;
-    growthMeasurementConceptSetUuid: string;
-  };
-}
-
 /** ============================== */
 /**         FHIR OBS TYPE         */
 /** ============================== */
