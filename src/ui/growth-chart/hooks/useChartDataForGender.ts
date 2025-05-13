@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { ChartDataForGenderProps } from '../config-schema';
+import type { ChartDataForGenderProps } from '../types';
 
 export function useChartDataForGender({ gender, chartData = {} }: ChartDataForGenderProps) {
   const chartDataForGender = useMemo(() => {

@@ -1,7 +1,7 @@
 // Updated GrowthChartBuilder.tsx
 import React, { useMemo } from 'react';
 import { LineChart } from '@carbon/charts-react';
-import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels } from '../config-schema';
+import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels } from '../types';
 import { useChartLines } from '../hooks/useChartLines';
 import { useMeasurementPlotting } from '../hooks/useMeasurementPlotting';
 

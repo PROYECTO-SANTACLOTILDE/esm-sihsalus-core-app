@@ -1,7 +1,7 @@
 import { restBaseUrl, openmrsFetch } from '@openmrs/esm-framework';
 import useSWRImmutable from 'swr/immutable';
-import { GenderCodes } from '../config-schema';
-import type { PatientInfo } from '../config-schema';
+import { GenderCodes } from '../types';
+import type { PatientInfo } from '../types';
 
 export function usePatientBirthdateAndGender(patientUuid) {
   const { data, isLoading, error } = useSWRImmutable<{ data: PatientInfo }>(

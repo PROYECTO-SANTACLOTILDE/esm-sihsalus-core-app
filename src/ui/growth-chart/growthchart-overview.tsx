@@ -17,12 +17,12 @@ import { chartData } from './data-sets/WhoStandardDataSets/ChartData';
 import { useAppropriateChartData } from './hooks/useAppropriateChartData';
 import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { usePatientBirthdateAndGender } from './hooks/usePatientBirthdateAndGender';
-import { useVitalsAndBiometrics } from './hooks/useVitalsAndBiometrics';
+import { useBiometrics } from './hooks/useBiometrics';
 
 import { ChartSelector } from './growth-chart-builder/chartSelector';
 import { GrowthChartBuilder } from './growth-chart-builder/growthChartBuilder';
 
-import type { ChartData, MeasurementData } from './config-schema';
+import type { ChartData, MeasurementData } from './types';
 import styles from './growthchart-overview.scss';
 
 interface GrowthChartProps {
@@ -68,7 +68,12 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const displayText = t('noChartDataAvailable', 'No chart data available');
   const formWorkspace = 'newborn-anthropometric-form';
   // --- Datos del paciente ---
-  const { gender: rawGender, birthdate, isLoading, error } = usePatientBirthdateAndGender(patientUuid);
+  const {
+    gender: rawGender,
+    birthdate,
+    isLoading: isLoadingBirthdateAndGender,
+    error,
+  } = usePatientBirthdateAndGender(patientUuid);
   const [gender, setGender] = useState('');
   useEffect(() => {
     if (typeof rawGender === 'string') {
@@ -93,12 +98,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   );
 
   // --- Observaciones del paciente ---
-  const { data: rawObservations = [], isLoading: isValidating } = useVitalsAndBiometrics(patientUuid, 'both');
-
-  const observations: MeasurementData[] = useMemo(
-    () => rawObservations.map((obs) => ({ ...obs, eventDate: new Date(obs.eventDate) })),
-    [rawObservations],
-  );
+  const { data: observations = [], isLoading: isLoadingBiometrics } = useBiometrics(patientUuid);
 
   // --- Dataset y rangos ---
   const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
@@ -126,7 +126,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   }, [currentVisit, patientUuid]);
 
   // --- Estados de carga/error/datos vacíos ---
-  if (isLoading && !observations) {
+  if (isLoadingBirthdateAndGender && !observations) {
     return <DataTableSkeleton role="progressbar" aria-label={t('loadingData', 'Loading data')} />;
   }
 
@@ -137,7 +137,9 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   if (observations && observations.length > 0) {
     <div className={styles.widgetCard} role="region" aria-label={headerTitle}>
       <CardHeader title={headerTitle}>
-        {isLoading && <InlineLoading description={t('refreshing', 'Refreshing...')} status="active" />}
+        {isLoadingBirthdateAndGender && (
+          <InlineLoading description={t('refreshing', 'Refreshing...')} status="active" />
+        )}
         {launchForm && (
           <Button
             kind="ghost"

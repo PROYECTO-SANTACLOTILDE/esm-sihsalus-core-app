@@ -1,9 +1,3 @@
-import { Type } from '@openmrs/esm-framework';
-
-/** ============================== */
-/**           INTERFACES          */
-/** ============================== */
-
 export interface PatientInfo {
   uuid: string;
   gender: string;
@@ -200,46 +194,3 @@ export const GenderCodes = Object.freeze({
   CGC_Male: 'M',
   CGC_Female: 'F',
 });
-
-/** ============================== */
-/**         CONFIG SCHEMA         */
-/** ============================== */
-
-export const configSchema = {
-  settings: {
-    customReferences: {
-      _type: Type.Boolean,
-      _default: true,
-    },
-    usePercentiles: {
-      _type: Type.Boolean,
-      _default: true,
-    },
-    weightInGrams: {
-      _type: Type.Boolean,
-      _default: false,
-    },
-    defaultIndicator: {
-      _type: Type.String,
-      _default: 'wfa',
-    },
-  },
-  concepts: {
-    headCircumferenceUuid: {
-      _type: Type.UUID,
-      _default: 'c4d39248-c896-433a-bc69-e24d04b7f0e5',
-    },
-    heightUuid: {
-      _type: Type.UUID,
-      _default: '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
-    },
-    weightUuid: {
-      _type: Type.UUID,
-      _default: '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
-    },
-    growthMeasurementConceptSetUuid: {
-      _type: Type.UUID,
-      _default: '1114AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
-    },
-  },
-};

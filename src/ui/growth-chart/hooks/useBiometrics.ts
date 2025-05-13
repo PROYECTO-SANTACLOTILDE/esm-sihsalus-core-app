@@ -1,25 +1,15 @@
 import { useMemo } from 'react';
 import { fhirBaseUrl, openmrsFetch, useConfig } from '@openmrs/esm-framework';
 import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
-import type { MeasurementData } from '../config-schema';
+import type { MeasurementData } from '../types';
 
-export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals' | 'biometrics' | 'both' = 'vitals') {
+export function useBiometrics(patientUuid: string | null) {
   const { concepts } = useConfig();
 
   const conceptUuids = useMemo(() => {
     if (!concepts) return '';
-
-    return (
-      mode === 'both'
-        ? Object.values(concepts)
-        : Object.values(concepts).filter((uuid) =>
-            mode === 'vitals'
-              ? !['heightUuid', 'weightUuid', 'headCircumferenceUuid'].includes(uuid as string)
-              : ['heightUuid', 'weightUuid', 'headCircumferenceUuid'].includes(uuid as string),
-          )
-    ).join(',');
-  }, [concepts, mode]);
+    return Object.values(concepts).join(',');
+  }, [concepts]);
 
   const { data, isLoading, error } = useSWR<{ data: { entry: Array<{ resource: any }> } }>(
     patientUuid
@@ -29,7 +19,7 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
   );
 
   const formattedObs: MeasurementData[] = useMemo(() => {
-    if (!data?.data?.entry) return [];
+    if (!data?.data?.entry || !concepts) return [];
 
     const measurementsMap = new Map<string, MeasurementData>();
 
@@ -41,8 +31,10 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
 
       if (!date || !conceptUuid || !value) return;
 
-      if (!measurementsMap.has(date)) {
-        measurementsMap.set(date, {
+      const dateKey = new Date(date).toISOString(); // Use ISO string to avoid duplicate keys due to timezones
+
+      if (!measurementsMap.has(dateKey)) {
+        measurementsMap.set(dateKey, {
           eventDate: new Date(date),
           dataValues: {
             weight: '',
@@ -52,7 +44,7 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
         });
       }
 
-      const measurement = measurementsMap.get(date)!;
+      const measurement = measurementsMap.get(dateKey)!;
 
       switch (conceptUuid) {
         case concepts.heightUuid:
