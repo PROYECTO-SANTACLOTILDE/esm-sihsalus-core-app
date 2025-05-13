@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../config-schema';
 import type { ChartData } from '../config-schema';
 
-export const useAppropriateChartData = (
+export function useAppropriateChartData (
   chartDataForGender: ChartData,
   defaultIndicator: string,
   gender: string,
   childAgeInWeeks: number,
   childAgeInMonths: number,
-) => {
+) {
   const [selectedCategory, setSelectedCategory] = useState<keyof typeof CategoryCodes>();
   const [selectedDataset, setSelectedDataset] = useState<string>();
 
@@ -72,4 +72,4 @@ export const useAppropriateChartData = (
     setSelectedCategory,
     setSelectedDataset,
   };
-};
+}
