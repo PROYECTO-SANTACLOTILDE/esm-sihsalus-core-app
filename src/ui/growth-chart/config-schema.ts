@@ -99,7 +99,6 @@ export type ConfigObject = {
   };
 };
 
-export type DataSetLabelValues = (typeof DataSetLabels)[keyof typeof DataSetLabels];
 
 /** ============================== */
 /**         FHIR OBS TYPE         */
@@ -216,12 +215,14 @@ export const CategoryToYUnit = Object.freeze({
   wflh_g: CategoryToYUnitLabel.wflh,
 });
 
-export const DataSetLabels = Object.freeze({
-  y_0_5: '0 to 5 years',
-  w_0_13: '0 to 13 weeks',
-  y_0_2: '0 to 2 years',
-  y_2_5: '2 to 5 years',
-});
+export enum DataSetLabels {
+  w_0_13 = 'w_0_13',
+  y_0_2 = 'y_0_2',
+  y_0_5 = 'y_0_5',
+  y_2_5 = 'y_2_5'
+}
+
+export type DataSetLabelValues = keyof typeof DataSetLabels;
 
 export const ChartLabelCodes = Object.freeze({
   b_0_5_y: DataSetLabels.y_0_5,

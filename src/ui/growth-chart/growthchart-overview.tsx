@@ -17,7 +17,6 @@ import { calculateMinMaxValues } from './utils/calculateMinMaxValues';
 
 import { ChartSelector } from './growth-chart-builder/chartSelector';
 import { GrowthChartBuilder } from './growth-chart-builder/growthChartBuilder';
-
 import type { ChartData, MeasurementData } from './config-schema';
 import styles from './growthchart-overview.scss';
 
@@ -25,13 +24,6 @@ interface GrowthChartProps {
   patientUuid: string;
   config: ChartData;
 }
-
-const DEFAULT_METADATA = {
-  chartLabel: '',
-  yAxisLabel: '',
-  xAxisLabel: '',
-  range: { start: 0, end: 0 },
-};
 
 const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }) => {
   const { t } = useTranslation();
@@ -136,7 +128,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
           <GrowthChartBuilder
             measurementData={observations}
             datasetValues={dataSetValues}
-            datasetMetadata={dataSetEntry?.metadata ?? DEFAULT_METADATA}
+            datasetMetadata={dataSetEntry?.metadata}
             yAxisValues={{ minDataValue, maxDataValue }}
             keysDataSet={Object.keys(dataSetValues[0] ?? {})}
             dateOfBirth={dateOfBirth}
