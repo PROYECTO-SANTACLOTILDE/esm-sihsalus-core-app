@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { differenceInMonths, differenceInWeeks } from 'date-fns';
 import {
   CardHeader,
   EmptyState,
@@ -13,14 +12,10 @@ import { launchWorkspace } from '@openmrs/esm-framework';
 import { Button, DataTableSkeleton, InlineLoading } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
 
-import { chartData } from './data-sets/WhoStandardDataSets/ChartData';
-import { useAppropriateChartData } from './hooks/useAppropriateChartData';
-import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { usePatientBirthdateAndGender } from './hooks/usePatientBirthdateAndGender';
 import { useBiometrics } from './hooks/useBiometrics';
 import { GrowthChart } from './growth-chart';
 
-import type { ChartData } from './types';
 import styles from './growth-chart-overview.scss';
 
 interface GrowthChartProps {
