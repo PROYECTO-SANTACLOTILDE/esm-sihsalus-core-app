@@ -38,7 +38,6 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const displayText = t('noChartDataAvailable', 'No chart data available');
 
   const { gender: rawGender, birthdate, isLoading, error } = usePatientBirthdateAndGender(patientUuid);
-
   const [genderParse, setGenderParser] = useState('');
 
   useEffect(() => {
@@ -55,11 +54,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const { data: rawObservations = [], isLoading: isValidating } = useVitalsAndBiometrics(patientUuid, 'both');
 
   const observations: MeasurementData[] = useMemo(
-    () =>
-      rawObservations.map((obs) => ({
-        ...obs,
-        eventDate: new Date(obs.eventDate),
-      })),
+    () => rawObservations.map((obs) => ({ ...obs, eventDate: new Date(obs.eventDate) })),
     [rawObservations],
   );
 
@@ -67,7 +62,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
   const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
-  const defaultIndicator = Object.keys(chartDataForGender)[0] ?? '';
+  const defaultIndicator = useMemo(() => Object.keys(chartDataForGender)[0] ?? '', [chartDataForGender]);
   const isPercentiles = true;
 
   const { selectedCategory, selectedDataset, setSelectedCategory, setSelectedDataset } = useAppropriateChartData(
@@ -79,13 +74,15 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   );
 
   const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
-  const dataSetValues = isPercentiles
-    ? (dataSetEntry?.percentileDatasetValues ?? [])
-    : (dataSetEntry?.zScoreDatasetValues ?? []);
+  const dataSetValues = useMemo(
+    () => (isPercentiles ? (dataSetEntry?.percentileDatasetValues ?? []) : (dataSetEntry?.zScoreDatasetValues ?? [])),
+    [dataSetEntry, isPercentiles],
+  );
 
   const { min = 0, max = 100 } = calculateMinMaxValues(dataSetValues);
   const minDataValue = Math.max(0, Math.floor(min));
   const maxDataValue = Math.ceil(max);
+
   const { currentVisit } = useVisitOrOfflineVisit(patientUuid);
 
   const launchForm = useCallback(() => {
@@ -96,17 +93,10 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     }
   }, [currentVisit, patientUuid]);
 
-  if (isLoading) {
-    return <DataTableSkeleton role="progressbar" zebra={false} />;
-  }
-
-  if (error) {
-    return <ErrorState error={error} headerTitle={headerTitle} />;
-  }
-
-  if (!selectedDataset || !dataSetEntry || !dataSetValues.length) {
+  if (isLoading) return <DataTableSkeleton role="progressbar" zebra={false} />;
+  if (error) return <ErrorState error={error} headerTitle={headerTitle} />;
+  if (!selectedDataset || !dataSetEntry || !dataSetValues.length)
     return <EmptyState displayText={displayText} headerTitle={headerTitle} launchForm={launchForm} />;
-  }
 
   return (
     <div className={styles.widgetCard}>
