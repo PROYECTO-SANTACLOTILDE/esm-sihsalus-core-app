@@ -22,8 +22,8 @@ import { useBiometrics } from './hooks/useBiometrics';
 import { ChartSelector } from './growth-chart-builder/chartSelector';
 import { GrowthChartBuilder } from './growth-chart-builder/growthChartBuilder';
 
-import type { ChartData, MeasurementData } from './types';
-import styles from './growthchart-overview.scss';
+import type { ChartData } from './types';
+import styles from './growth-chart-overview.scss';
 
 interface GrowthChartProps {
   patientUuid: string;
