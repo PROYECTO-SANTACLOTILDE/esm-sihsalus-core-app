@@ -64,7 +64,7 @@ const InmmediatePostpartumPeriodTable: React.FC<ProgramsDetailedSummaryProps> = 
         rowHeader: t('frecuenciaCardíaca', 'Frecuencia Cardíaca'),
         prefix: 'Frecuencia Cardíaca',
       },
-      { id: 'presiónSistólica', rowHeader: t('presiónSistólica', 'Presión sistólica'), prefix: 'Presión sistólica' },
+      { id: 'presiónSistólica', rowHeader: t('presionSistolica', 'Presión sistólica'), prefix: 'Presión sistólica' },
       {
         id: 'presionDiastólica',
         rowHeader: t('presionDiastolica', 'Presión diastólica'),
@@ -85,7 +85,7 @@ const InmmediatePostpartumPeriodTable: React.FC<ProgramsDetailedSummaryProps> = 
         rowHeader: t('heridaOperatoria', 'Herida Operatoria'),
         prefix: 'Herida Operatoria',
       },
-      { id: 'observación', rowHeader: t('observación', 'Observación'), prefix: 'Observación' },
+      { id: 'observación', rowHeader: t('observation', 'Observación'), prefix: 'Observación' },
     ],
     [t],
   );

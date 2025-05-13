@@ -101,7 +101,7 @@ const PostnatalCare: React.FC<PostnatalCareProps> = ({ patientUuid }) => {
 
   const tabPanels = [
     {
-      name: t('PuerperioInmediato', 'Puerperio Inmediato'),
+      name: t('puerperioInmediato', 'Puerperio Inmediato'),
       component: <InmmediatePostpartumPeriodTable patientUuid={patientUuid} />,
     },
     {

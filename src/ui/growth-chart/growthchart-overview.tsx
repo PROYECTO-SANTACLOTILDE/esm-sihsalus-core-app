@@ -11,7 +11,7 @@ import {
 import { launchWorkspace } from '@openmrs/esm-framework';
 
 import { Button, DataTableSkeleton, InlineLoading } from '@carbon/react';
-import { Printer } from '@carbon/react/icons';
+import { Add } from '@carbon/react/icons';
 
 import { chartData } from './data-sets/WhoStandardDataSets/ChartData';
 import { useAppropriateChartData } from './hooks/useAppropriateChartData';
@@ -115,6 +115,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
 
   // --- Acciones y estado de visita ---
   const { currentVisit } = useVisitOrOfflineVisit(patientUuid);
+
   const launchForm = useCallback(() => {
     if (!currentVisit) {
       launchStartVisitPrompt();
@@ -131,24 +132,19 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   }
 
   return (
-    <div className={styles.widgetCard}>
+    <div className={styles.widgetCard} role="region" aria-label={headerTitle}>
       <CardHeader title={headerTitle}>
-        {isValidating && (
-          <div className={styles.backgroundDataFetchingIndicator}>
-            <InlineLoading description={t('updating', 'Updating...')} />
-          </div>
-        )}
-        <div className={styles.chartHeaderActionItems}>
+        {isLoading && <InlineLoading description={t('refreshing', 'Refreshing...')} status="active" />}
+        {launchForm && (
           <Button
             kind="ghost"
-            renderIcon={Printer}
-            iconDescription={t('print', 'Print')}
-            className={styles.printButton}
-            onClick={() => window.print()}
+            renderIcon={(props) => <Add size={16} {...props} />}
+            onClick={launchForm}
+            aria-label={t('add')}
           >
-            {t('print', 'Print')}
+            {t('add')}
           </Button>
-        </div>
+        )}
       </CardHeader>
 
       <div className="p-4">

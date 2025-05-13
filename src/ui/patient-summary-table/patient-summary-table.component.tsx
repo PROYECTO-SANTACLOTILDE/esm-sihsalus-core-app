@@ -155,9 +155,9 @@ const PatientSummaryTable = <T,>({
               kind="ghost"
               renderIcon={(props) => <Add size={16} {...props} />}
               onClick={launchForm}
-              aria-label={t('update')}
+              aria-label={t('add')}
             >
-              {t('update')}
+              {t('add')}
             </Button>
           )}
         </CardHeader>
