@@ -1,3 +1,4 @@
+// Updated GrowthChartBuilder.tsx
 import React, { useMemo } from 'react';
 import { LineChart } from '@carbon/charts-react';
 import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels } from '../config-schema';
@@ -72,11 +73,23 @@ export const GrowthChartBuilder = ({
           domain: [yAxisValues.minDataValue, yAxisValues.maxDataValue],
         },
       },
-      legend: { enabled: false },
+      legend: { enabled: true },
       height: '400px',
       tooltip: { enabled: true },
       points: {
         enabled: false,
+      },
+      color: {
+        scale: {
+          // Define colors for each percentile line
+          P3: '#ff0000', // red
+          P97: '#ff0000', // red
+          P15: '#ff9900', // orange
+          P85: '#ff9900', // orange
+          P50: '#00ff00', // green
+          // Default color for other lines and patient data
+          Paciente: '#2b6693',
+        },
       },
       style: {
         Paciente: {
