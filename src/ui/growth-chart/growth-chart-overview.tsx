@@ -33,7 +33,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid }) => {
   const displayText = t('noChartDataAvailable', 'No chart data available');
   const formWorkspace = 'newborn-anthropometric-form';
   const { currentVisit } = useVisitOrOfflineVisit(patientUuid);
-  // --- Datos del paciente ---
+
   const {
     gender: rawGender,
     birthdate,
@@ -49,9 +49,8 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid }) => {
 
   const dateOfBirth = useMemo(() => new Date(birthdate ?? new Date()), [birthdate]);
 
-  // --- Datos base del gráfico según género ---
-
   const { data, isLoading: isLoadingBiometrics } = useBiometrics(patientUuid);
+
   const launchForm = useCallback(() => {
     if (!currentVisit) {
       launchStartVisitPrompt();
