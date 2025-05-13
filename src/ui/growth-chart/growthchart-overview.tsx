@@ -8,7 +8,7 @@ import { Printer } from '@carbon/react/icons';
 import { chartData } from './data-sets/WhoStandardDataSets/ChartData';
 import type { ChartData, MeasurementData } from './config-schema';
 import { useAppropriateChartData } from './hooks/useAppropriateChartData';
-import { useCalculateMinMaxValues } from './hooks/useHooks';
+import { calculateMinMaxValues } from './utils/calculateMinMaxValues';
 import { useChartDataForGender, useVitalsAndBiometrics, usePatientBirthdateAndGender } from './hooks/useHooks';
 import { CardHeader, EmptyState, ErrorState, useVisitOrOfflineVisit } from '@openmrs/esm-patient-common-lib';
 import { launchWorkspace, useLayoutType } from '@openmrs/esm-framework';
@@ -81,7 +81,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     ? (dataSetEntry?.percentileDatasetValues ?? [])
     : (dataSetEntry?.zScoreDatasetValues ?? []);
 
-  const { min = 0, max = 100 } = useCalculateMinMaxValues(dataSetValues);
+  const { min = 0, max = 100 } = calculateMinMaxValues(dataSetValues);
   const minDataValue = Math.max(0, Math.floor(min));
   const maxDataValue = Math.ceil(max);
   const { currentVisit } = useVisitOrOfflineVisit(patientUuid);
