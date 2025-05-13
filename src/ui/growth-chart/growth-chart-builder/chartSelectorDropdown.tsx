@@ -24,20 +24,14 @@ export const ChartSelectorDropdown = ({
 }: ChartSelectorDropdownProps) => {
   const { t } = useTranslation();
 
-  const getGender = (gender: string): string => {
-    switch (gender) {
-      case 'M':
-        return t('male', 'Male');
-      case 'F':
-        return t('female', 'Female');
-      case 'other':
-        return t('other', 'Other');
-      case 'unknown':
-        return t('unknown', 'Unknown');
-      default:
-        return gender;
-    }
+  const genderMap = {
+    M: t('male', 'Male'),
+    F: t('female', 'Female'),
+    other: t('other', 'Other'),
+    unknown: t('unknown', 'Unknown'),
   };
+
+  const getGender = (gender: string): string => genderMap[gender] ?? gender;
 
   return isDisabled ? (
     <Tooltip align="bottom" label={t('genderPreselected', 'Gender is pre-selected based on the profile')}>

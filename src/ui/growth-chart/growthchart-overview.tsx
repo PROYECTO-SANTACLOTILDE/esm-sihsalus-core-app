@@ -35,11 +35,11 @@ const DEFAULT_METADATA = {
 const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }) => {
   const { t } = useTranslation();
   const headerTitle = t('growthChart', 'Growth Chart');
-  const displayText = t('noChartDataAvailable', 'No chart data available');
-
-  const [genderParse, setGenderParser] = useState('');
+  const displayText = t('noChartData  Available', 'No chart data available');
 
   const { gender: rawGender, birthdate, isLoading, error } = usePatientBirthdateAndGender(patientUuid);
+
+  const [genderParse, setGenderParser] = useState('');
 
   useEffect(() => {
     if (typeof rawGender === 'string') {
