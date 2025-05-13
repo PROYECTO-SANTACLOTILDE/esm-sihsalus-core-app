@@ -11,7 +11,7 @@ import { CategoryCodes, DataSetLabels, MeasurementTypeCodes } from '../config-sc
 
 import type { CategoryToLabel, ChartDataTypes } from '../config-schema';
 
-import { GrowthChartAnnotations, AnnotateLineEnd } from './GrowthChartAnnotations';
+import { GrowthChartAnnotations, AnnotateLineEnd } from './growthChartAnnotations';
 import { useMeasurementPlotting } from '../hooks/useMeasurementPlotting';
 import { useChartLines } from '../utils/chartLineColorPicker';
 
