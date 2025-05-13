@@ -66,7 +66,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const { t } = useTranslation();
   const headerTitle = t('growthChart', 'Growth Chart');
   const displayText = t('noChartDataAvailable', 'No chart data available');
-
+  const formWorkspace = 'newborn-anthropometric-form';
   // --- Datos del paciente ---
   const { gender: rawGender, birthdate, isLoading, error } = usePatientBirthdateAndGender(patientUuid);
   const [gender, setGender] = useState('');
@@ -94,6 +94,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
 
   // --- Observaciones del paciente ---
   const { data: rawObservations = [], isLoading: isValidating } = useVitalsAndBiometrics(patientUuid, 'both');
+
   const observations: MeasurementData[] = useMemo(
     () => rawObservations.map((obs) => ({ ...obs, eventDate: new Date(obs.eventDate) })),
     [rawObservations],
@@ -120,18 +121,20 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     if (!currentVisit) {
       launchStartVisitPrompt();
     } else {
-      launchWorkspace('newborn-anthropometric-form', { patientUuid });
+      launchWorkspace(formWorkspace, { patientUuid });
     }
   }, [currentVisit, patientUuid]);
 
   // --- Estados de carga/error/datos vacíos ---
-  if (isLoading) return <DataTableSkeleton role="progressbar" zebra={false} />;
-  if (error) return <ErrorState error={error} headerTitle={headerTitle} />;
-  if (!selectedDataset || !dataSetEntry || !dataSetValues.length) {
-    return <EmptyState displayText={displayText} headerTitle={headerTitle} launchForm={launchForm} />;
+  if (isLoading && !observations) {
+    return <DataTableSkeleton role="progressbar" aria-label={t('loadingData', 'Loading data')} />;
   }
 
-  return (
+  if (error) {
+    return <ErrorState error={error} headerTitle={headerTitle} />;
+  }
+
+  if (observations && observations.length > 0) {
     <div className={styles.widgetCard} role="region" aria-label={headerTitle}>
       <CardHeader title={headerTitle}>
         {isLoading && <InlineLoading description={t('refreshing', 'Refreshing...')} status="active" />}
@@ -172,7 +175,15 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
           />
         </div>
       </div>
-    </div>
+    </div>;
+  }
+
+  return (
+    <EmptyState
+      displayText={displayText}
+      headerTitle={headerTitle}
+      launchForm={formWorkspace || launchForm ? launchForm : undefined}
+    />
   );
 };
 

@@ -108,7 +108,7 @@ const NewbornBiometricsBase: React.FC<BiometricsBaseProps> = ({ patientUuid, pag
     <ClinicalDataOverview
       patientUuid={patientUuid}
       pageSize={pageSize}
-      headerTitle={t('newbornAntropometrics', 'Somatrometría')}
+      headerTitle={t('newbornAntropometrics', 'Antropometría')}
       data={biometrics}
       error={error}
       isLoading={isLoading}
