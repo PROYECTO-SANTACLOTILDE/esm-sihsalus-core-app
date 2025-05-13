@@ -81,12 +81,12 @@ export const GrowthChartBuilder = ({
       },
       color: {
         scale: {
-          P3: '#ff0000', // red
-          P97: '#ff0000', // red
-          P15: '#ff9900', // orange
-          P85: '#ff9900', // orange
-          P50: '#00ff00', // green
-          Paciente: '#2b6693',
+          P3: '#cc0000', // rojo más suave
+          P97: '#cc0000', // rojo más suave
+          P15: '#e67300', // naranja más suave
+          P85: '#e67300', // naranja más suave
+          P50: '#009933', // verde más suave
+          Paciente: '#2b6693', // azul original (sin cambios)
         },
       },
       style: {
