@@ -86,7 +86,8 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
   // --- Datos base del gráfico según género ---
-  const { chartDataForGender } = useChartDataForGender({ gender, chartData: chartData || {} });
+  const { chartDataForGender } = useChartDataForGender(gender, chartData || {});
+
   const defaultIndicator = useMemo(() => Object.keys(chartDataForGender)[0] ?? '', [chartDataForGender]);
 
   const { selectedCategory, selectedDataset, setSelectedCategory, setSelectedDataset } = useAppropriateChartData(

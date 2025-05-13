@@ -14,11 +14,6 @@ export interface MeasurementData {
   };
 }
 
-export interface ChartDataForGenderProps {
-  gender: string;
-  chartData: ChartData;
-}
-
 export interface ChartDataTypes {
   datasetValues: { [key: string]: number }[];
   datasetMetadata: {

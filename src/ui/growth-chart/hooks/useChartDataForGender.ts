@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import type { ChartDataForGenderProps } from '../types';
+import type { ChartData } from '../types';
 
-export function useChartDataForGender({ gender, chartData = {} }: ChartDataForGenderProps) {
+export function useChartDataForGender(gender: string, chartData: ChartData = {}) {
   const chartDataForGender = useMemo(() => {
     return Object.fromEntries(
       Object.entries(chartData).filter(([, value]) => value?.categoryMetadata?.gender === gender),
