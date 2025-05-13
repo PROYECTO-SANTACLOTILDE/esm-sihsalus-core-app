@@ -12,7 +12,7 @@ import { CategoryCodes, DataSetLabels, MeasurementTypeCodes } from '../config-sc
 import type { CategoryToLabel, ChartDataTypes } from '../config-schema';
 
 import { GrowthChartAnnotations, AnnotateLineEnd } from './GrowthChartAnnotations';
-import { useMeasurementPlotting } from '../hooks/useHooks';
+import { useMeasurementPlotting } from '../hooks/useMeasurementPlotting';
 import { useChartLines } from '../utils/chartLineColorPicker';
 
 import { ChartTooltip } from './chartTooltip';
