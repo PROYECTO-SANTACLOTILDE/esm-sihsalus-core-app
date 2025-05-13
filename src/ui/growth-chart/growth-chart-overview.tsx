@@ -98,7 +98,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   );
 
   // --- Observaciones del paciente ---
-  const { data: observations = [], isLoading: isLoadingBiometrics } = useBiometrics(patientUuid);
+  const { data, isLoading: isLoadingBiometrics } = useBiometrics(patientUuid);
 
   // --- Dataset y rangos ---
   const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
@@ -126,7 +126,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   }, [currentVisit, patientUuid]);
 
   // --- Estados de carga/error/datos vacíos ---
-  if (isLoadingBirthdateAndGender && !observations) {
+  if (isLoadingBirthdateAndGender && !data) {
     return <DataTableSkeleton role="progressbar" aria-label={t('loadingData', 'Loading data')} />;
   }
 
@@ -134,50 +134,52 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     return <ErrorState error={error} headerTitle={headerTitle} />;
   }
 
-  if (observations && observations.length > 0) {
-    <div className={styles.widgetCard} role="region" aria-label={headerTitle}>
-      <CardHeader title={headerTitle}>
-        {isLoadingBirthdateAndGender && (
-          <InlineLoading description={t('refreshing', 'Refreshing...')} status="active" />
-        )}
-        {launchForm && (
-          <Button
-            kind="ghost"
-            renderIcon={(props) => <Add size={16} {...props} />}
-            onClick={launchForm}
-            aria-label={t('add')}
-          >
-            {t('add')}
-          </Button>
-        )}
-      </CardHeader>
+  if (data && data.length > 0) {
+    return (
+      <div className={styles.widgetCard} role="region" aria-label={headerTitle}>
+        <CardHeader title={headerTitle}>
+          {isLoadingBirthdateAndGender && (
+            <InlineLoading description={t('refreshing', 'Refreshing...')} status="active" />
+          )}
+          {launchForm && (
+            <Button
+              kind="ghost"
+              renderIcon={(props) => <Add size={16} {...props} />}
+              onClick={launchForm}
+              aria-label={t('add')}
+            >
+              {t('add')}
+            </Button>
+          )}
+        </CardHeader>
 
-      <div className="p-4">
-        <div className="flex justify-between px-4">
-          <ChartSelector
-            category={selectedCategory}
-            dataset={selectedDataset}
-            setCategory={setSelectedCategory}
-            setDataset={setSelectedDataset}
-            chartData={chartDataForGender}
-            isDisabled={!!gender}
-            gender={gender}
-            setGender={setGender}
-          />
-          <GrowthChart
-            measurementData={observations}
-            datasetValues={dataSetValues}
-            datasetMetadata={dataSetEntry?.metadata ?? DEFAULT_METADATA}
-            yAxisValues={yAxisRange}
-            keysDataSet={Object.keys(dataSetValues[0] ?? {})}
-            dateOfBirth={dateOfBirth}
-            category={selectedCategory}
-            dataset={selectedDataset}
-            isPercentiles={isPercentiles}
-          />
+        <div className="p-4">
+          <div className="flex justify-between px-4">
+            <ChartSelector
+              category={selectedCategory}
+              dataset={selectedDataset}
+              setCategory={setSelectedCategory}
+              setDataset={setSelectedDataset}
+              chartData={chartDataForGender}
+              isDisabled={!!gender}
+              gender={gender}
+              setGender={setGender}
+            />
+            <GrowthChart
+              measurementData={data}
+              datasetValues={dataSetValues}
+              datasetMetadata={dataSetEntry?.metadata ?? DEFAULT_METADATA}
+              yAxisValues={yAxisRange}
+              keysDataSet={Object.keys(dataSetValues[0] ?? {})}
+              dateOfBirth={dateOfBirth}
+              category={selectedCategory}
+              dataset={selectedDataset}
+              isPercentiles={isPercentiles}
+            />
+          </div>
         </div>
       </div>
-    </div>;
+    );
   }
 
   return (
