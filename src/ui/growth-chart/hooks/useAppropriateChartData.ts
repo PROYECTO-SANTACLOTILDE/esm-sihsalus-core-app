@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../config-schema';
-import type { ChartData } from '../config-schema';
+import { type ChartData, CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../config-schema';
 
 export function useAppropriateChartData(
   chartDataForGender: ChartData,
