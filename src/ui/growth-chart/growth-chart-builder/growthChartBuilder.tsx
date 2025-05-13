@@ -26,7 +26,7 @@ import {
 } from '../config-schema';
 
 import { useMeasurementPlotting } from '../hooks/useMeasurementPlotting';
-import { useChartLines } from '../utils/chartLineColorPicker';
+import { useChartLines } from '../hooks/useChartLines';
 
 interface TooltipConfig {
   enabled: boolean;
