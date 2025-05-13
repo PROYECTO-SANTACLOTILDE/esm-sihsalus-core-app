@@ -18,7 +18,7 @@ import { useAppropriateChartData } from './hooks/useAppropriateChartData';
 import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { usePatientBirthdateAndGender } from './hooks/usePatientBirthdateAndGender';
 import { useBiometrics } from './hooks/useBiometrics';
-import { GrowthChart } from './growth-chart-builder/growth-chart';
+import { GrowthChart } from './growth-chart';
 
 import type { ChartData } from './types';
 import styles from './growth-chart-overview.scss';

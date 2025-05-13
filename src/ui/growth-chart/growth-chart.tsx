@@ -7,9 +7,9 @@ import {
   GenderCodes,
   CategoryToLabel,
   type ChartData,
-} from '../types';
-import { useChartLines } from '../hooks/useChartLines';
-import { useMeasurementPlotting } from '../hooks/useMeasurementPlotting';
+} from './types';
+import { useChartLines } from './hooks/useChartLines';
+import { useMeasurementPlotting } from './hooks/useMeasurementPlotting';
 import styles from './growth-chart.scss';
 import { useTranslation } from 'react-i18next';
 import { Dropdown, Tooltip, TextInput } from '@carbon/react';
