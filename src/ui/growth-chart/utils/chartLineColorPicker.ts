@@ -1,18 +1,6 @@
-import { useMemo, useEffect, useRef, useState } from 'react';
-import { restBaseUrl, fhirBaseUrl, openmrsFetch, useConfig } from '@openmrs/esm-framework';
-import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
-import { DataSetLabels, GenderCodes, CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes } from '../config-schema';
+import { useEffect, useState } from 'react';
 import type {
-  ChartData,
-  MeasurementData,
-  PatientInfo,
   DatasetValues,
-  ChartDataForGenderProps,
-  ObservationResponse,
-  DataSetLabelValues,
-  MeasurementDataEntry,
-  DatasetMap,
 } from '../config-schema';
 
 export const ChartLineColorPicker = (key: string, percentiles: boolean): string => {

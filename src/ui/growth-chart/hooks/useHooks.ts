@@ -83,7 +83,7 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
   return { data: formattedObs, isLoading, error };
 }
 
-export const usePatientBirthdateAndGender = (patientUuid) => {
+export function usePatientBirthdateAndGender (patientUuid) {
   const { data, isLoading, error } = useSWRImmutable<{ data: PatientInfo }>(
     `${restBaseUrl}/person/${patientUuid}?v=custom:(uuid,gender,birthdate,birthdateEstimated)`,
     openmrsFetch,
@@ -98,7 +98,7 @@ export const usePatientBirthdateAndGender = (patientUuid) => {
     isLoading,
     error,
   };
-};
+}
 
 export function usePatientObservations(patientUuid: string, codes: string[]) {
   const fetchUrl = useMemo(() => {
@@ -130,7 +130,7 @@ export function usePatientObservations(patientUuid: string, codes: string[]) {
   };
 }
 
-export const useChartDataForGender = ({ gender, chartData = {} }: ChartDataForGenderProps) => {
+export function useChartDataForGender ({ gender, chartData = {} }: ChartDataForGenderProps) {
   const [chartDataForGender, setChartDataForGender] = useState<ChartData>({});
 
   useEffect(() => {
@@ -145,16 +145,16 @@ export const useChartDataForGender = ({ gender, chartData = {} }: ChartDataForGe
   }, [gender, chartData]);
 
   return { chartDataForGender };
-};
+}
 
-export const useMeasurementPlotting = (
+export function useMeasurementPlotting (
   measurementData: MeasurementDataEntry[] | undefined,
   fieldName: string,
   category: string,
   dataset: string,
   dateOfBirth: Date,
   startIndex: number,
-) => {
+) {
   const measurementDataValues: { x: Date | number | string; y: number; eventDate?: Date }[] = [];
 
   if (!measurementData) {
@@ -204,5 +204,5 @@ export const useMeasurementPlotting = (
       borderDash: [5, 5],
     },
   ];
-};
+}
 
