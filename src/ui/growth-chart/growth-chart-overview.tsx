@@ -18,8 +18,6 @@ import { useAppropriateChartData } from './hooks/useAppropriateChartData';
 import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { usePatientBirthdateAndGender } from './hooks/usePatientBirthdateAndGender';
 import { useBiometrics } from './hooks/useBiometrics';
-
-import { ChartSelector } from './growth-chart-builder/chart-selector';
 import { GrowthChart } from './growth-chart-builder/growth-chart';
 
 import type { ChartData } from './types';
@@ -154,31 +152,22 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
           )}
         </CardHeader>
 
-        <div className="p-4">
-          <div className="flex justify-between px-4">
-            <ChartSelector
-              category={selectedCategory}
-              dataset={selectedDataset}
-              setCategory={setSelectedCategory}
-              setDataset={setSelectedDataset}
-              chartData={chartDataForGender}
-              isDisabled={!!gender}
-              gender={gender}
-              setGender={setGender}
-            />
-            <GrowthChart
-              measurementData={data}
-              datasetValues={dataSetValues}
-              datasetMetadata={dataSetEntry?.metadata ?? DEFAULT_METADATA}
-              yAxisValues={yAxisRange}
-              keysDataSet={Object.keys(dataSetValues[0] ?? {})}
-              dateOfBirth={dateOfBirth}
-              category={selectedCategory}
-              dataset={selectedDataset}
-              isPercentiles={isPercentiles}
-            />
-          </div>
-        </div>
+        <GrowthChart
+          measurementData={data}
+          datasetValues={dataSetValues}
+          datasetMetadata={dataSetEntry?.metadata ?? DEFAULT_METADATA}
+          yAxisValues={yAxisRange}
+          keysDataSet={Object.keys(dataSetValues[0] ?? {})}
+          dateOfBirth={dateOfBirth}
+          category={selectedCategory}
+          dataset={selectedDataset}
+          isPercentiles={isPercentiles}
+          chartData={chartDataForGender}
+          gender={gender}
+          setCategory={setSelectedCategory}
+          setDataset={setSelectedDataset}
+          setGender={setGender}
+        />
       </div>
     );
   }
