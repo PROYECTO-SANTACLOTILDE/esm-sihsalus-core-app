@@ -14,7 +14,7 @@ import { Add } from '@carbon/react/icons';
 
 import { usePatientBirthdateAndGender } from './hooks/usePatientBirthdateAndGender';
 import { useBiometrics } from './hooks/useBiometrics';
-import { GrowthChart } from './growth-chart';
+import GrowthChart from './growth-chart';
 
 import styles from './growth-chart-overview.scss';
 

@@ -1,11 +1,24 @@
 import React, { useMemo, useId } from 'react';
-import { LineChart } from '@carbon/charts-react';
-import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels, GenderCodes } from './types';
-import { useChartLines } from './hooks/useChartLines';
-import { useMeasurementPlotting } from './hooks/useMeasurementPlotting';
-import styles from './growth-chart.scss';
+import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Dropdown } from '@carbon/react';
+import { Dropdown, Tab, Tabs, TabList } from '@carbon/react';
+import { LineChart } from '@carbon/charts-react';
+import { formatDate, parseDate } from '@openmrs/esm-framework';
+import styles from './growth-chart.scss';
+
+import { useChartLines } from './hooks/useChartLines';
+import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels, GenderCodes } from './types';
+import { useMeasurementPlotting } from './hooks/useMeasurementPlotting';
+import { useChartDataForGender } from './hooks/useChartDataForGender';
+import { useAppropriateChartData } from './hooks/useAppropriateChartData';
+import { chartData as defaultChartData } from './data-sets/WhoStandardDataSets/ChartData';
+import { differenceInMonths, differenceInWeeks } from 'date-fns';
+
+enum ScaleTypes {
+  LABELS = 'labels',
+  LINEAR = 'linear',
+  TIME = 'time',
+}
 
 interface GrowthChartProps {
   measurementData: any[];
@@ -31,12 +44,12 @@ function determineStartIndex(category: keyof typeof CategoryCodes, dataset: stri
   return isWFLH ? metadataRangeStart : adjustIndex;
 }
 
-import { useChartDataForGender } from './hooks/useChartDataForGender';
-import { useAppropriateChartData } from './hooks/useAppropriateChartData';
-import { chartData as defaultChartData } from './data-sets/WhoStandardDataSets/ChartData';
-import { differenceInMonths, differenceInWeeks } from 'date-fns';
-
-export const GrowthChart = ({ measurementData, dateOfBirth, gender, setGender }: GrowthChartProps) => {
+const GrowthChart: React.FC<GrowthChartProps> = ({
+  measurementData,
+  dateOfBirth,
+  gender,
+  setGender,
+}: GrowthChartProps) => {
   const { t } = useTranslation();
   const id = useId();
 
@@ -208,3 +221,5 @@ export const GrowthChart = ({ measurementData, dateOfBirth, gender, setGender }:
     </div>
   );
 };
+
+export default GrowthChart;
