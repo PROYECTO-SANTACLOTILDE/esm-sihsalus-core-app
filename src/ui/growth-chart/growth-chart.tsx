@@ -1,31 +1,24 @@
-import React, { useMemo, useId } from 'react';
+import React, { useMemo, useId, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Dropdown, Tab, Tabs, TabList } from '@carbon/react';
+import { Dropdown, Tabs, Tab, TabList } from '@carbon/react';
 import { LineChart } from '@carbon/charts-react';
-import { formatDate, parseDate } from '@openmrs/esm-framework';
+import { differenceInMonths, differenceInWeeks } from 'date-fns';
 import styles from './growth-chart.scss';
 
 import { useChartLines } from './hooks/useChartLines';
-import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels, GenderCodes } from './types';
 import { useMeasurementPlotting } from './hooks/useMeasurementPlotting';
 import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { useAppropriateChartData } from './hooks/useAppropriateChartData';
 import { chartData as defaultChartData } from './data-sets/WhoStandardDataSets/ChartData';
-import { differenceInMonths, differenceInWeeks } from 'date-fns';
+import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels, GenderCodes } from './types';
 
-enum ScaleTypes {
-  LABELS = 'labels',
-  LINEAR = 'linear',
-  TIME = 'time',
-}
-
-interface GrowthChartProps {
-  measurementData: any[];
-  dateOfBirth: Date;
-  gender: string;
-  setGender: (gender: keyof typeof GenderCodes) => void;
-}
+const DEFAULT_METADATA = {
+  chartLabel: '',
+  yAxisLabel: '',
+  xAxisLabel: '',
+  range: { start: 0, end: 0 },
+};
 
 function calculateMinMaxValues(datasetValues: Array<Record<string, unknown>>) {
   if (!datasetValues || datasetValues.length === 0) return { min: 0, max: 0 };
@@ -44,46 +37,38 @@ function determineStartIndex(category: keyof typeof CategoryCodes, dataset: stri
   return isWFLH ? metadataRangeStart : adjustIndex;
 }
 
-const GrowthChart: React.FC<GrowthChartProps> = ({
-  measurementData,
-  dateOfBirth,
-  gender,
-  setGender,
-}: GrowthChartProps) => {
+interface GrowthChartProps {
+  measurementData: any[];
+  dateOfBirth: Date;
+  gender: string;
+  setGender: (gender: keyof typeof GenderCodes) => void;
+}
+
+const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth, gender, setGender }) => {
   const { t } = useTranslation();
   const id = useId();
 
   const { chartDataForGender } = useChartDataForGender(gender, defaultChartData);
-  const defaultIndicator = useMemo(() => Object.keys(chartDataForGender)[0] ?? '', [chartDataForGender]);
+  const categories = Object.keys(chartDataForGender);
+  const [selectedCategory, setSelectedCategory] = useState<keyof typeof CategoryCodes>(categories[0] as any);
+
   const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
   const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
-  const { selectedCategory, selectedDataset, setSelectedCategory, setSelectedDataset } = useAppropriateChartData(
+  const { selectedDataset, setSelectedDataset } = useAppropriateChartData(
     chartDataForGender,
-    defaultIndicator,
+    selectedCategory,
     gender,
     childAgeInWeeks,
     childAgeInMonths,
   );
 
   const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
-
-  const datasetMetadata = useMemo(
-    () =>
-      dataSetEntry?.metadata ?? {
-        chartLabel: '',
-        yAxisLabel: '',
-        xAxisLabel: '',
-        range: { start: 0, end: 0 },
-      },
-    [dataSetEntry],
-  );
-
+  const datasetMetadata = dataSetEntry?.metadata ?? DEFAULT_METADATA;
   const isPercentiles = true;
-  const dataSetValues = useMemo(
-    () => (isPercentiles ? (dataSetEntry?.percentileDatasetValues ?? []) : (dataSetEntry?.zScoreDatasetValues ?? [])),
-    [dataSetEntry, isPercentiles],
-  );
+  const dataSetValues = isPercentiles
+    ? (dataSetEntry?.percentileDatasetValues ?? [])
+    : (dataSetEntry?.zScoreDatasetValues ?? []);
 
   const keysDataSet = Object.keys(dataSetValues[0] ?? {});
   const measurementCode = MeasurementTypeCodes[selectedCategory];
@@ -106,14 +91,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({
   );
 
   const data = [...chartLineData, ...measurementPlotData];
-
-  const yAxisRange = useMemo(() => {
-    const { min, max } = calculateMinMaxValues(dataSetValues);
-    return {
-      minDataValue: Math.max(0, Math.floor(min)),
-      maxDataValue: Math.ceil(max),
-    };
-  }, [dataSetValues]);
+  const { min, max } = calculateMinMaxValues(dataSetValues);
 
   const options = useMemo(
     () => ({
@@ -127,7 +105,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({
           title: datasetMetadata.yAxisLabel,
           mapsTo: 'value',
           scaleType: 'linear',
-          domain: [yAxisRange.minDataValue, yAxisRange.maxDataValue],
+          domain: [Math.max(0, Math.floor(min)), Math.ceil(max)],
         },
       },
       legend: { enabled: true },
@@ -149,17 +127,12 @@ const GrowthChart: React.FC<GrowthChartProps> = ({
         '*': { point: { radius: 0 } },
       },
     }),
-    [datasetMetadata, yAxisRange],
+    [datasetMetadata, min, max],
   );
 
   const genderItems = Object.values(GenderCodes).map((code) => ({
     id: code,
     text: code === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male'),
-  }));
-
-  const categoryItems = Object.keys(chartDataForGender).map((key) => ({
-    id: key,
-    text: chartDataForGender[key].categoryMetadata.label,
   }));
 
   const datasetItems = Object.keys(chartDataForGender[selectedCategory]?.datasets || {}).map((key) => ({
@@ -170,51 +143,54 @@ const GrowthChart: React.FC<GrowthChartProps> = ({
   return (
     <div className={styles.clinicalDataChartContainer}>
       <div className={styles.vitalSignsArea}>
-        <div className="cds--grid cds--grid--condensed">
-          <div className="cds--row cds--grid-row">
-            <div className="cds--col">
-              <Dropdown
-                id={`${id}-gender`}
-                titleText=""
-                label={t('gender', 'Gender')}
-                items={genderItems}
-                itemToString={(item) => item?.text || ''}
-                onChange={({ selectedItem }) => selectedItem && setGender(selectedItem.id)}
-                size="sm"
-              />
-            </div>
-            <div className="cds--col">
-              <Dropdown
-                id={`${id}-category`}
-                titleText=""
-                label={t('category', 'Category')}
-                items={categoryItems}
-                itemToString={(item) => item?.text || ''}
-                onChange={({ selectedItem }) => {
-                  if (selectedItem) {
-                    const newCategory = selectedItem.id as keyof typeof CategoryCodes;
-                    setSelectedCategory(newCategory);
-                    const firstDataset = Object.keys(chartDataForGender[newCategory]?.datasets || {})[0];
-                    setSelectedDataset(firstDataset);
-                  }
+        <label className={styles.vitalsSignLabel} htmlFor={`${id}-tabs`}>
+          {t('dataDisplayed', 'Data displayed')}
+        </label>
+        <Tabs className={styles.verticalTabs}>
+          <TabList className={styles.tablist} aria-label={t('dataTabs', 'Data selection tabs')} id={`${id}-tabs`}>
+            {categories.map((key) => (
+              <Tab
+                key={key}
+                onClick={() => {
+                  setSelectedCategory(key as keyof typeof CategoryCodes);
+                  const firstDataset = Object.keys(chartDataForGender[key]?.datasets || {})[0];
+                  setSelectedDataset(firstDataset);
                 }}
-                size="sm"
-              />
-            </div>
-            <div className="cds--col">
-              <Dropdown
-                id={`${id}-dataset`}
-                titleText=""
-                label={t('dataset', 'Dataset')}
-                items={datasetItems}
-                itemToString={(item) => item?.text || ''}
-                onChange={({ selectedItem }) => selectedItem && setSelectedDataset(selectedItem.id)}
-                size="sm"
-              />
-            </div>
+                className={classNames(styles.tab, {
+                  [styles.selectedTab]: selectedCategory === key,
+                })}
+              >
+                {chartDataForGender[key].categoryMetadata.label}
+              </Tab>
+            ))}
+          </TabList>
+        </Tabs>
+        <div className="cds--row cds--grid-row mt-4">
+          <div className="cds--col">
+            <Dropdown
+              id={`${id}-gender`}
+              titleText=""
+              label={t('gender', 'Gender')}
+              items={genderItems}
+              itemToString={(item) => item?.text || ''}
+              onChange={({ selectedItem }) => selectedItem && setGender(selectedItem.id)}
+              size="sm"
+            />
+          </div>
+          <div className="cds--col">
+            <Dropdown
+              id={`${id}-dataset`}
+              titleText=""
+              label={t('dataset', 'Dataset')}
+              items={datasetItems}
+              itemToString={(item) => item?.text || ''}
+              onChange={({ selectedItem }) => selectedItem && setSelectedDataset(selectedItem.id)}
+              size="sm"
+            />
           </div>
         </div>
       </div>
+
       <div className={styles.clinicalDataChartArea}>
         <LineChart data={data} options={options} />
       </div>
