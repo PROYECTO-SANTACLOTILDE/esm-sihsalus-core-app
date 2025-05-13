@@ -10,7 +10,6 @@ import {
   type TooltipPositionerMap,
 } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
-import AutoSizer from 'react-virtualized-auto-sizer';
 import { differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns';
 
 import {
@@ -306,15 +305,5 @@ export const GrowthChartBuilder = ({
     },
   };
 
-  return (
-    <div id="divToPrint" className="aspect-video w-full" style={{ minHeight: '400px' }}>
-      <AutoSizer>
-        {({ height, width }: { height: number; width: number }) => (
-          <div style={{ height, width }}>
-            <Line data={data} options={options} />
-          </div>
-        )}
-      </AutoSizer>
-    </div>
-  );
+  return <Line data={data} options={options} />;
 };
