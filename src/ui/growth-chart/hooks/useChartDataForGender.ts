@@ -1,18 +1,13 @@
-import { useEffect, useState } from 'react';
-import type { ChartData, ChartDataForGenderProps } from '../config-schema';
+import { useMemo } from 'react';
+import type { ChartDataForGenderProps } from '../config-schema';
 
 export function useChartDataForGender({ gender, chartData = {} }: ChartDataForGenderProps) {
-  const [chartDataForGender, setChartDataForGender] = useState<ChartData>({});
-
-  useEffect(() => {
-    const filteredData = Object.entries(chartData).reduce((acc: ChartData, [key, value]) => {
-      if (value?.categoryMetadata?.gender === gender) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {});
-
-    setChartDataForGender(filteredData);
+  const chartDataForGender = useMemo(() => {
+    return Object.fromEntries(
+      Object.entries(chartData).filter(
+        ([, value]) => value?.categoryMetadata?.gender === gender
+      )
+    );
   }, [gender, chartData]);
 
   return { chartDataForGender };
