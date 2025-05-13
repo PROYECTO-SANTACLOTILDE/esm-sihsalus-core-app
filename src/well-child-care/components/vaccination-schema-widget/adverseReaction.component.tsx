@@ -94,7 +94,7 @@ export const AdverseReactionForm: React.FC<AdverseReactionFormProps> = ({ patien
         });
       }
     },
-    [formData, onSubmit, t, validateForm],
+    [formData, onSubmit, validateForm],
   );
 
   return (
