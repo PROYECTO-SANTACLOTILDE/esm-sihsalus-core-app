@@ -21,7 +21,7 @@ interface GrowthChartBuilderProps {
   isPercentiles: boolean;
 }
 
-export const GrowthChartBuilder = ({
+export const GrowthChart = ({
   datasetValues,
   datasetMetadata,
   yAxisValues,

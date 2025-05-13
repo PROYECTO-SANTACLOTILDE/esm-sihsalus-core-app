@@ -19,8 +19,8 @@ import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { usePatientBirthdateAndGender } from './hooks/usePatientBirthdateAndGender';
 import { useBiometrics } from './hooks/useBiometrics';
 
-import { ChartSelector } from './growth-chart-builder/chartSelector';
-import { GrowthChartBuilder } from './growth-chart-builder/growthChartBuilder';
+import { ChartSelector } from './growth-chart-builder/chart-selector';
+import { GrowthChart } from './growth-chart-builder/growth-chart';
 
 import type { ChartData } from './types';
 import styles from './growth-chart-overview.scss';
@@ -164,7 +164,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
             gender={gender}
             setGender={setGender}
           />
-          <GrowthChartBuilder
+          <GrowthChart
             measurementData={observations}
             datasetValues={dataSetValues}
             datasetMetadata={dataSetEntry?.metadata ?? DEFAULT_METADATA}
