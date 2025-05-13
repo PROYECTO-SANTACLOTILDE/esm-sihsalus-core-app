@@ -34,6 +34,14 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid }) => {
   const formWorkspace = 'newborn-anthropometric-form';
   const { currentVisit } = useVisitOrOfflineVisit(patientUuid);
 
+  const launchForm = useCallback(() => {
+    if (!currentVisit) {
+      launchStartVisitPrompt();
+    } else {
+      launchWorkspace(formWorkspace, { patientUuid });
+    }
+  }, [currentVisit, patientUuid]);
+
   const {
     gender: rawGender,
     birthdate,
@@ -50,14 +58,6 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid }) => {
   const dateOfBirth = useMemo(() => new Date(birthdate ?? new Date()), [birthdate]);
 
   const { data, isLoading: isLoadingBiometrics } = useBiometrics(patientUuid);
-
-  const launchForm = useCallback(() => {
-    if (!currentVisit) {
-      launchStartVisitPrompt();
-    } else {
-      launchWorkspace(formWorkspace, { patientUuid });
-    }
-  }, [currentVisit, patientUuid]);
 
   if (isLoadingBirthdateAndGender || (isLoadingBiometrics && !data)) {
     return <DataTableSkeleton role="progressbar" aria-label={t('loadingData', 'Loading data')} />;
