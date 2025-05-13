@@ -1,70 +1,87 @@
 import React, { useMemo, useId } from 'react';
 import { LineChart } from '@carbon/charts-react';
-import {
-  MeasurementTypeCodes,
-  type CategoryCodes,
-  DataSetLabels,
-  GenderCodes,
-  CategoryToLabel,
-  type ChartData,
-} from './types';
+import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels, GenderCodes } from './types';
 import { useChartLines } from './hooks/useChartLines';
 import { useMeasurementPlotting } from './hooks/useMeasurementPlotting';
 import styles from './growth-chart.scss';
 import { useTranslation } from 'react-i18next';
-import { Dropdown, Tooltip, TextInput } from '@carbon/react';
+import { Dropdown } from '@carbon/react';
 
 interface GrowthChartProps {
-  datasetValues: { [key: string]: number }[];
-  datasetMetadata: {
-    xAxisLabel: string;
-    yAxisLabel: string;
-    range: { start: number; end: number };
-  };
-  yAxisValues: { minDataValue: number; maxDataValue: number };
-  keysDataSet: string[];
   measurementData: any[];
-  category: keyof typeof CategoryCodes;
-  dataset: string;
   dateOfBirth: Date;
-  isPercentiles: boolean;
-  chartData: ChartData;
   gender: string;
-  setCategory: (category: keyof typeof CategoryCodes) => void;
-  setDataset: (dataset: string) => void;
   setGender: (gender: keyof typeof GenderCodes) => void;
 }
 
-export const GrowthChart = ({
-  datasetValues,
-  datasetMetadata,
-  yAxisValues,
-  keysDataSet,
-  measurementData,
-  category,
-  dataset,
-  dateOfBirth,
-  isPercentiles,
-  chartData,
-  gender,
-  setCategory,
-  setDataset,
-  setGender,
-}: GrowthChartProps) => {
+function calculateMinMaxValues(datasetValues: Array<Record<string, unknown>>) {
+  if (!datasetValues || datasetValues.length === 0) return { min: 0, max: 0 };
+  const flatValues: number[] = datasetValues.flatMap((entry) =>
+    Object.values(entry).filter((value): value is number => typeof value === 'number' && Number.isFinite(value)),
+  );
+  if (flatValues.length === 0) return { min: 0, max: 0 };
+  const min = flatValues.reduce((acc, val) => Math.min(acc, val), Infinity);
+  const max = flatValues.reduce((acc, val) => Math.max(acc, val), -Infinity);
+  return { min, max };
+}
+
+function determineStartIndex(category: keyof typeof CategoryCodes, dataset: string, metadataRangeStart: number) {
+  const adjustIndex = dataset === DataSetLabels.y_2_5 ? 24 : 0;
+  const isWFLH = category === 'wflh_b' || category === 'wflh_g';
+  return isWFLH ? metadataRangeStart : adjustIndex;
+}
+
+import { useChartDataForGender } from './hooks/useChartDataForGender';
+import { useAppropriateChartData } from './hooks/useAppropriateChartData';
+import { chartData as defaultChartData } from './data-sets/WhoStandardDataSets/ChartData';
+import { differenceInMonths, differenceInWeeks } from 'date-fns';
+
+export const GrowthChart = ({ measurementData, dateOfBirth, gender, setGender }: GrowthChartProps) => {
   const { t } = useTranslation();
   const id = useId();
 
-  const measurementCode = MeasurementTypeCodes[category];
-  const adjustIndex = dataset === DataSetLabels.y_2_5 ? 24 : 0;
-  const isWFLH = category === 'wflh_b' || category === 'wflh_g';
-  const startIndex = isWFLH ? datasetMetadata.range.start : adjustIndex;
+  const { chartDataForGender } = useChartDataForGender(gender, defaultChartData);
+  const defaultIndicator = useMemo(() => Object.keys(chartDataForGender)[0] ?? '', [chartDataForGender]);
+  const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
+  const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
-  const chartLineData = useChartLines(datasetValues, keysDataSet, startIndex, isPercentiles);
+  const { selectedCategory, selectedDataset, setSelectedCategory, setSelectedDataset } = useAppropriateChartData(
+    chartDataForGender,
+    defaultIndicator,
+    gender,
+    childAgeInWeeks,
+    childAgeInMonths,
+  );
+
+  const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
+
+  const datasetMetadata = useMemo(
+    () =>
+      dataSetEntry?.metadata ?? {
+        chartLabel: '',
+        yAxisLabel: '',
+        xAxisLabel: '',
+        range: { start: 0, end: 0 },
+      },
+    [dataSetEntry],
+  );
+
+  const isPercentiles = true;
+  const dataSetValues = useMemo(
+    () => (isPercentiles ? (dataSetEntry?.percentileDatasetValues ?? []) : (dataSetEntry?.zScoreDatasetValues ?? [])),
+    [dataSetEntry, isPercentiles],
+  );
+
+  const keysDataSet = Object.keys(dataSetValues[0] ?? {});
+  const measurementCode = MeasurementTypeCodes[selectedCategory];
+  const startIndex = determineStartIndex(selectedCategory, selectedDataset, datasetMetadata.range.start);
+
+  const chartLineData = useChartLines(dataSetValues, keysDataSet, startIndex, isPercentiles);
   const measurementPlotData = useMeasurementPlotting(
     measurementData,
     measurementCode,
-    category,
-    dataset,
+    selectedCategory,
+    selectedDataset,
     dateOfBirth,
     startIndex,
   ).flatMap((series) =>
@@ -76,6 +93,14 @@ export const GrowthChart = ({
   );
 
   const data = [...chartLineData, ...measurementPlotData];
+
+  const yAxisRange = useMemo(() => {
+    const { min, max } = calculateMinMaxValues(dataSetValues);
+    return {
+      minDataValue: Math.max(0, Math.floor(min)),
+      maxDataValue: Math.ceil(max),
+    };
+  }, [dataSetValues]);
 
   const options = useMemo(
     () => ({
@@ -89,7 +114,7 @@ export const GrowthChart = ({
           title: datasetMetadata.yAxisLabel,
           mapsTo: 'value',
           scaleType: 'linear',
-          domain: [yAxisValues.minDataValue, yAxisValues.maxDataValue],
+          domain: [yAxisRange.minDataValue, yAxisRange.maxDataValue],
         },
       },
       legend: { enabled: true },
@@ -111,7 +136,7 @@ export const GrowthChart = ({
         '*': { point: { radius: 0 } },
       },
     }),
-    [datasetMetadata, yAxisValues],
+    [datasetMetadata, yAxisRange],
   );
 
   const genderItems = Object.values(GenderCodes).map((code) => ({
@@ -119,12 +144,12 @@ export const GrowthChart = ({
     text: code === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male'),
   }));
 
-  const categoryItems = Object.keys(chartData).map((key) => ({
+  const categoryItems = Object.keys(chartDataForGender).map((key) => ({
     id: key,
-    text: chartData[key].categoryMetadata.label,
+    text: chartDataForGender[key].categoryMetadata.label,
   }));
 
-  const datasetItems = Object.keys(chartData[category]?.datasets || {}).map((key) => ({
+  const datasetItems = Object.keys(chartDataForGender[selectedCategory]?.datasets || {}).map((key) => ({
     id: key,
     text: key,
   }));
@@ -155,9 +180,9 @@ export const GrowthChart = ({
                 onChange={({ selectedItem }) => {
                   if (selectedItem) {
                     const newCategory = selectedItem.id as keyof typeof CategoryCodes;
-                    setCategory(newCategory);
-                    const firstDataset = Object.keys(chartData[newCategory]?.datasets || {})[0];
-                    setDataset(firstDataset);
+                    setSelectedCategory(newCategory);
+                    const firstDataset = Object.keys(chartDataForGender[newCategory]?.datasets || {})[0];
+                    setSelectedDataset(firstDataset);
                   }
                 }}
                 size="sm"
@@ -170,7 +195,7 @@ export const GrowthChart = ({
                 label={t('dataset', 'Dataset')}
                 items={datasetItems}
                 itemToString={(item) => item?.text || ''}
-                onChange={({ selectedItem }) => selectedItem && setDataset(selectedItem.id)}
+                onChange={({ selectedItem }) => selectedItem && setSelectedDataset(selectedItem.id)}
                 size="sm"
               />
             </div>

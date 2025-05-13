@@ -122,17 +122,6 @@ export const CategoryCodes = Object.freeze({
   wflh_g: 'wflh_g',
 });
 
-export const CategoryToLabel = Object.freeze({
-  hcfa_b: CategoryLabels.hcfa,
-  hcfa_g: CategoryLabels.hcfa,
-  lhfa_b: CategoryLabels.lhfa,
-  lhfa_g: CategoryLabels.lhfa,
-  wfa_b: CategoryLabels.wfa,
-  wfa_g: CategoryLabels.wfa,
-  wflh_b: CategoryLabels.wflh,
-  wflh_g: CategoryLabels.wflh,
-});
-
 export const CategoryToYUnit = Object.freeze({
   hcfa_b: CategoryToYUnitLabel.hcfa,
   hcfa_g: CategoryToYUnitLabel.hcfa,

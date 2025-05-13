@@ -25,46 +25,14 @@ import styles from './growth-chart-overview.scss';
 
 interface GrowthChartProps {
   patientUuid: string;
-  config: ChartData;
 }
 
-const DEFAULT_METADATA = {
-  chartLabel: '',
-  yAxisLabel: '',
-  xAxisLabel: '',
-  range: { start: 0, end: 0 },
-};
-
-export function calculateMinMaxValues(datasetValues: Array<Record<string, unknown>>) {
-  // Verificar si no hay datos o el array está vacío
-  if (!datasetValues || datasetValues.length === 0) {
-    return { min: 0, max: 0 };
-  }
-
-  // Aplanar y filtrar valores numéricos válidos
-  const flatValues: number[] = datasetValues.flatMap((entry) =>
-    Object.values(entry).filter((value): value is number => {
-      return typeof value === 'number' && Number.isFinite(value);
-    }),
-  );
-
-  // Verificar si no quedaron valores válidos después del filtrado
-  if (flatValues.length === 0) {
-    return { min: 0, max: 0 };
-  }
-
-  // Calcular min y max de manera segura para grandes datasets
-  const min = flatValues.reduce((acc, val) => Math.min(acc, val), Infinity);
-  const max = flatValues.reduce((acc, val) => Math.max(acc, val), -Infinity);
-
-  return { min, max };
-}
-
-const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }) => {
+const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const headerTitle = t('growthChart', 'Growth Chart');
   const displayText = t('noChartDataAvailable', 'No chart data available');
   const formWorkspace = 'newborn-anthropometric-form';
+  const { currentVisit } = useVisitOrOfflineVisit(patientUuid);
   // --- Datos del paciente ---
   const {
     gender: rawGender,
@@ -80,42 +48,10 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   }, [rawGender]);
 
   const dateOfBirth = useMemo(() => new Date(birthdate ?? new Date()), [birthdate]);
-  const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
-  const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
   // --- Datos base del gráfico según género ---
-  const { chartDataForGender } = useChartDataForGender(gender, chartData || {});
 
-  const defaultIndicator = useMemo(() => Object.keys(chartDataForGender)[0] ?? '', [chartDataForGender]);
-
-  const { selectedCategory, selectedDataset, setSelectedCategory, setSelectedDataset } = useAppropriateChartData(
-    chartDataForGender,
-    defaultIndicator,
-    gender,
-    childAgeInWeeks,
-    childAgeInMonths,
-  );
-
-  // --- Observaciones del paciente ---
   const { data, isLoading: isLoadingBiometrics } = useBiometrics(patientUuid);
-
-  // --- Dataset y rangos ---
-  const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
-  const isPercentiles = true;
-  const dataSetValues = useMemo(
-    () => (isPercentiles ? (dataSetEntry?.percentileDatasetValues ?? []) : (dataSetEntry?.zScoreDatasetValues ?? [])),
-    [dataSetEntry, isPercentiles],
-  );
-
-  const { min = 0, max = 100 } = calculateMinMaxValues(dataSetValues);
-  const yAxisRange = {
-    minDataValue: Math.max(0, Math.floor(min)),
-    maxDataValue: Math.ceil(max),
-  };
-
-  // --- Acciones y estado de visita ---
-  const { currentVisit } = useVisitOrOfflineVisit(patientUuid);
-
   const launchForm = useCallback(() => {
     if (!currentVisit) {
       launchStartVisitPrompt();
@@ -124,8 +60,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     }
   }, [currentVisit, patientUuid]);
 
-  // --- Estados de carga/error/datos vacíos ---
-  if (isLoadingBirthdateAndGender && !data) {
+  if (isLoadingBirthdateAndGender || (isLoadingBiometrics && !data)) {
     return <DataTableSkeleton role="progressbar" aria-label={t('loadingData', 'Loading data')} />;
   }
 
@@ -133,11 +68,11 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     return <ErrorState error={error} headerTitle={headerTitle} />;
   }
 
-  if (data && data.length > 0) {
+  if (data.length > 0) {
     return (
       <div className={styles.widgetCard} role="region" aria-label={headerTitle}>
         <CardHeader title={headerTitle}>
-          {isLoadingBirthdateAndGender && (
+          {(isLoadingBirthdateAndGender || isLoadingBiometrics) && (
             <InlineLoading description={t('refreshing', 'Refreshing...')} status="active" />
           )}
           {launchForm && (
@@ -152,22 +87,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
           )}
         </CardHeader>
 
-        <GrowthChart
-          measurementData={data}
-          datasetValues={dataSetValues}
-          datasetMetadata={dataSetEntry?.metadata ?? DEFAULT_METADATA}
-          yAxisValues={yAxisRange}
-          keysDataSet={Object.keys(dataSetValues[0] ?? {})}
-          dateOfBirth={dateOfBirth}
-          category={selectedCategory}
-          dataset={selectedDataset}
-          isPercentiles={isPercentiles}
-          chartData={chartDataForGender}
-          gender={gender}
-          setCategory={setSelectedCategory}
-          setDataset={setSelectedDataset}
-          setGender={setGender}
-        />
+        <GrowthChart measurementData={data} dateOfBirth={dateOfBirth} gender={gender} setGender={setGender} />
       </div>
     );
   }
