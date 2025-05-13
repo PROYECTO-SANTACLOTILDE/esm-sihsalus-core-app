@@ -14,7 +14,14 @@ import {
   TableCell,
 } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
-import { CardHeader, EmptyState, ErrorState, PatientChartPagination } from '@openmrs/esm-patient-common-lib';
+import {
+  CardHeader,
+  EmptyState,
+  ErrorState,
+  useVisitOrOfflineVisit,
+  launchStartVisitPrompt,
+  PatientChartPagination,
+} from '@openmrs/esm-patient-common-lib';
 import {
   launchWorkspace,
   useLayoutType,
@@ -68,21 +75,26 @@ const PatientSummaryTable = <T,>({
   const { t } = useTranslation();
   const isTablet = useLayoutType() === 'tablet';
   const { data, isLoading, error, mutate } = dataHook(patientUuid);
+  const { currentVisit } = useVisitOrOfflineVisit(patientUuid);
 
   const launchForm = useCallback(() => {
     try {
-      if (formWorkspace && typeof launchWorkspace === 'function') {
-        launchWorkspace(formWorkspace, { patientUuid });
-      } else if (onFormLaunch) {
-        onFormLaunch(patientUuid);
-      }
-      if (mutate) {
-        setTimeout(() => mutate(), 1000);
+      if (!currentVisit) {
+        launchStartVisitPrompt();
+      } else {
+        if (formWorkspace && typeof launchWorkspace === 'function') {
+          launchWorkspace(formWorkspace, { patientUuid });
+        } else if (onFormLaunch) {
+          onFormLaunch(patientUuid);
+        }
+        if (mutate) {
+          setTimeout(() => mutate(), 1000);
+        }
       }
     } catch (err) {
       console.error('Failed to launch form:', err);
     }
-  }, [patientUuid, formWorkspace, onFormLaunch, mutate]);
+  }, [patientUuid, currentVisit, formWorkspace, onFormLaunch, mutate]);
 
   const tableRows = useMemo(() => {
     if (!data || data.length === 0) return [];
