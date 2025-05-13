@@ -90,16 +90,6 @@ export interface ConfigObjectWithUuids {
   };
 }
 
-export type ConfigObject = {
-  settings: {
-    customReferences: boolean;
-    usePercentiles: boolean;
-    weightInGrams: boolean;
-    defaultIndicator: string;
-  };
-};
-
-
 /** ============================== */
 /**         FHIR OBS TYPE         */
 /** ============================== */
