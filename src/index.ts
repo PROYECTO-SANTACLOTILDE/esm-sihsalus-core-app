@@ -11,7 +11,6 @@ import ClinicalViewSection from './clinical-view-group/clinical-view-section.com
 
 import {
   caseEncounterDashboardMeta,
-  proceduresDashboardMeta,
   caseManagementDashboardMeta,
   contactListDashboardMeta,
   familyHistoryDashboardMeta,
@@ -144,12 +143,6 @@ export const otherRelationshipsForm = getSyncLifecycle(OtherRelationshipsForm, o
 // 8. RELATIONSHIPS
 export const relationshipsLink = getSyncLifecycle(
   createDashboardLink({ ...relationshipsDashboardMeta, moduleName }),
-  options,
-);
-
-// 9. Procedimientos:
-export const proceduresLink = getSyncLifecycle(
-  createDashboardLink({ ...proceduresDashboardMeta, moduleName }),
   options,
 );
 
