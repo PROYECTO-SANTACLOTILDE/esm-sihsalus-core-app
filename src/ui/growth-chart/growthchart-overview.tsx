@@ -1,24 +1,16 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { differenceInMonths, differenceInWeeks } from 'date-fns';
-import { launchWorkspace, useLayoutType } from '@openmrs/esm-framework';
-import { CardHeader, EmptyState, ErrorState, useVisitOrOfflineVisit } from '@openmrs/esm-patient-common-lib';
-import { launchStartVisitPrompt } from '@openmrs/esm-patient-common-lib';
-
 import { Button, DataTableSkeleton, InlineLoading } from '@carbon/react';
 import { Printer } from '@carbon/react/icons';
-
-import { chartData } from './data-sets/WhoStandardDataSets/ChartData';
-import { useAppropriateChartData } from './hooks/useAppropriateChartData';
-import { useChartDataForGender } from './hooks/useChartDataForGender';
-import { usePatientBirthdateAndGender } from './hooks/usePatientBirthdateAndGender';
-import { useVitalsAndBiometrics } from './hooks/useVitalsAndBiometrics';
-import { calculateMinMaxValues } from './utils/calculateMinMaxValues';
+import { CardHeader, EmptyState, ErrorState, useVisitOrOfflineVisit } from '@openmrs/esm-patient-common-lib';
+import { launchStartVisitPrompt } from '@openmrs/esm-patient-common-lib';
+import { launchWorkspace } from '@openmrs/esm-framework';
 
 import { ChartSelector } from './growth-chart-builder/chartSelector';
 import { GrowthChartBuilder } from './growth-chart-builder/growthChartBuilder';
-import type { ChartData, MeasurementData } from './config-schema';
+import { useGrowthChartLogic } from './hooks/useGrowthChartLogic';
 import styles from './growthchart-overview.scss';
+import type { ChartData } from './config-schema';
 
 interface GrowthChartProps {
   patientUuid: string;
@@ -30,60 +22,28 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const headerTitle = t('growthChart', 'Growth Chart');
   const displayText = t('noChartDataAvailable', 'No chart data available');
 
-  const { gender: rawGender, birthdate, isLoading, error } = usePatientBirthdateAndGender(patientUuid);
-  const [genderParse, setGenderParser] = useState('');
-
-  useEffect(() => {
-    if (typeof rawGender === 'string') {
-      setGenderParser(rawGender.toUpperCase());
-    }
-  }, [rawGender]);
-
-  const { chartDataForGender } = useChartDataForGender({
-    gender: genderParse,
-    chartData: chartData || {},
-  });
-
-  const { data: rawObservations = [], isLoading: isValidating } = useVitalsAndBiometrics(patientUuid, 'both');
-
-  const observations: MeasurementData[] = useMemo(
-    () => rawObservations.map((obs) => ({ ...obs, eventDate: new Date(obs.eventDate) })),
-    [rawObservations],
-  );
-
-  const dateOfBirth = useMemo(() => new Date(birthdate ?? new Date()), [birthdate]);
-  const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
-  const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
-
-  const defaultIndicator = useMemo(() => Object.keys(chartDataForGender)[0] ?? '', [chartDataForGender]);
-  const isPercentiles = true;
-
-  const { selectedCategory, selectedDataset, setSelectedCategory, setSelectedDataset } = useAppropriateChartData(
-    chartDataForGender,
-    defaultIndicator,
-    genderParse,
-    childAgeInWeeks,
-    childAgeInMonths,
-  );
-
-  const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
-  const dataSetValues = useMemo(
-    () => (isPercentiles ? (dataSetEntry?.percentileDatasetValues ?? []) : (dataSetEntry?.zScoreDatasetValues ?? [])),
-    [dataSetEntry, isPercentiles],
-  );
-
-  const { min = 0, max = 100 } = calculateMinMaxValues(dataSetValues);
-  const minDataValue = Math.max(0, Math.floor(min));
-  const maxDataValue = Math.ceil(max);
+  const {
+    gender,
+    setGender,
+    isLoading,
+    error,
+    isValidating,
+    observations,
+    dateOfBirth,
+    selectedCategory,
+    selectedDataset,
+    setSelectedCategory,
+    setSelectedDataset,
+    dataSetEntry,
+    dataSetValues,
+    yAxisRange,
+  } = useGrowthChartLogic(patientUuid, config);
 
   const { currentVisit } = useVisitOrOfflineVisit(patientUuid);
 
   const launchForm = useCallback(() => {
-    if (!currentVisit) {
-      launchStartVisitPrompt();
-    } else {
-      launchWorkspace('newborn-anthropometric-form', { patientUuid });
-    }
+    if (!currentVisit) launchStartVisitPrompt();
+    else launchWorkspace('newborn-anthropometric-form', { patientUuid });
   }, [currentVisit, patientUuid]);
 
   if (isLoading) return <DataTableSkeleton role="progressbar" zebra={false} />;
@@ -104,7 +64,6 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
             kind="ghost"
             renderIcon={Printer}
             iconDescription={t('print', 'Print')}
-            className={styles.printButton}
             onClick={() => window.print()}
           >
             {t('print', 'Print')}
@@ -119,22 +78,21 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
             dataset={selectedDataset}
             setCategory={setSelectedCategory}
             setDataset={setSelectedDataset}
-            chartData={chartDataForGender}
-            isDisabled={!!genderParse}
-            gender={genderParse}
-            setGender={setGenderParser}
+            chartData={config}
+            isDisabled={!!gender}
+            gender={gender}
+            setGender={setGender}
           />
-
           <GrowthChartBuilder
             measurementData={observations}
             datasetValues={dataSetValues}
             datasetMetadata={dataSetEntry?.metadata}
-            yAxisValues={{ minDataValue, maxDataValue }}
+            yAxisValues={yAxisRange}
             keysDataSet={Object.keys(dataSetValues[0] ?? {})}
             dateOfBirth={dateOfBirth}
             category={selectedCategory}
             dataset={selectedDataset}
-            isPercentiles={isPercentiles}
+            isPercentiles={true}
           />
         </div>
       </div>
