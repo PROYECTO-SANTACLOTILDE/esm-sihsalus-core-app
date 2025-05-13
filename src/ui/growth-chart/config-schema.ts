@@ -40,13 +40,6 @@ export interface ChartDataForGenderProps {
   chartData: ChartData;
 }
 
-export interface ObservationResponse {
-  resourceType: string;
-  entry: Array<{
-    resource: Observation;
-  }>;
-}
-
 export interface ChartDataTypes {
   datasetValues: { [key: string]: number }[];
   datasetMetadata: {
@@ -80,25 +73,6 @@ export interface ChartData {
     };
   };
 }
-
-/** ============================== */
-/**         FHIR OBS TYPE         */
-/** ============================== */
-
-type Observation = {
-  id: string;
-  effectiveDateTime: string;
-  valueQuantity: {
-    value: number;
-    unit: string;
-  };
-  code: {
-    coding: Array<{
-      code: string;
-      display: string;
-    }>;
-  };
-};
 
 /** ============================== */
 /**         UNIT DATA MAP         */
