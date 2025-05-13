@@ -63,7 +63,7 @@ export const GrowthChartBuilder = ({
         bottom: {
           title: datasetMetadata.xAxisLabel,
           mapsTo: 'date',
-          scaleType: 'linear', // o 'time' si usas fechas reales
+          scaleType: 'linear',
         },
         left: {
           title: datasetMetadata.yAxisLabel,
@@ -74,8 +74,17 @@ export const GrowthChartBuilder = ({
       },
       legend: { enabled: false },
       height: '400px',
-      tooltip: {
-        enabled: true,
+      tooltip: { enabled: true },
+      points: {
+        enabled: false, // global: sí hay puntos
+      },
+      style: {
+        Paciente: {
+          point: { radius: 3 },
+        },
+        '*': {
+          point: { radius: 0 },
+        },
       },
     }),
     [datasetMetadata, yAxisValues],
