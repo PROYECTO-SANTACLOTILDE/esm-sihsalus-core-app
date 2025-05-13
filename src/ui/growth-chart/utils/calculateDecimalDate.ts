@@ -1,29 +1,31 @@
 import { DataSetLabels } from '../config-schema';
-import type { DatasetMap } from '../config-schema';
 
-export const calculateDecimalDate = (date: string, dataset: string, dateOfBirth: Date): string => {
-  const millisecondsInDay = 1000 * 60 * 60 * 24;
-  const formattedDate = new Date(date);
-  const diffInMilliseconds = formattedDate.getTime() - dateOfBirth.getTime();
+export function calculateDecimalDate(
+  date: Date | string,
+  dataset: string,
+  dateOfBirth: Date
+): string | null {
+  const observationDate = typeof date === 'string' ? new Date(date) : date;
+  const diffInMs = observationDate.getTime() - dateOfBirth.getTime();
+  const msPerDay = 1000 * 60 * 60 * 24;
 
-  const calculateDiffInMonths = (maxMonths: number | null = null): string => {
-    const millisecondsInMonth = millisecondsInDay * 30.44;
-    const diffInMonths = diffInMilliseconds / millisecondsInMonth;
-    if (diffInMonths < 0 || (maxMonths !== null && diffInMonths > maxMonths)) return null;
-    return diffInMonths.toFixed(2);
-  };
+  if (isNaN(diffInMs)) return null;
 
-  const datasetMap: DatasetMap = {
-    [DataSetLabels.w_0_13]: () => {
-      const millisecondsInWeek = millisecondsInDay * 7;
-      const diffInWeeks = diffInMilliseconds / millisecondsInWeek;
-      if (diffInWeeks < 0 || diffInWeeks > 13) return null;
-      return diffInWeeks.toFixed(2);
-    },
-    [DataSetLabels.y_0_2]: () => calculateDiffInMonths(24),
-    [DataSetLabels.y_0_5]: () => calculateDiffInMonths(60),
-    [DataSetLabels.y_2_5]: () => calculateDiffInMonths(60),
-  };
+  const weeks = diffInMs / (msPerDay * 7);
+  const months = diffInMs / (msPerDay * 30.44); // promedio exacto de mes
 
-  return datasetMap[dataset]?.() ?? null;
-};
+  switch (dataset) {
+    case DataSetLabels.w_0_13:
+      return weeks >= 0 && weeks <= 13 ? weeks.toFixed(2) : null;
+
+    case DataSetLabels.y_0_2:
+      return months >= 0 && months <= 24 ? months.toFixed(2) : null;
+
+    case DataSetLabels.y_0_5:
+    case DataSetLabels.y_2_5:
+      return months >= 0 && months <= 60 ? months.toFixed(2) : null;
+
+    default:
+      return null;
+  }
+}

@@ -20,10 +20,6 @@ export interface MeasurementData {
   };
 }
 
-export interface DatasetMap {
-  [x: string]: () => string;
-}
-
 export interface DatasetValues {
   [key: string]: number;
 }
