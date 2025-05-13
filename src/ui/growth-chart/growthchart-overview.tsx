@@ -1,23 +1,24 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { differenceInMonths, differenceInWeeks } from 'date-fns';
+import { launchWorkspace, useLayoutType } from '@openmrs/esm-framework';
+import { CardHeader, EmptyState, ErrorState, useVisitOrOfflineVisit } from '@openmrs/esm-patient-common-lib';
+import { launchStartVisitPrompt } from '@openmrs/esm-patient-common-lib';
 
 import { Button, DataTableSkeleton, InlineLoading } from '@carbon/react';
 import { Printer } from '@carbon/react/icons';
 
 import { chartData } from './data-sets/WhoStandardDataSets/ChartData';
-import type { ChartData, MeasurementData } from './config-schema';
 import { useAppropriateChartData } from './hooks/useAppropriateChartData';
-import { calculateMinMaxValues } from './utils/calculateMinMaxValues';
 import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { usePatientBirthdateAndGender } from './hooks/usePatientBirthdateAndGender';
 import { useVitalsAndBiometrics } from './hooks/useVitalsAndBiometrics';
-import { CardHeader, EmptyState, ErrorState, useVisitOrOfflineVisit } from '@openmrs/esm-patient-common-lib';
-import { launchWorkspace, useLayoutType } from '@openmrs/esm-framework';
-import { launchStartVisitPrompt } from '@openmrs/esm-patient-common-lib';
+import { calculateMinMaxValues } from './utils/calculateMinMaxValues';
+
 import { ChartSelector } from './growth-chart-builder/chartSelector';
 import { GrowthChartBuilder } from './growth-chart-builder/growthChartBuilder';
 
+import type { ChartData, MeasurementData } from './config-schema';
 import styles from './growthchart-overview.scss';
 
 interface GrowthChartProps {
