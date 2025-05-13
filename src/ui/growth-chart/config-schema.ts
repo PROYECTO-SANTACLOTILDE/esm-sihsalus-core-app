@@ -159,7 +159,7 @@ export enum DataSetLabels {
   w_0_13 = 'w_0_13',
   y_0_2 = 'y_0_2',
   y_0_5 = 'y_0_5',
-  y_2_5 = 'y_2_5'
+  y_2_5 = 'y_2_5',
 }
 
 export type DataSetLabelValues = keyof typeof DataSetLabels;

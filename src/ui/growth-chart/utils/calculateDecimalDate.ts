@@ -1,10 +1,6 @@
 import { DataSetLabels } from '../config-schema';
 
-export function calculateDecimalDate(
-  date: Date | string,
-  dataset: string,
-  dateOfBirth: Date
-): string | null {
+export function calculateDecimalDate(date: Date | string, dataset: string, dateOfBirth: Date): string | null {
   const observationDate = typeof date === 'string' ? new Date(date) : date;
   const diffInMs = observationDate.getTime() - dateOfBirth.getTime();
   const msPerDay = 1000 * 60 * 60 * 24;
