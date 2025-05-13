@@ -2,13 +2,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Line } from 'react-chartjs-2';
 import {
-  Chart as ChartJS,
   type ChartOptions,
   type Animation,
   type Scriptable,
   type ScriptableTooltipContext,
   type TooltipPositionerMap,
 } from 'chart.js';
+import Chart from 'chart.js/auto';
+
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns';
 
@@ -57,7 +58,7 @@ interface DataSet {
 }
 
 export const AnnotateLineEnd = (
-  animation: Animation & { chart?: ChartJS },
+  animation: Animation & { chart?: Chart },
   isPercentiles: boolean,
   keysDataSet: string[],
 ) => {
@@ -223,7 +224,7 @@ export const GrowthChartBuilder = ({
   dateOfBirth,
   isPercentiles,
 }: GrowthChartBuilderProps) => {
-  ChartJS.register(annotationPlugin);
+  Chart.register(annotationPlugin);
   const { t } = useTranslation();
   const { minDataValue, maxDataValue } = yAxisValues;
 
