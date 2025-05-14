@@ -173,7 +173,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, patientName,
             {t('sex', 'Sexo')}: {gender === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male')}
           </Tag>
           <Tag type="gray" className={classNames('ml-2', styles.datasetTag)}>
-            {selectedDataset}
+            {childAgeInWeeks}
           </Tag>
         </div>
         <TabsVertical>
