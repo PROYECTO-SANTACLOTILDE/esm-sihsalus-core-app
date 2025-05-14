@@ -1,7 +1,6 @@
 export const neonatalCareDashboardMeta = {
   icon: 'omrs-icon-baby',
   slot: 'patient-chart-neonatal-care-slot',
-  columns: 1,
   title: 'Historia Neonatal',
   path: 'neonatal-care-dashboard',
   moduleName: '@pucp-gidis-hiisc/esm-sihsalus-app',
@@ -11,7 +10,6 @@ export const neonatalCareDashboardMeta = {
 export const wellChildControlDashboardMeta = {
   icon: 'omrs-icon-calendar-heat-map',
   slot: 'patient-chart-well-child-care-slot',
-  columns: 1,
   title: 'Control de Niño Sano',
   path: 'well-child-care-dashboard',
   moduleName: '@pucp-gidis-hiisc/esm-sihsalus-app',
@@ -21,7 +19,6 @@ export const wellChildControlDashboardMeta = {
 export const childImmunizationScheduleDashboardMeta = {
   icon: 'omrs-icon-syringe',
   slot: 'patient-chart-child-immunization-schedule-slot',
-  columns: 1,
   title: 'Esquema de Vacunación Infantil',
   path: 'child-immunization-schedule-dashboard',
   moduleName: '@pucp-gidis-hiisc/esm-sihsalus-app',

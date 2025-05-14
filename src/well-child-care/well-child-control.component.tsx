@@ -5,10 +5,14 @@ import { usePatient, useVisit } from '@openmrs/esm-framework';
 import type { TabConfig } from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 import TabbedDashboard from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 
-const WellChildControl: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+interface WellChildControlProps {
+  patient: fhir.Patient;
+  patientUuid: string;
+}
+
+const WellChildControl: React.FC<WellChildControlProps> = ({ patient, patientUuid }) => {
   const { t } = useTranslation();
   const { currentVisit, isLoading: isVisitLoading } = useVisit(patientUuid);
-  const { patient, isLoading: isPatientLoading } = usePatient(patientUuid);
   const pageSize = 10;
 
   // Memoize patient age in months
@@ -42,7 +46,7 @@ const WellChildControl: React.FC<{ patientUuid: string }> = ({ patientUuid }) =>
     },
   ];
 
-  if (isVisitLoading || isPatientLoading) {
+  if (isVisitLoading) {
     return (
       <div>
         <p>{t('loading', 'Cargando datos...')}</p>
@@ -52,6 +56,7 @@ const WellChildControl: React.FC<{ patientUuid: string }> = ({ patientUuid }) =>
 
   return (
     <TabbedDashboard
+      patient={patient}
       patientUuid={patientUuid}
       titleKey="postnatalCare"
       tabs={tabs}

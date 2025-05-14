@@ -13,6 +13,7 @@ export interface TabConfig {
 }
 
 interface TabbedDashboardProps {
+  patient: fhir.Patient;
   patientUuid: string;
   titleKey: string;
   tabs: TabConfig[];
@@ -23,6 +24,7 @@ interface TabbedDashboardProps {
 }
 
 const TabbedDashboard: React.FC<TabbedDashboardProps> = ({
+  patient,
   patientUuid,
   titleKey,
   tabs,
@@ -62,6 +64,7 @@ const TabbedDashboard: React.FC<TabbedDashboardProps> = ({
                       <div className={styles.extension}>
                         <Extension
                           state={{
+                            patient,
                             patientUuid,
                             pageSize,
                             extensionId: extension.id,

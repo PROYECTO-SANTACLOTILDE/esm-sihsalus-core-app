@@ -5,10 +5,14 @@ import { usePatient, useVisit } from '@openmrs/esm-framework';
 import type { TabConfig } from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 import TabbedDashboard from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 
-const ChildImmunizationSchedule: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+interface ChildImmunizationProps {
+  patient: fhir.Patient;
+  patientUuid: string;
+}
+
+const ChildImmunizationSchedule: React.FC<ChildImmunizationProps> = ({ patient, patientUuid }) => {
   const { t } = useTranslation();
   const { currentVisit, isLoading: isVisitLoading } = useVisit(patientUuid);
-  const { patient, isLoading: isPatientLoading } = usePatient(patientUuid);
   const pageSize = 10;
 
   // Memoize patient age in months
@@ -34,7 +38,7 @@ const ChildImmunizationSchedule: React.FC<{ patientUuid: string }> = ({ patientU
     },
   ];
 
-  if (isVisitLoading || isPatientLoading) {
+  if (isVisitLoading) {
     return (
       <div>
         <p>{t('loading', 'Cargando datos...')}</p>
@@ -44,6 +48,7 @@ const ChildImmunizationSchedule: React.FC<{ patientUuid: string }> = ({ patientU
 
   return (
     <TabbedDashboard
+      patient={patient}
       patientUuid={patientUuid}
       titleKey="childImmunizationSchedule"
       tabs={tabs}
