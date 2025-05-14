@@ -10,7 +10,7 @@ import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { useAppropriateChartData } from './hooks/useAppropriateChartData';
 import { chartData as rawChartData } from './data-sets/WhoStandardDataSets/ChartData';
 import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels, GenderCodes } from './data-sets';
-
+import { age } from '@openmrs/esm-framework';
 const DEFAULT_METADATA = {
   chartLabel: '',
   yAxisLabel: '',
@@ -170,10 +170,10 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, patientName,
       <div className={styles.growthArea}>
         <div className={styles.growthLabel}>
           <Tag type={gender === GenderCodes.CGC_Female ? 'magenta' : 'blue'}>
-            {t('sex', 'Sexo')}: {gender === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male')}
+            {gender === GenderCodes.CGC_Female ? t('female', 'Femenino') : t('male', 'Masculino')}
           </Tag>
           <Tag type="gray" className={classNames('ml-2', styles.datasetTag)}>
-            {childAgeInWeeks}
+            {age(dateOfBirth, new Date())}
           </Tag>
         </div>
         <TabsVertical>
