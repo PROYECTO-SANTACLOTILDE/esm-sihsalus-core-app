@@ -15,9 +15,7 @@ export function useMeasurementPlotting(
 
   const points = measurementData
     .map((entry) => {
-      const y = isWFLH
-        ? parseFloat(entry.dataValues.weight)
-        : parseFloat(entry.dataValues[fieldName]);
+      const y = isWFLH ? parseFloat(entry.dataValues.weight) : parseFloat(entry.dataValues[fieldName]);
 
       const x = isWFLH
         ? parseFloat(entry.dataValues.height)
@@ -26,11 +24,7 @@ export function useMeasurementPlotting(
       if (x === null || isNaN(Number(x)) || isNaN(y)) return null;
 
       // Filtrar por rango si corresponde
-      if (
-        typeof x === 'number' &&
-        dataset !== DataSetLabels.y_2_5 &&
-        x < startIndex
-      ) {
+      if (typeof x === 'number' && dataset !== DataSetLabels.y_2_5 && x < startIndex) {
         return null;
       }
 

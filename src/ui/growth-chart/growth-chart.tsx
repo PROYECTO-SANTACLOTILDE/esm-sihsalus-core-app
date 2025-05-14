@@ -161,8 +161,9 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
         },
       },
       legend: { enabled: true },
-      height: '400px',
       tooltip: { enabled: true },
+      height: '400px',
+
       points: { enabled: false },
       color: {
         scale: {
@@ -183,8 +184,8 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
   );
 
   return (
-    <div className={styles.clinicalDataChartContainer}>
-      <div className={styles.vitalSignsArea}>
+    <div className={styles.growthChartContainer}>
+      <div className={styles.growthArea}>
         <TabsVertical>
           <TabListVertical aria-label="Growth Chart vertical tabs">
             {categories.map(({ id, title, value }) => (
@@ -208,7 +209,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
           </TabListVertical>
           <TabPanels>
             {categories.map(({ id }) => (
-              <TabPanel key={id} className={styles.tabPanelFade}>
+              <TabPanel key={id}>
                 <LineChart data={data} options={options} key={id} />
               </TabPanel>
             ))}
