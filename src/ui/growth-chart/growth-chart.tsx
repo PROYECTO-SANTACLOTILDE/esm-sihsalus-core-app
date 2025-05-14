@@ -1,7 +1,7 @@
 import React, { useMemo, useId, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Dropdown, Tabs, Tab, TabList } from '@carbon/react';
+import { Dropdown, Tab, TabListVertical, TabPanel, TabPanels, TabsVertical, TabList } from '@carbon/react';
 import { LineChart } from '@carbon/charts-react';
 import { differenceInMonths, differenceInWeeks } from 'date-fns';
 import styles from './growth-chart.scss';
@@ -146,48 +146,42 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
         <label className={styles.vitalsSignLabel} htmlFor={`${id}-tabs`}>
           {t('dataDisplayed', 'Data displayed')}
         </label>
-        <Tabs className={styles.verticalTabs}>
-          <TabList className={styles.tablist} aria-label={t('dataTabs', 'Data selection tabs')} id={`${id}-tabs`}>
+        <TabsVertical>
+          <TabListVertical aria-label="Growth Chart vertical tabs">
             {categories.map((key) => (
               <Tab
+                className={classNames(styles.tab, { [styles.selectedTab]: selectedCategory === key })}
                 key={key}
                 onClick={() => {
                   setSelectedCategory(key as keyof typeof CategoryCodes);
                   const firstDataset = Object.keys(chartDataForGender[key]?.datasets || {})[0];
                   setSelectedDataset(firstDataset);
                 }}
-                className={classNames(styles.tab, {
-                  [styles.selectedTab]: selectedCategory === key,
-                })}
               >
                 {chartDataForGender[key].categoryMetadata.label}
               </Tab>
             ))}
-          </TabList>
-        </Tabs>
+          </TabListVertical>
+        </TabsVertical>
         <div className="cds--row cds--grid-row mt-4">
-          <div className="cds--col">
-            <Dropdown
-              id={`${id}-gender`}
-              titleText=""
-              label={t('gender', 'Gender')}
-              items={genderItems}
-              itemToString={(item) => item?.text || ''}
-              onChange={({ selectedItem }) => selectedItem && setGender(selectedItem.id)}
-              size="sm"
-            />
-          </div>
-          <div className="cds--col">
-            <Dropdown
-              id={`${id}-dataset`}
-              titleText=""
-              label={t('dataset', 'Dataset')}
-              items={datasetItems}
-              itemToString={(item) => item?.text || ''}
-              onChange={({ selectedItem }) => selectedItem && setSelectedDataset(selectedItem.id)}
-              size="sm"
-            />
-          </div>
+          <Dropdown
+            id={`${id}-gender`}
+            titleText=""
+            label={t('gender', 'Gender')}
+            items={genderItems}
+            itemToString={(item) => item?.text || ''}
+            onChange={({ selectedItem }) => selectedItem && setGender(selectedItem.id)}
+            size="sm"
+          />
+          <Dropdown
+            id={`${id}-dataset`}
+            titleText=""
+            label={t('dataset', 'Dataset')}
+            items={datasetItems}
+            itemToString={(item) => item?.text || ''}
+            onChange={({ selectedItem }) => selectedItem && setSelectedDataset(selectedItem.id)}
+            size="sm"
+          />
         </div>
       </div>
 

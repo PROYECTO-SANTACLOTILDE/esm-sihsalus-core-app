@@ -62,9 +62,9 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid }) => {
     return <ErrorState error={error} headerTitle={headerTitle} />;
   }
 
-  if (data.length > 0) {
+  if (data?.length) {
     return (
-      <div className={styles.widgetCard} role="region" aria-label={headerTitle}>
+      <div className={styles.widgetCard}>
         <CardHeader title={headerTitle}>
           {(isLoadingBirthdateAndGender || isLoadingBiometrics) && (
             <InlineLoading description={t('refreshing', 'Refreshing...')} status="active" />
