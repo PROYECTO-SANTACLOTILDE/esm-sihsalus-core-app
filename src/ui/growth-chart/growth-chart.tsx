@@ -148,9 +148,6 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
   return (
     <div className={styles.clinicalDataChartContainer}>
       <div className={styles.vitalSignsArea}>
-        <label className={styles.vitalsSignLabel} htmlFor="growth-chart-radio-group">
-          {t('dataDisplayed', 'Data displayed')}
-        </label>
         <TabsVertical>
           <TabListVertical aria-label="Growth Chart vertical tabs">
             {categories.map(({ id, title, value }) => (
@@ -169,7 +166,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
               {t('sex', 'Sexo')}: {gender === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male')}
             </Tag>
             <Tag type="blue" className="ml-2">
-              {t('ageGroup', 'Grupo de Edad')}: {selectedDataset}
+              {selectedDataset}
             </Tag>
           </TabListVertical>
           <TabPanels>
