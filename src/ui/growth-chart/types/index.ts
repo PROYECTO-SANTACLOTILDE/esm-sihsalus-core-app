@@ -38,22 +38,11 @@ export interface ChartData {
 /**         UNIT DATA MAP         */
 /** ============================== */
 
-interface TimeUnitData {
-  singular: string;
-  plural: string;
-}
-
 export const TimeUnitCodes = Object.freeze({
   years: 'Years',
   months: 'Months',
   weeks: 'Weeks',
 });
-
-export const timeUnitData: { [key: string]: TimeUnitData } = {
-  [TimeUnitCodes.years]: { singular: 'year', plural: 'years' },
-  [TimeUnitCodes.months]: { singular: 'month', plural: 'months' },
-  [TimeUnitCodes.weeks]: { singular: 'week', plural: 'weeks' },
-};
 
 /** ============================== */
 /**         LABELS & CODES        */
