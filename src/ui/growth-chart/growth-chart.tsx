@@ -184,6 +184,11 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
   return (
     <div className={styles.growthChartContainer}>
       <div className={styles.growthArea}>
+        <div className={styles.growthLabel}>
+          <Tag type={gender === GenderCodes.CGC_Female ? 'magenta' : 'blue'}>
+            {t('sex', 'Sexo')}: {gender === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male')}
+          </Tag>
+        </div>
         <TabsVertical>
           <TabListVertical aria-label="Growth Chart vertical tabs">
             {categories.map(({ id, title, value }) => (
@@ -198,12 +203,6 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
                 {title}
               </Tab>
             ))}
-            <Tag type="gray">
-              {t('sex', 'Sexo')}: {gender === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male')}
-            </Tag>
-            <Tag type="blue" className={classNames('ml-2', styles.datasetTag)}>
-              {t('dataset', 'Dataset')}: {selectedDataset}
-            </Tag>
           </TabListVertical>
           <TabPanels>
             {categories.map(({ id }) => (
