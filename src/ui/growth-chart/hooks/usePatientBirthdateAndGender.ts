@@ -1,6 +1,5 @@
 import { restBaseUrl, openmrsFetch } from '@openmrs/esm-framework';
 import useSWRImmutable from 'swr/immutable';
-import { GenderCodes } from '../data-sets';
 
 export interface PatientInfo {
   uuid: string;

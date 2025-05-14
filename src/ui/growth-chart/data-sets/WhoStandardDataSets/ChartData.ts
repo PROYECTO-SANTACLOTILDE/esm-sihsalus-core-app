@@ -14,14 +14,7 @@ import { wfa_b_0_5_y_p, wfa_b_0_13_w_p } from './Percentiles/wfa-boys';
 import { wfa_g_0_5_y_p, wfa_g_0_13_w_p } from './Percentiles/wfa-girls';
 import { wfh_g_2_5_y_p, wfl_g_0_2_y_p } from './Percentiles/wfhl-girls';
 import { wfh_b_2_5_y_p, wfl_b_0_2_y_p } from './Percentiles/wfhl-boys';
-import {
-  ChartCodes,
-  CategoryCodes,
-  MeasurementTypeCodesLabel,
-  TimeUnitCodes,
-  GenderCodes,
-  CategoryLabels,
-} from '..';
+import { ChartCodes, CategoryCodes, MeasurementTypeCodesLabel, TimeUnitCodes, GenderCodes, CategoryLabels } from '..';
 import type { ChartData } from '..';
 
 export const chartData: ChartData = {
