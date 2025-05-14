@@ -26,8 +26,8 @@ function calculateMinMaxValues(datasetValues: Array<Record<string, unknown>>) {
     Object.values(entry).filter((value): value is number => typeof value === 'number' && Number.isFinite(value)),
   );
   if (flatValues.length === 0) return { min: 0, max: 0 };
-  const min = flatValues.reduce((acc, val) => Math.min(acc, val), Infinity);
-  const max = flatValues.reduce((acc, val) => Math.max(acc, val), -Infinity);
+  const min = Math.min(...flatValues);
+  const max = Math.max(...flatValues);
   return { min, max };
 }
 
@@ -43,26 +43,42 @@ interface GrowthChartProps {
   gender: string;
 }
 
+interface GrowthChartCategoryItem {
+  id: string;
+  title: string;
+  value: keyof typeof CategoryCodes;
+}
+
 const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth, gender }) => {
   const { t } = useTranslation();
   const id = useId();
 
   const { chartDataForGender } = useChartDataForGender(gender, chartData);
-  const categories = Object.keys(chartDataForGender);
-  const [selectedCategory, setSelectedCategory] = useState<keyof typeof CategoryCodes>(categories[0] as any);
+
+  const categories: GrowthChartCategoryItem[] = useMemo(
+    () =>
+      Object.entries(chartDataForGender).map(([key, value]) => ({
+        id: key,
+        title: value.categoryMetadata?.label ?? key,
+        value: key as keyof typeof CategoryCodes,
+      })),
+    [chartDataForGender],
+  );
+
+  const [selectedCategory, setSelectedCategory] = useState<GrowthChartCategoryItem>(categories[0]);
 
   const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
   const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
   const { selectedDataset, setSelectedDataset } = useAppropriateChartData(
     chartDataForGender,
-    selectedCategory,
+    selectedCategory.value,
     gender,
     childAgeInWeeks,
     childAgeInMonths,
   );
 
-  const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
+  const dataSetEntry = chartDataForGender[selectedCategory.value]?.datasets?.[selectedDataset];
   const datasetMetadata = dataSetEntry?.metadata ?? DEFAULT_METADATA;
   const isPercentiles = true;
   const dataSetValues = isPercentiles
@@ -70,14 +86,14 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
     : (dataSetEntry?.zScoreDatasetValues ?? []);
 
   const keysDataSet = Object.keys(dataSetValues[0] ?? {});
-  const measurementCode = MeasurementTypeCodes[selectedCategory];
-  const startIndex = determineStartIndex(selectedCategory, selectedDataset, datasetMetadata.range.start);
+  const measurementCode = MeasurementTypeCodes[selectedCategory.value];
+  const startIndex = determineStartIndex(selectedCategory.value, selectedDataset, datasetMetadata.range.start);
 
   const chartLineData = useChartLines(dataSetValues, keysDataSet, startIndex, isPercentiles);
   const measurementPlotData = useMeasurementPlotting(
     measurementData,
     measurementCode,
-    selectedCategory,
+    selectedCategory.value,
     selectedDataset,
     dateOfBirth,
     startIndex,
@@ -132,37 +148,38 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
   return (
     <div className={styles.clinicalDataChartContainer}>
       <div className={styles.vitalSignsArea}>
-        <label className={styles.vitalsSignLabel} htmlFor={`${id}-tabs`}>
+        <label className={styles.vitalsSignLabel} htmlFor="growth-chart-radio-group">
           {t('dataDisplayed', 'Data displayed')}
         </label>
         <TabsVertical>
           <TabListVertical aria-label="Growth Chart vertical tabs">
-            {categories.map((key) => (
+            {categories.map(({ id, title, value }) => (
               <Tab
-                className={classNames(styles.tab, { [styles.selectedTab]: selectedCategory === key })}
-                key={key}
-                onClick={() => {
-                  setSelectedCategory(key as keyof typeof CategoryCodes);
-                  const firstDataset = Object.keys(chartDataForGender[key]?.datasets || {})[0];
-                  setSelectedDataset(firstDataset);
-                }}
+                className={classNames(styles.tab, styles.bodyLong01, {
+                  [styles.selectedTab]: selectedCategory.value === value,
+                })}
+                id={`${id}-tab`}
+                key={id}
+                onClick={() => setSelectedCategory({ id, title, value })}
               >
-                {chartDataForGender[key].categoryMetadata.label}
+                {title}
               </Tab>
             ))}
+            <Tag type="gray">
+              {t('sex', 'Sexo')}: {gender === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male')}
+            </Tag>
+            <Tag type="blue" className="ml-2">
+              {t('ageGroup', 'Grupo de Edad')}: {selectedDataset}
+            </Tag>
           </TabListVertical>
+          <TabPanels>
+            {categories.map(({ id }) => (
+              <TabPanel key={id}>
+                <LineChart data={data} options={options} key={id} />
+              </TabPanel>
+            ))}
+          </TabPanels>
         </TabsVertical>
-
-        <Tag type="gray">
-          {t('sex', 'Sexo')}: {gender === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male')}
-        </Tag>
-        <Tag type="blue" className="ml-2">
-          {t('ageGroup', 'Grupo de Edad')}: {selectedDataset}
-        </Tag>
-      </div>
-
-      <div className={styles.clinicalDataChartArea}>
-        <LineChart data={data} options={options} />
       </div>
     </div>
   );
