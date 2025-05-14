@@ -7,12 +7,11 @@ import {
   useVisitOrOfflineVisit,
   launchStartVisitPrompt,
 } from '@openmrs/esm-patient-common-lib';
-import { launchWorkspace } from '@openmrs/esm-framework';
+import { getPatientName, launchWorkspace } from '@openmrs/esm-framework';
 import { Button, DataTableSkeleton, InlineLoading } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
 import { useBiometrics } from './hooks/useBiometrics';
 import GrowthChart from './growth-chart';
-
 import styles from './growth-chart-overview.scss';
 
 interface GrowthChartProps {
@@ -35,13 +34,14 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patient, patientUuid 
     }
   }, [currentVisit, patientUuid]);
 
+  const patientName = getPatientName(patient);
+
   const gender = useMemo(() => {
     const raw = patient?.gender?.toUpperCase?.();
     return raw === 'FEMALE' || raw === 'MALE' ? raw.charAt(0) : 'M';
   }, [patient]);
 
   const dateOfBirth = useMemo(() => new Date(patient?.birthDate ?? new Date()), [patient?.birthDate]);
-
   const { data, isLoading: isLoading, error } = useBiometrics(patientUuid);
 
   if (isLoading && !data) {
@@ -69,7 +69,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patient, patientUuid 
           )}
         </CardHeader>
 
-        <GrowthChart measurementData={data} dateOfBirth={dateOfBirth} gender={gender} />
+        <GrowthChart measurementData={data} patientName={patientName} gender={gender} dateOfBirth={dateOfBirth} />
       </div>
     );
   }

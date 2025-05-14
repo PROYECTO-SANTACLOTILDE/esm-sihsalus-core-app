@@ -18,27 +18,11 @@ const DEFAULT_METADATA = {
   range: { start: 0, end: 0 },
 };
 
-function calculateMinMaxValues(datasetValues: Array<Record<string, unknown>>) {
-  if (!datasetValues || datasetValues.length === 0) return { min: 0, max: 0 };
-  const flatValues: number[] = datasetValues.flatMap((entry) =>
-    Object.values(entry).filter((value): value is number => typeof value === 'number' && Number.isFinite(value)),
-  );
-  if (flatValues.length === 0) return { min: 0, max: 0 };
-  const min = Math.min(...flatValues);
-  const max = Math.max(...flatValues);
-  return { min, max };
-}
-
-function determineStartIndex(category: keyof typeof CategoryCodes, dataset: string, metadataRangeStart: number) {
-  const adjustIndex = dataset === DataSetLabels.y_2_5 ? 24 : 0;
-  const isWFLH = category === 'wflh_b' || category === 'wflh_g';
-  return isWFLH ? metadataRangeStart : adjustIndex;
-}
-
 interface GrowthChartProps {
   measurementData: any[];
-  dateOfBirth: Date;
+  patientName: string;
   gender: string;
+  dateOfBirth: Date;
 }
 
 interface GrowthChartCategoryItem {
@@ -47,7 +31,7 @@ interface GrowthChartCategoryItem {
   value: keyof typeof CategoryCodes;
 }
 
-const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth, gender }) => {
+const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, patientName, gender, dateOfBirth }) => {
   const { t } = useTranslation();
 
   const memoizedChartData = useMemo(() => rawChartData, []);
@@ -219,5 +203,22 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
     </div>
   );
 };
+
+function calculateMinMaxValues(datasetValues: Array<Record<string, unknown>>) {
+  if (!datasetValues || datasetValues.length === 0) return { min: 0, max: 0 };
+  const flatValues: number[] = datasetValues.flatMap((entry) =>
+    Object.values(entry).filter((value): value is number => typeof value === 'number' && Number.isFinite(value)),
+  );
+  if (flatValues.length === 0) return { min: 0, max: 0 };
+  const min = Math.min(...flatValues);
+  const max = Math.max(...flatValues);
+  return { min, max };
+}
+
+function determineStartIndex(category: keyof typeof CategoryCodes, dataset: string, metadataRangeStart: number) {
+  const adjustIndex = dataset === DataSetLabels.y_2_5 ? 24 : 0;
+  const isWFLH = category === 'wflh_b' || category === 'wflh_g';
+  return isWFLH ? metadataRangeStart : adjustIndex;
+}
 
 export default GrowthChart;
