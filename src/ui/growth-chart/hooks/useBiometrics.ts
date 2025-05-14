@@ -1,7 +1,15 @@
 import { useMemo } from 'react';
 import { fhirBaseUrl, openmrsFetch, useConfig } from '@openmrs/esm-framework';
 import useSWR from 'swr';
-import type { MeasurementData } from '../data-sets';
+
+export interface MeasurementData {
+  eventDate: Date;
+  dataValues: {
+    weight: string;
+    height: string;
+    headCircumference: string;
+  };
+}
 
 export function useBiometrics(patientUuid: string | null) {
   const { concepts } = useConfig();

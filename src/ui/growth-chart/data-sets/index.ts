@@ -1,14 +1,3 @@
-
-
-export interface MeasurementData {
-  eventDate: Date;
-  dataValues: {
-    weight: string;
-    height: string;
-    headCircumference: string;
-  };
-}
-
 export interface ChartData {
   [key: string]: {
     categoryMetadata?: {
@@ -30,19 +19,11 @@ export interface ChartData {
   };
 }
 
-/** ============================== */
-/**         UNIT DATA MAP         */
-/** ============================== */
-
 export const TimeUnitCodes = Object.freeze({
   years: 'Years',
   months: 'Months',
   weeks: 'Weeks',
 });
-
-/** ============================== */
-/**         LABELS & CODES        */
-/** ============================== */
 
 export const MeasurementTypeCodesLabel = Object.freeze({
   headCircumference: 'Head circumference',

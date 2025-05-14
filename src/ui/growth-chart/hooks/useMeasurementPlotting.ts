@@ -1,5 +1,13 @@
 import { DataSetLabels, CategoryCodes } from '../data-sets';
-import type { MeasurementData } from '../data-sets';
+
+export interface MeasurementData {
+  eventDate: Date;
+  dataValues: {
+    weight: string;
+    height: string;
+    headCircumference: string;
+  };
+}
 
 export function useMeasurementPlotting(
   measurementData: MeasurementData[] | undefined,
