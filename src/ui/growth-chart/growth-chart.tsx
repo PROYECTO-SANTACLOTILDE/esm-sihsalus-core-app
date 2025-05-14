@@ -129,16 +129,6 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
     [datasetMetadata, min, max],
   );
 
-  const genderItems = Object.values(GenderCodes).map((code) => ({
-    id: code,
-    text: code === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male'),
-  }));
-
-  const datasetItems = Object.keys(chartDataForGender[selectedCategory]?.datasets || {}).map((key) => ({
-    id: key,
-    text: key,
-  }));
-
   return (
     <div className={styles.clinicalDataChartContainer}>
       <div className={styles.vitalSignsArea}>
