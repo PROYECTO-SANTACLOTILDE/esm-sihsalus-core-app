@@ -44,7 +44,6 @@ const NeonatalCare: React.FC<NeonatalProps> = ({ patient, patientUuid }) => {
       titleKey="neonatalCare"
       tabs={tabs}
       ariaLabelKey="neonatalCareTabs"
-      state={{ patientUuid }}
     />
   );
 };
