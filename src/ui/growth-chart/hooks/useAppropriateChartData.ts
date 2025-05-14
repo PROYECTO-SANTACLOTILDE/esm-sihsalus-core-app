@@ -65,9 +65,7 @@ export function useAppropriateChartData(
   }, [chartDataForGender, defaultIndicator, gender]);
 
   return {
-    selectedCategory,
     selectedDataset,
-    setSelectedCategory,
     setSelectedDataset,
   };
 }

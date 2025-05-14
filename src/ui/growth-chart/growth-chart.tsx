@@ -7,7 +7,6 @@ import { differenceInMonths, differenceInWeeks } from 'date-fns';
 import styles from './growth-chart.scss';
 
 import { useChartLines } from './hooks/useChartLines';
-import { useMeasurementPlotting } from './hooks/useMeasurementPlotting';
 import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { useAppropriateChartData } from './hooks/useAppropriateChartData';
 import { chartData as rawChartData } from './data-sets/WhoStandardDataSets/ChartData';
@@ -79,35 +78,72 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
     childAgeInMonths,
   );
 
-  const dataSetEntry = chartDataForGender[selectedCategory.value]?.datasets?.[selectedDataset];
+  const dataSetEntry = useMemo(
+    () => chartDataForGender[selectedCategory.value]?.datasets?.[selectedDataset],
+    [chartDataForGender, selectedCategory.value, selectedDataset],
+  );
   const datasetMetadata = dataSetEntry?.metadata ?? DEFAULT_METADATA;
   const isPercentiles = true;
-  const dataSetValues = isPercentiles
-    ? (dataSetEntry?.percentileDatasetValues ?? [])
-    : (dataSetEntry?.zScoreDatasetValues ?? []);
 
-  const keysDataSet = Object.keys(dataSetValues[0] ?? {});
-  const measurementCode = MeasurementTypeCodes[selectedCategory.value];
-  const startIndex = determineStartIndex(selectedCategory.value, selectedDataset, datasetMetadata.range.start);
-
-  const chartLineData = useChartLines(dataSetValues, keysDataSet, startIndex, isPercentiles);
-  const measurementPlotData = useMeasurementPlotting(
-    measurementData,
-    measurementCode,
-    selectedCategory.value,
-    selectedDataset,
-    dateOfBirth,
-    startIndex,
-  ).flatMap((series) =>
-    series.data.map((point: any) => ({
-      group: 'Paciente',
-      date: point.x,
-      value: point.y,
-    })),
+  const dataSetValues = useMemo(
+    () => (isPercentiles ? (dataSetEntry?.percentileDatasetValues ?? []) : (dataSetEntry?.zScoreDatasetValues ?? [])),
+    [dataSetEntry, isPercentiles],
   );
 
-  const data = [...chartLineData, ...measurementPlotData];
-  const { min, max } = calculateMinMaxValues(dataSetValues);
+  const keysDataSet = useMemo(() => Object.keys(dataSetValues[0] ?? {}), [dataSetValues]);
+  const measurementCode = MeasurementTypeCodes[selectedCategory.value];
+
+  const startIndex = useMemo(
+    () => determineStartIndex(selectedCategory.value, selectedDataset, datasetMetadata.range.start),
+    [selectedCategory.value, selectedDataset, datasetMetadata.range.start],
+  );
+
+  const chartLineData = useChartLines(dataSetValues, keysDataSet, startIndex, isPercentiles);
+
+  const measurementPlotData = useMemo(() => {
+    const measurementDataValues: { x: Date | number | string; y: number }[] = [];
+
+    if (!measurementData) return [];
+
+    const processEntry = (entry: any) => {
+      let xValue: Date | number | string;
+      let yValue: number;
+
+      if (selectedCategory.value === 'wflh_b' || selectedCategory.value === 'wflh_g') {
+        xValue = parseFloat(entry.dataValues.height);
+        yValue = parseFloat(entry.dataValues.weight);
+      } else {
+        const obsDate = new Date(entry.eventDate);
+        const diff = obsDate.getTime() - dateOfBirth.getTime();
+        const msPerDay = 1000 * 60 * 60 * 24;
+        const weeks = diff / (msPerDay * 7);
+        const months = diff / (msPerDay * 30.44);
+
+        switch (selectedDataset) {
+          case DataSetLabels.w_0_13:
+            xValue = weeks.toFixed(2);
+            break;
+          case DataSetLabels.y_0_2:
+            xValue = months.toFixed(2);
+            break;
+          default:
+            xValue = months.toFixed(2);
+        }
+
+        yValue = parseFloat(entry.dataValues[measurementCode]);
+      }
+
+      if (!isNaN(Number(xValue)) && !isNaN(yValue)) {
+        measurementDataValues.push({ x: xValue, y: yValue });
+      }
+    };
+
+    measurementData.forEach(processEntry);
+    return measurementDataValues.map((point) => ({ group: 'Paciente', date: point.x, value: point.y }));
+  }, [measurementData, measurementCode, selectedCategory.value, selectedDataset, dateOfBirth]);
+
+  const data = useMemo(() => [...chartLineData, ...measurementPlotData], [chartLineData, measurementPlotData]);
+  const { min, max } = useMemo(() => calculateMinMaxValues(dataSetValues), [dataSetValues]);
 
   const options = useMemo(
     () => ({
@@ -172,7 +208,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
           </TabListVertical>
           <TabPanels>
             {categories.map(({ id }) => (
-              <TabPanel key={id}>
+              <TabPanel key={id} className={styles.tabPanelFade}>
                 <LineChart data={data} options={options} key={id} />
               </TabPanel>
             ))}
