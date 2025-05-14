@@ -15,10 +15,11 @@ export function usePatientBirthdateAndGender(patientUuid) {
     openmrsFetch,
   );
 
-  const rawGender = data?.data.gender ?? GenderCodes.CGC_Female;
+  const rawGender = (data?.data.gender ?? '').toUpperCase();
+  const gender = rawGender === 'F' || rawGender === 'M' ? rawGender : 'M';
 
   return {
-    gender: rawGender?.toUpperCase(),
+    gender: gender,
     birthdate: data?.data.birthdate ?? '',
     birthdateEstimated: data?.data.birthdateEstimated ?? false,
     isLoading,
