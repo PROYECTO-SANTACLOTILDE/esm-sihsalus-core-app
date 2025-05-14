@@ -188,6 +188,9 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
           <Tag type={gender === GenderCodes.CGC_Female ? 'magenta' : 'blue'}>
             {t('sex', 'Sexo')}: {gender === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male')}
           </Tag>
+          <Tag type="gray" className={classNames('ml-2', styles.datasetTag)}>
+            {selectedDataset}
+          </Tag>
         </div>
         <TabsVertical>
           <TabListVertical aria-label="Growth Chart vertical tabs">
