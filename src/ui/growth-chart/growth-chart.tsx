@@ -50,7 +50,6 @@ interface GrowthChartCategoryItem {
 
 const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth, gender }) => {
   const { t } = useTranslation();
-  const id = useId();
 
   const memoizedChartData = useMemo(() => rawChartData, []);
   const { chartDataForGender } = useChartDataForGender(gender, memoizedChartData);
@@ -70,7 +69,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
   const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
   const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
-  const { selectedDataset, setSelectedDataset } = useAppropriateChartData(
+  const { selectedDataset } = useAppropriateChartData(
     chartDataForGender,
     selectedCategory.value,
     gender,
