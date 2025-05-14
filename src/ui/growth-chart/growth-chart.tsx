@@ -7,7 +7,8 @@ import { differenceInMonths, differenceInWeeks } from 'date-fns';
 import styles from './growth-chart.scss';
 
 import { useChartLines } from './hooks/useChartLines';
-import { useChartDataAndSelection } from './hooks/useChartDataAndSelection';
+import { useChartDataForGender } from './hooks/useChartDataForGender';
+import { useAppropriateChartData } from './hooks/useAppropriateChartData';
 import { chartData as rawChartData } from './data-sets/WhoStandardDataSets/ChartData';
 import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels, GenderCodes } from './types';
 
@@ -52,18 +53,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
   const id = useId();
 
   const memoizedChartData = useMemo(() => rawChartData, []);
-
-  const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
-  const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
-
-  const { chartDataForGender, selectedCategory, setSelectedCategory, selectedDataset, setSelectedDataset } =
-    useChartDataAndSelection(
-      memoizedChartData,
-      gender,
-      Object.keys(rawChartData)[0],
-      childAgeInWeeks,
-      childAgeInMonths,
-    );
+  const { chartDataForGender } = useChartDataForGender(gender, memoizedChartData);
 
   const categories: GrowthChartCategoryItem[] = useMemo(
     () =>
@@ -75,9 +65,22 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
     [chartDataForGender],
   );
 
+  const [selectedCategory, setSelectedCategory] = useState<GrowthChartCategoryItem>(categories[0]);
+
+  const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
+  const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
+
+  const { selectedDataset, setSelectedDataset } = useAppropriateChartData(
+    chartDataForGender,
+    selectedCategory.value,
+    gender,
+    childAgeInWeeks,
+    childAgeInMonths,
+  );
+
   const dataSetEntry = useMemo(
-    () => chartDataForGender[selectedCategory]?.datasets?.[selectedDataset],
-    [chartDataForGender, selectedCategory, selectedDataset],
+    () => chartDataForGender[selectedCategory.value]?.datasets?.[selectedDataset],
+    [chartDataForGender, selectedCategory.value, selectedDataset],
   );
   const datasetMetadata = dataSetEntry?.metadata ?? DEFAULT_METADATA;
   const isPercentiles = true;
@@ -88,11 +91,11 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
   );
 
   const keysDataSet = useMemo(() => Object.keys(dataSetValues[0] ?? {}), [dataSetValues]);
-  const measurementCode = MeasurementTypeCodes[selectedCategory];
+  const measurementCode = MeasurementTypeCodes[selectedCategory.value];
 
   const startIndex = useMemo(
-    () => determineStartIndex(selectedCategory, selectedDataset, datasetMetadata.range.start),
-    [selectedCategory, selectedDataset, datasetMetadata.range.start],
+    () => determineStartIndex(selectedCategory.value, selectedDataset, datasetMetadata.range.start),
+    [selectedCategory.value, selectedDataset, datasetMetadata.range.start],
   );
 
   const chartLineData = useChartLines(dataSetValues, keysDataSet, startIndex, isPercentiles);
@@ -106,7 +109,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
       let xValue: Date | number | string;
       let yValue: number;
 
-      if (selectedCategory === 'wflh_b' || selectedCategory === 'wflh_g') {
+      if (selectedCategory.value === 'wflh_b' || selectedCategory.value === 'wflh_g') {
         xValue = parseFloat(entry.dataValues.height);
         yValue = parseFloat(entry.dataValues.weight);
       } else {
@@ -137,7 +140,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
 
     measurementData.forEach(processEntry);
     return measurementDataValues.map((point) => ({ group: 'Paciente', date: point.x, value: point.y }));
-  }, [measurementData, measurementCode, selectedCategory, selectedDataset, dateOfBirth]);
+  }, [measurementData, measurementCode, selectedCategory.value, selectedDataset, dateOfBirth]);
 
   const data = useMemo(() => [...chartLineData, ...measurementPlotData], [chartLineData, measurementPlotData]);
   const { min, max } = useMemo(() => calculateMinMaxValues(dataSetValues), [dataSetValues]);
@@ -187,11 +190,11 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
             {categories.map(({ id, title, value }) => (
               <Tab
                 className={classNames(styles.tab, styles.bodyLong01, {
-                  [styles.selectedTab]: selectedCategory === value,
+                  [styles.selectedTab]: selectedCategory.value === value,
                 })}
                 id={`${id}-tab`}
                 key={id}
-                onClick={() => setSelectedCategory(value)}
+                onClick={() => setSelectedCategory({ id, title, value })}
               >
                 {title}
               </Tab>
