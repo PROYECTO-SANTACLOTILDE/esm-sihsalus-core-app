@@ -10,7 +10,7 @@ import { useChartLines } from './hooks/useChartLines';
 import { useMeasurementPlotting } from './hooks/useMeasurementPlotting';
 import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { useAppropriateChartData } from './hooks/useAppropriateChartData';
-import { chartData } from './data-sets/WhoStandardDataSets/ChartData';
+import { chartData as rawChartData } from './data-sets/WhoStandardDataSets/ChartData';
 import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels, GenderCodes } from './types';
 
 const DEFAULT_METADATA = {
@@ -53,7 +53,8 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
   const { t } = useTranslation();
   const id = useId();
 
-  const { chartDataForGender } = useChartDataForGender(gender, chartData);
+  const memoizedChartData = useMemo(() => rawChartData, []);
+  const { chartDataForGender } = useChartDataForGender(gender, memoizedChartData);
 
   const categories: GrowthChartCategoryItem[] = useMemo(
     () =>
@@ -165,8 +166,8 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
             <Tag type="gray">
               {t('sex', 'Sexo')}: {gender === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male')}
             </Tag>
-            <Tag type="blue" className="ml-2">
-              {selectedDataset}
+            <Tag type="blue" className={classNames('ml-2', styles.datasetTag)}>
+              {t('dataset', 'Dataset')}: {selectedDataset}
             </Tag>
           </TabListVertical>
           <TabPanels>
