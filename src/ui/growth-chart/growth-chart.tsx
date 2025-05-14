@@ -41,10 +41,9 @@ interface GrowthChartProps {
   measurementData: any[];
   dateOfBirth: Date;
   gender: string;
-  setGender: (gender: keyof typeof GenderCodes) => void;
 }
 
-const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth, gender, setGender }) => {
+const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth, gender }) => {
   const { t } = useTranslation();
   const id = useId();
 
@@ -164,15 +163,6 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
           </TabListVertical>
         </TabsVertical>
         <div className="cds--row cds--grid-row mt-4">
-          <Dropdown
-            id={`${id}-gender`}
-            titleText=""
-            label={t('gender', 'Gender')}
-            items={genderItems}
-            itemToString={(item) => item?.text || ''}
-            onChange={({ selectedItem }) => selectedItem && setGender(selectedItem.id)}
-            size="sm"
-          />
           <Dropdown
             id={`${id}-dataset`}
             titleText=""

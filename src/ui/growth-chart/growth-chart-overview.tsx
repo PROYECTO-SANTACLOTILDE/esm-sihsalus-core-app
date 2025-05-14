@@ -38,17 +38,11 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid }) => {
   }, [currentVisit, patientUuid]);
 
   const {
-    gender: rawGender,
+    gender,
     birthdate,
     isLoading: isLoadingBirthdateAndGender,
     error,
   } = usePatientBirthdateAndGender(patientUuid);
-  const [gender, setGender] = useState('');
-  useEffect(() => {
-    if (typeof rawGender === 'string') {
-      setGender(rawGender.toUpperCase());
-    }
-  }, [rawGender]);
 
   const dateOfBirth = useMemo(() => new Date(birthdate ?? new Date()), [birthdate]);
 
@@ -81,7 +75,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid }) => {
           )}
         </CardHeader>
 
-        <GrowthChart measurementData={data} dateOfBirth={dateOfBirth} gender={gender} setGender={setGender} />
+        <GrowthChart measurementData={data} dateOfBirth={dateOfBirth} gender={gender} />
       </div>
     );
   }
