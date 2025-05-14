@@ -1,9 +1,4 @@
-export interface PatientInfo {
-  uuid: string;
-  gender: string;
-  birthdate: string;
-  birthdateEstimated?: boolean;
-}
+
 
 export interface MeasurementData {
   eventDate: Date;
@@ -13,6 +8,7 @@ export interface MeasurementData {
     headCircumference: string;
   };
 }
+
 export interface ChartData {
   [key: string]: {
     categoryMetadata?: {

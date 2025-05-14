@@ -10,7 +10,7 @@ import { useChartLines } from './hooks/useChartLines';
 import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { useAppropriateChartData } from './hooks/useAppropriateChartData';
 import { chartData as rawChartData } from './data-sets/WhoStandardDataSets/ChartData';
-import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels, GenderCodes } from './types';
+import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels, GenderCodes } from './data-sets';
 
 const DEFAULT_METADATA = {
   chartLabel: '',

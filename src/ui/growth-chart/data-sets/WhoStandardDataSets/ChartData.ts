@@ -21,8 +21,8 @@ import {
   TimeUnitCodes,
   GenderCodes,
   CategoryLabels,
-} from '../../types';
-import type { ChartData } from '../../types';
+} from '..';
+import type { ChartData } from '..';
 
 export const chartData: ChartData = {
   [CategoryCodes.hcfa_b]: {

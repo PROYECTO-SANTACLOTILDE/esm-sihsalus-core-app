@@ -1,5 +1,5 @@
-import { DataSetLabels, CategoryCodes } from '../types';
-import type { MeasurementData } from '../types';
+import { DataSetLabels, CategoryCodes } from '../data-sets';
+import type { MeasurementData } from '../data-sets';
 
 export function useMeasurementPlotting(
   measurementData: MeasurementData[] | undefined,
