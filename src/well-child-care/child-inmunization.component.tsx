@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Eyedropper, Pills } from '@carbon/react/icons';
-import { usePatient, useVisit } from '@openmrs/esm-framework';
+import { useVisit } from '@openmrs/esm-framework';
 import type { TabConfig } from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 import TabbedDashboard from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 
@@ -11,20 +11,6 @@ interface ChildImmunizationProps {
 }
 
 const ChildImmunizationSchedule: React.FC<ChildImmunizationProps> = ({ patient, patientUuid }) => {
-  const { t } = useTranslation();
-  const { currentVisit, isLoading: isVisitLoading } = useVisit(patientUuid);
-  const pageSize = 10;
-
-  // Memoize patient age in months
-  const patientAgeInMonths = useMemo(() => {
-    if (!patient?.birthDate) return null;
-    const birthDate = new Date(patient.birthDate);
-    const today = new Date();
-    const years = today.getFullYear() - birthDate.getFullYear();
-    const months = today.getMonth() - birthDate.getMonth();
-    return years * 12 + months;
-  }, [patient?.birthDate]);
-
   const tabs: TabConfig[] = [
     {
       labelKey: 'Calendario de Vacunación',
@@ -38,14 +24,6 @@ const ChildImmunizationSchedule: React.FC<ChildImmunizationProps> = ({ patient, 
     },
   ];
 
-  if (isVisitLoading) {
-    return (
-      <div>
-        <p>{t('loading', 'Cargando datos...')}</p>
-      </div>
-    );
-  }
-
   return (
     <TabbedDashboard
       patient={patient}
@@ -53,8 +31,6 @@ const ChildImmunizationSchedule: React.FC<ChildImmunizationProps> = ({ patient, 
       titleKey="childImmunizationSchedule"
       tabs={tabs}
       ariaLabelKey="immunizationTabs"
-      pageSize={pageSize}
-      state={{ patientUuid, currentVisit, patientAgeInMonths }} // Pass additional state
     />
   );
 };

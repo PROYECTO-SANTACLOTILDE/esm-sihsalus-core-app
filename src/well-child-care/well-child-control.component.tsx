@@ -1,7 +1,5 @@
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
 import { Friendship, ReminderMedical } from '@carbon/react/icons';
-import { usePatient, useVisit } from '@openmrs/esm-framework';
 import type { TabConfig } from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 import TabbedDashboard from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 
@@ -11,18 +9,6 @@ interface WellChildControlProps {
 }
 
 const WellChildControl: React.FC<WellChildControlProps> = ({ patient, patientUuid }) => {
-  const { t } = useTranslation();
-  const { currentVisit, isLoading: isVisitLoading } = useVisit(patientUuid);
-  const pageSize = 10;
-
-  // Memoize patient age in months
-  const patientAgeInMonths = useMemo(() => {
-    if (!patient?.birthDate) return null;
-    const birthDate = new Date(patient.birthDate);
-    const today = new Date();
-    return (today.getFullYear() - birthDate.getFullYear()) * 12 + (today.getMonth() - birthDate.getMonth());
-  }, [patient?.birthDate]);
-
   const tabs: TabConfig[] = [
     {
       labelKey: 'Seguimiento',
@@ -46,14 +32,6 @@ const WellChildControl: React.FC<WellChildControlProps> = ({ patient, patientUui
     },
   ];
 
-  if (isVisitLoading) {
-    return (
-      <div>
-        <p>{t('loading', 'Cargando datos...')}</p>
-      </div>
-    );
-  }
-
   return (
     <TabbedDashboard
       patient={patient}
@@ -61,8 +39,6 @@ const WellChildControl: React.FC<WellChildControlProps> = ({ patient, patientUui
       titleKey="postnatalCare"
       tabs={tabs}
       ariaLabelKey="wellChildCareTabs"
-      pageSize={pageSize}
-      state={{ patient, patientUuid, patientAgeInMonths, currentVisit }} // Pass additional state
     />
   );
 };
