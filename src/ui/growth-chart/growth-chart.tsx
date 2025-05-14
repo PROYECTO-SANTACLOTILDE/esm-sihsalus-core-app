@@ -1,11 +1,10 @@
-import React, { useMemo, useId, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Tag, Tab, TabListVertical, TabPanel, TabPanels, TabsVertical } from '@carbon/react';
 import { LineChart } from '@carbon/charts-react';
 import { differenceInMonths, differenceInWeeks } from 'date-fns';
 import styles from './growth-chart.scss';
-
 import { useChartLines } from './hooks/useChartLines';
 import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { useAppropriateChartData } from './hooks/useAppropriateChartData';

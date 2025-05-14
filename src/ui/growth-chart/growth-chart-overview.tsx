@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   CardHeader,
@@ -8,10 +8,8 @@ import {
   launchStartVisitPrompt,
 } from '@openmrs/esm-patient-common-lib';
 import { launchWorkspace } from '@openmrs/esm-framework';
-
 import { Button, DataTableSkeleton, InlineLoading } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
-
 import { usePatientBirthdateAndGender } from './hooks/usePatientBirthdateAndGender';
 import { useBiometrics } from './hooks/useBiometrics';
 import GrowthChart from './growth-chart';
