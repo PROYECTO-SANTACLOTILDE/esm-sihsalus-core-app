@@ -17,10 +17,11 @@ import GrowthChart from './growth-chart';
 import styles from './growth-chart-overview.scss';
 
 interface GrowthChartProps {
+  patient: fhir.Patient;
   patientUuid: string;
 }
 
-const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid }) => {
+const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patient, patientUuid }) => {
   const { t } = useTranslation();
   const headerTitle = t('growthChart', 'Growth Chart');
   const displayText = t('noChartDataAvailable', 'No chart data available');
