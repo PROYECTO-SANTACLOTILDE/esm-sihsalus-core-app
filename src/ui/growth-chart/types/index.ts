@@ -13,20 +13,6 @@ export interface MeasurementData {
     headCircumference: string;
   };
 }
-
-export interface ChartDataTypes {
-  datasetValues: { [key: string]: number }[];
-  datasetMetadata: {
-    chartLabel: string;
-    yAxisLabel: string;
-    xAxisLabel: string;
-    range: { start: number; end: number };
-  };
-  yAxisValues: { minDataValue: number; maxDataValue: number };
-  keysDataSet: string[];
-  measurementData: MeasurementData[];
-}
-
 export interface ChartData {
   [key: string]: {
     categoryMetadata?: {
