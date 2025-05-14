@@ -10,7 +10,6 @@ import {
 import { launchWorkspace } from '@openmrs/esm-framework';
 import { Button, DataTableSkeleton, InlineLoading } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
-import { usePatientBirthdateAndGender } from './hooks/usePatientBirthdateAndGender';
 import { useBiometrics } from './hooks/useBiometrics';
 import GrowthChart from './growth-chart';
 
@@ -36,18 +35,16 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patient, patientUuid 
     }
   }, [currentVisit, patientUuid]);
 
-  const {
-    gender,
-    birthdate,
-    isLoading: isLoadingBirthdateAndGender,
-    error,
-  } = usePatientBirthdateAndGender(patientUuid);
+  const gender = useMemo(() => {
+    const raw = patient?.gender?.toUpperCase?.();
+    return raw === 'FEMALE' || raw === 'MALE' ? raw.charAt(0) : 'M';
+  }, [patient]);
 
-  const dateOfBirth = useMemo(() => new Date(birthdate ?? new Date()), [birthdate]);
+  const dateOfBirth = useMemo(() => new Date(patient?.birthDate ?? new Date()), [patient?.birthDate]);
 
-  const { data, isLoading: isLoadingBiometrics } = useBiometrics(patientUuid);
+  const { data, isLoading: isLoading, error } = useBiometrics(patientUuid);
 
-  if (isLoadingBirthdateAndGender || (isLoadingBiometrics && !data)) {
+  if (isLoading && !data) {
     return <DataTableSkeleton role="progressbar" aria-label={t('loadingData', 'Loading data')} />;
   }
 
@@ -59,9 +56,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patient, patientUuid 
     return (
       <div className={styles.widgetCard}>
         <CardHeader title={headerTitle}>
-          {(isLoadingBirthdateAndGender || isLoadingBiometrics) && (
-            <InlineLoading description={t('refreshing', 'Refreshing...')} status="active" />
-          )}
+          {isLoading && <InlineLoading description={t('refreshing', 'Refreshing...')} status="active" />}
           {launchForm && (
             <Button
               kind="ghost"
