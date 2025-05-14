@@ -43,24 +43,11 @@ export const MeasurementTypeCodes = Object.freeze({
   wflh_g: 'weight',
 });
 
-export const unitCodes = Object.freeze({
-  cm: 'cm',
-  kg: 'kg',
-  g: 'g',
-});
-
 export const CategoryLabels = Object.freeze({
   hcfa: 'Perímetro cefálico (cm) para la edad',
   lhfa: 'Talla (cm) para la edad',
   wfa: 'Peso (kg) para la edad',
   wflh: 'Peso (kg) para la Talla (cm)',
-});
-
-const CategoryToYUnitLabel = Object.freeze({
-  hcfa: unitCodes.cm,
-  lhfa: unitCodes.cm,
-  wfa: unitCodes.kg,
-  wflh: unitCodes.cm,
 });
 
 export const CategoryCodes = Object.freeze({
@@ -72,17 +59,6 @@ export const CategoryCodes = Object.freeze({
   wfa_g: 'wfa_g',
   wflh_b: 'wflh_b',
   wflh_g: 'wflh_g',
-});
-
-export const CategoryToYUnit = Object.freeze({
-  hcfa_b: CategoryToYUnitLabel.hcfa,
-  hcfa_g: CategoryToYUnitLabel.hcfa,
-  lhfa_b: CategoryToYUnitLabel.lhfa,
-  lhfa_g: CategoryToYUnitLabel.lhfa,
-  wfa_b: CategoryToYUnitLabel.wfa,
-  wfa_g: CategoryToYUnitLabel.wfa,
-  wflh_b: CategoryToYUnitLabel.wflh,
-  wflh_g: CategoryToYUnitLabel.wflh,
 });
 
 export enum DataSetLabels {
