@@ -1,7 +1,7 @@
 import React, { useMemo, useId, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Dropdown, Tab, TabListVertical, TabPanel, TabPanels, TabsVertical, TabList } from '@carbon/react';
+import { Tag, Tab, TabListVertical, TabPanel, TabPanels, TabsVertical } from '@carbon/react';
 import { LineChart } from '@carbon/charts-react';
 import { differenceInMonths, differenceInWeeks } from 'date-fns';
 import styles from './growth-chart.scss';
@@ -10,7 +10,7 @@ import { useChartLines } from './hooks/useChartLines';
 import { useMeasurementPlotting } from './hooks/useMeasurementPlotting';
 import { useChartDataForGender } from './hooks/useChartDataForGender';
 import { useAppropriateChartData } from './hooks/useAppropriateChartData';
-import { chartData as defaultChartData } from './data-sets/WhoStandardDataSets/ChartData';
+import { chartData } from './data-sets/WhoStandardDataSets/ChartData';
 import { MeasurementTypeCodes, type CategoryCodes, DataSetLabels, GenderCodes } from './types';
 
 const DEFAULT_METADATA = {
@@ -47,7 +47,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
   const { t } = useTranslation();
   const id = useId();
 
-  const { chartDataForGender } = useChartDataForGender(gender, defaultChartData);
+  const { chartDataForGender } = useChartDataForGender(gender, chartData);
   const categories = Object.keys(chartDataForGender);
   const [selectedCategory, setSelectedCategory] = useState<keyof typeof CategoryCodes>(categories[0] as any);
 
@@ -162,17 +162,13 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, dateOfBirth,
             ))}
           </TabListVertical>
         </TabsVertical>
-        <div className="cds--row cds--grid-row mt-4">
-          <Dropdown
-            id={`${id}-dataset`}
-            titleText=""
-            label={t('dataset', 'Dataset')}
-            items={datasetItems}
-            itemToString={(item) => item?.text || ''}
-            onChange={({ selectedItem }) => selectedItem && setSelectedDataset(selectedItem.id)}
-            size="sm"
-          />
-        </div>
+
+        <Tag type="gray">
+          {t('sex', 'Sexo')}: {gender === GenderCodes.CGC_Female ? t('female', 'Female') : t('male', 'Male')}
+        </Tag>
+        <Tag type="blue" className="ml-2">
+          {t('ageGroup', 'Grupo de Edad')}: {selectedDataset}
+        </Tag>
       </div>
 
       <div className={styles.clinicalDataChartArea}>
