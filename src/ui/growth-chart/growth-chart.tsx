@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Tag, Tab, TabListVertical, TabPanel, TabPanels, TabsVertical } from '@carbon/react';
+import { Button, Tag, Tab, TabListVertical, TabPanel, TabPanels, TabsVertical } from '@carbon/react';
 import { LineChart } from '@carbon/charts-react';
 import { differenceInMonths, differenceInWeeks } from 'date-fns';
 import styles from './growth-chart.scss';
@@ -51,6 +51,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, patientName,
 
   const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
   const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
+  const [isPercentiles, setIsPercentiles] = useState(true); // Nuevo estado para controlar el modo
 
   const { selectedDataset } = useAppropriateChartData(
     chartDataForGender,
@@ -65,7 +66,6 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, patientName,
     [chartDataForGender, selectedCategory.value, selectedDataset],
   );
   const datasetMetadata = dataSetEntry?.metadata ?? DEFAULT_METADATA;
-  const isPercentiles = true;
 
   const dataSetValues = useMemo(
     () => (isPercentiles ? (dataSetEntry?.percentileDatasetValues ?? []) : (dataSetEntry?.zScoreDatasetValues ?? [])),
@@ -169,6 +169,14 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurementData, patientName,
     <div className={styles.growthChartContainer}>
       <div className={styles.growthArea}>
         <div className={styles.growthLabel}>
+          <Button
+            size="sm"
+            kind="ghost"
+            onClick={() => setIsPercentiles(!isPercentiles)}
+            className={styles.toggleButton}
+          >
+            {isPercentiles ? 'Percentiles' : 'Z-Scores'}
+          </Button>
           <Tag type={gender === GenderCodes.CGC_Female ? 'magenta' : 'blue'}>
             {gender === GenderCodes.CGC_Female ? t('female', 'Femenino') : t('male', 'Masculino')}
           </Tag>
