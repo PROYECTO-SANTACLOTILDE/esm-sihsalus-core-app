@@ -11,7 +11,7 @@ interface PostnatalCareProps {
 const PostnatalCare: React.FC<PostnatalCareProps> = ({ patient, patientUuid }) => {
   const tabs: TabConfig[] = [
     {
-      labelKey: 'puerperioInmediato',
+      labelKey: 'immediatePostpartum',
       icon: Activity,
       slotName: 'postnatal-care-immediate-slot',
     },

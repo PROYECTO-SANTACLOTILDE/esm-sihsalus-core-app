@@ -61,12 +61,12 @@ import PrenatalCareChart from './maternal-and-child-health/components/prenatal-c
 import MaternalHistoryTable from './maternal-and-child-health/components/prenatal-care/maternalHistory.component';
 import CurrentPregnancyTable from './maternal-and-child-health/components/prenatal-care/currentPregnancy.component';
 
-import DeliberyOrAbortionTable from './maternal-and-child-health/components/labour-delivery/deliveryOrAbortion.component';
 import SummaryOfLaborAndPostpartumTable from './maternal-and-child-health/components/labour-delivery/summaryOfLaborAndPostpartum.component';
 import Partograph from './maternal-and-child-health/components/labour-delivery/partography/partograph.component';
+import DeliberyOrAbortionTable from './maternal-and-child-health/components/labour-delivery/deliveryOrAbortion.component';
 
-import ImmediatePostpartumTable from './maternal-and-child-health/components/postnatal-care/immediatePostpartumTable';
 import PostpartumControlTable from './maternal-and-child-health/components/postnatal-care/postpartumControl.component';
+import ImmediatePostpartumTable from './maternal-and-child-health/components/postnatal-care/immediatePostpartumTable';
 
 import NeonatalCare from './well-child-care/neonatal-care.component';
 import WellChildControl from './well-child-care/well-child-control.component';
@@ -202,8 +202,8 @@ export const prenatalCareChart = getSyncLifecycle(PrenatalCareChart, options);
 export const maternalHistoryTable = getSyncLifecycle(MaternalHistoryTable, options);
 export const currentPregnancyTable = getSyncLifecycle(CurrentPregnancyTable, options);
 
-export const deliberyOrAbortionTable = getSyncLifecycle(DeliberyOrAbortionTable, options);
 export const summaryOfLaborAndPostpartumTable = getSyncLifecycle(SummaryOfLaborAndPostpartumTable, options);
+export const deliberyOrAbortionTable = getSyncLifecycle(DeliberyOrAbortionTable, options);
 export const partograph = getSyncLifecycle(Partograph, options);
 
 export const immediatePostpartumTable = getSyncLifecycle(ImmediatePostpartumTable, options);

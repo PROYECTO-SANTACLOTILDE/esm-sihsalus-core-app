@@ -12,24 +12,14 @@ interface LabourDeliveryProps {
 const LabourDelivery: React.FC<LabourDeliveryProps> = ({ patient, patientUuid }) => {
   const tabs: TabConfig[] = [
     {
-      labelKey: 'deliveryOrAbortion',
-      icon: BabyIcon,
-      slotName: 'labour-delivery-delivery-abortion-slot',
-    },
-    {
       labelKey: 'summaryOfLaborAndPostpartum',
       icon: Report,
       slotName: 'labour-delivery-summary-slot',
     },
     {
-      labelKey: 'historiaClinicaObstetricaParto',
-      icon: Document,
-      slotName: 'labour-delivery-clinical-history-slot',
-    },
-    {
-      labelKey: 'evolucionYMonitorizacion',
-      icon: Activity,
-      slotName: 'labour-delivery-evolution-monitoring-slot',
+      labelKey: 'deliveryOrAbortion',
+      icon: BabyIcon,
+      slotName: 'labour-delivery-delivery-abortion-slot',
     },
     {
       labelKey: 'partograph',
