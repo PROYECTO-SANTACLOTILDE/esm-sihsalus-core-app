@@ -57,9 +57,9 @@ import {
   maternalAndChildHealthNavGroup,
 } from './maternal-and-child-health/dashboard.meta';
 
-import PrenatalCareChart from './maternal-and-child-health/tables/prenatalCareChart.component';
-import MaternalHistoryTable from './maternal-and-child-health/tables/maternalHistory.component';
-import CurrentPregnancyTable from './maternal-and-child-health/tables/currentPregnancy.component';
+import PrenatalCareChart from './maternal-and-child-health/components/prenatalCareChart.component';
+import MaternalHistoryTable from './maternal-and-child-health/components/maternalHistory.component';
+import CurrentPregnancyTable from './maternal-and-child-health/components/currentPregnancy.component';
 
 import NeonatalCare from './well-child-care/neonatal-care.component';
 import WellChildControl from './well-child-care/well-child-control.component';
