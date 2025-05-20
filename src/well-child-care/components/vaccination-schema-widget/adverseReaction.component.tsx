@@ -101,7 +101,7 @@ export const AdverseReactionForm: React.FC<AdverseReactionFormProps> = ({ patien
     <Tile className={styles.adverseReactionForm}>
       <h3 className={styles.formTitle}>{t('adverseReactionRecord', 'Registro de Reacciones Adversas a Vacunas')}</h3>
       <p className={styles.formSubtitle}>
-        {t('patient', 'Paciente')}: {patient?.name?.[0]?.given?.join(' ') || 'N/A'} {patient?.name?.[0]?.family || ''}
+        {t('patient', 'Paciente')}: {patient?.name?.[0]?.given?.join(' ') || '--'} {patient?.name?.[0]?.family || ''}
       </p>
 
       <Layer>

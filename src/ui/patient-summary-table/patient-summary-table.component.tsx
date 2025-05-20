@@ -100,13 +100,17 @@ const PatientSummaryTable = <T,>({
     if (!data || data.length === 0) return [];
 
     return data.flatMap((item, index) =>
-      rowConfig.map(({ id, label, dataKey, defaultValue = 'N/A' }) => {
+      rowConfig.map(({ id, label, dataKey, defaultValue = '--' }) => {
         const rawValue = item[dataKey as keyof T];
         let value: string;
 
         const isDateLike = (val: any): boolean => {
-          if (!val) return false;
+          if (!val || typeof val === 'number') return false;
           const strVal = String(val);
+
+          // Check if it matches common date patterns
+          const datePattern = /^\d{4}-\d{2}-\d{2}|^\d{2}\/\d{2}\/\d{4}/;
+          if (!datePattern.test(strVal)) return false;
 
           if (isOmrsDateStrict(strVal)) {
             return true;
@@ -114,7 +118,7 @@ const PatientSummaryTable = <T,>({
 
           try {
             const parsed = parseDate(strVal);
-            return !isNaN(parsed.getTime());
+            return !isNaN(parsed.getTime()) && parsed.getFullYear() > 1900;
           } catch (e) {
             return false;
           }

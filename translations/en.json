@@ -303,7 +303,7 @@
   "pesoCorporal": "Body Weight (kg)",
   "pesoMadre": "Maternal Weight (kg)",
   "PielYMucosas": "Skin and Mucosa",
-  "Plan de Parto (Control/Visita/No se hizo/NA)": "Birth Plan (Check-up/Visit/Not done/N/A)",
+  "Plan de Parto (Control/Visita/No se hizo/NA)": "Birth Plan (Check-up/Visit/Not done/--)",
   "planParto": "Birth Plan",
   "pnsAproach": "PNS Aproach",
   "populationType": "Population type",
