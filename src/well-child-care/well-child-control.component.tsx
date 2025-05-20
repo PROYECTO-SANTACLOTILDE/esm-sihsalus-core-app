@@ -1,25 +1,20 @@
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
 import { Friendship, ReminderMedical } from '@carbon/react/icons';
-import { usePatient, useVisit } from '@openmrs/esm-framework';
 import type { TabConfig } from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 import TabbedDashboard from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 
-const WellChildControl: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
-  const { t } = useTranslation();
-  const { currentVisit, isLoading: isVisitLoading } = useVisit(patientUuid);
-  const { patient, isLoading: isPatientLoading } = usePatient(patientUuid);
-  const pageSize = 10;
+interface WellChildControlProps {
+  patient: fhir.Patient;
+  patientUuid: string;
+}
 
-  // Memoize patient age in months
-  const patientAgeInMonths = useMemo(() => {
-    if (!patient?.birthDate) return null;
-    const birthDate = new Date(patient.birthDate);
-    const today = new Date();
-    return (today.getFullYear() - birthDate.getFullYear()) * 12 + (today.getMonth() - birthDate.getMonth());
-  }, [patient?.birthDate]);
-
+const WellChildControl: React.FC<WellChildControlProps> = ({ patient, patientUuid }) => {
   const tabs: TabConfig[] = [
+    {
+      labelKey: 'Seguimiento',
+      icon: Friendship,
+      slotName: 'cred-following-slot',
+    },
     {
       labelKey: 'Controles CRED',
       icon: Friendship,
@@ -37,22 +32,13 @@ const WellChildControl: React.FC<{ patientUuid: string }> = ({ patientUuid }) =>
     },
   ];
 
-  if (isVisitLoading || isPatientLoading) {
-    return (
-      <div>
-        <p>{t('loading', 'Cargando datos...')}</p>
-      </div>
-    );
-  }
-
   return (
     <TabbedDashboard
+      patient={patient}
       patientUuid={patientUuid}
       titleKey="postnatalCare"
       tabs={tabs}
       ariaLabelKey="wellChildCareTabs"
-      pageSize={pageSize}
-      state={{ patient, patientUuid, patientAgeInMonths, currentVisit }} // Pass additional state
     />
   );
 };

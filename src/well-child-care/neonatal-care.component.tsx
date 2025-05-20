@@ -3,7 +3,12 @@ import { Activity, CloudMonitoring, WatsonHealthCobbAngle, UserFollow, Stethosco
 import TabbedDashboard from '../ui/tabbed-dashboard/tabbed-dashboard.component'; // Default import
 import type { TabConfig } from '../ui/tabbed-dashboard/tabbed-dashboard.component'; // Named type import
 
-const NeonatalCare: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+interface NeonatalProps {
+  patient: fhir.Patient;
+  patientUuid: string;
+}
+
+const NeonatalCare: React.FC<NeonatalProps> = ({ patient, patientUuid }) => {
   const tabs: TabConfig[] = [
     {
       labelKey: 'Signos Vitales del Recién Nacido',
@@ -33,7 +38,13 @@ const NeonatalCare: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   ];
 
   return (
-    <TabbedDashboard patientUuid={patientUuid} titleKey="neonatalCare" tabs={tabs} ariaLabelKey="neonatalCareTabs" />
+    <TabbedDashboard
+      patient={patient}
+      patientUuid={patientUuid}
+      titleKey="neonatalCare"
+      tabs={tabs}
+      ariaLabelKey="neonatalCareTabs"
+    />
   );
 };
 

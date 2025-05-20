@@ -37,7 +37,7 @@ const LabourHistorySummary: React.FC<LabourHistorySummaryProps> = ({ patientUuid
   const { prenatalEncounter, error, isValidating, mutate } = useCurrentPregnancy(patientUuid);
 
   // Configuration for form launch
-  const formAntenatalUuid = config.formsList.deliveryOrAbortion;
+  const formPrenatalUuid = config.formsList.deliveryOrAbortion;
 
   // Table Headers
   const headers = useMemo(
@@ -106,7 +106,7 @@ const LabourHistorySummary: React.FC<LabourHistorySummaryProps> = ({ patientUuid
       patientUuid,
       mutateForm: mutate,
       formInfo: {
-        formUuid: formAntenatalUuid,
+        formUuid: formPrenatalUuid,
         patientUuid,
         additionalProps: {},
       },

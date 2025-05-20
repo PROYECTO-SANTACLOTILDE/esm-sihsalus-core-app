@@ -78,7 +78,7 @@ const HivScreeningEncounters: React.FC<HivScreeningEncounterProps> = ({ patientU
         header: t('actions', 'Actions'),
         getValue: (encounter) => [
           {
-            form: { name: 'Antenatal Form', package: 'maternal_health' },
+            form: { name: 'Prenatal Form', package: 'maternal_health' },
             encounterUuid: encounter.uuid,
             intent: '*',
             label: t('editForm', 'Edit Form'),

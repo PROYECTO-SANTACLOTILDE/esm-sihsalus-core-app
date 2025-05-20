@@ -46,7 +46,7 @@ export const formConceptMap = {
     answers: {
       '80586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'Yes',
       '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'No',
-      '1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'N/A',
+      '1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': '--',
     },
   },
   '1789AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': {
@@ -202,7 +202,7 @@ export const formConceptMap = {
     answers: {
       '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'Yes',
       '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'No',
-      '1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'N/A',
+      '1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': '--',
     },
   },
   '163783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': {
@@ -210,7 +210,7 @@ export const formConceptMap = {
     answers: {
       '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'Yes',
       '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'No',
-      '1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'N/A',
+      '1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': '--',
     },
   },
   '163145AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': {
@@ -218,7 +218,7 @@ export const formConceptMap = {
     answers: {
       '1537AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'Another Health Facility',
       '163488AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'Community Unit',
-      '1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'N/A',
+      '1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': '--',
     },
   },
   '164359AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': {
@@ -1198,7 +1198,7 @@ export const observationsMockData = [
       uuid: '1590AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
       name: {
         uuid: '1865BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
-        name: 'NUMBER OF ANTENATAL VISITS CURRENT PREGNANCY',
+        name: 'NUMBER OF PRENATAL VISITS CURRENT PREGNANCY',
       },
     },
     value: 12,
@@ -1761,7 +1761,7 @@ export const observationsMockData = [
           },
           datatype: {
             uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-            display: 'N/A',
+            display: '--',
             links: [
               {
                 rel: 'self',
@@ -2266,7 +2266,7 @@ export const observationsMockData = [
           },
           datatype: {
             uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-            display: 'N/A',
+            display: '--',
             links: [
               {
                 rel: 'self',
@@ -2759,7 +2759,7 @@ export const observationsMockData = [
           },
           datatype: {
             uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-            display: 'N/A',
+            display: '--',
             links: [
               {
                 rel: 'self',
@@ -3179,7 +3179,7 @@ export const observationsMockData = [
           },
           datatype: {
             uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-            display: 'N/A',
+            display: '--',
             links: [
               {
                 rel: 'self',
@@ -3422,7 +3422,7 @@ export const observationsMockData = [
           },
           datatype: {
             uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-            display: 'N/A',
+            display: '--',
             links: [
               {
                 rel: 'self',
@@ -3868,7 +3868,7 @@ export const observationsMockData = [
           },
           datatype: {
             uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-            display: 'N/A',
+            display: '--',
             links: [
               {
                 rel: 'self',
@@ -4288,7 +4288,7 @@ export const observationsMockData = [
           },
           datatype: {
             uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-            display: 'N/A',
+            display: '--',
             links: [
               {
                 rel: 'self',
@@ -5401,7 +5401,7 @@ export const mockTableRows = [
               },
               datatype: {
                 uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-                display: 'N/A',
+                display: '--',
                 links: [
                   {
                     rel: 'self',
@@ -7370,7 +7370,7 @@ export const mockEncounterData = {
                     },
                     datatype: {
                       uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-                      display: 'N/A',
+                      display: '--',
                       links: [
                         {
                           rel: 'self',
@@ -7790,7 +7790,7 @@ export const mockEncounterData = {
                     },
                     datatype: {
                       uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-                      display: 'N/A',
+                      display: '--',
                       links: [
                         {
                           rel: 'self',
@@ -8066,7 +8066,7 @@ export const mockEncounterData = {
                     },
                     datatype: {
                       uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-                      display: 'N/A',
+                      display: '--',
                       links: [
                         {
                           rel: 'self',
@@ -8309,7 +8309,7 @@ export const mockEncounterData = {
                     },
                     datatype: {
                       uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-                      display: 'N/A',
+                      display: '--',
                       links: [
                         {
                           rel: 'self',
@@ -8717,7 +8717,7 @@ export const mockEncounterData = {
                     },
                     datatype: {
                       uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-                      display: 'N/A',
+                      display: '--',
                       links: [
                         {
                           rel: 'self',
@@ -9137,7 +9137,7 @@ export const mockEncounterData = {
                     },
                     datatype: {
                       uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-                      display: 'N/A',
+                      display: '--',
                       links: [
                         {
                           rel: 'self',
@@ -9727,7 +9727,7 @@ export const mockEncounterData = {
                     },
                     datatype: {
                       uuid: '8d4a4c94-c2cc-11de-8d13-0010c6dffd0f',
-                      display: 'N/A',
+                      display: '--',
                       links: [
                         {
                           rel: 'self',
@@ -10479,7 +10479,7 @@ export const mockEncounterData = {
                 uuid: '1590AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
                 name: {
                   uuid: '1865BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
-                  name: 'NUMBER OF ANTENATAL VISITS CURRENT PREGNANCY',
+                  name: 'NUMBER OF PRENATAL VISITS CURRENT PREGNANCY',
                 },
               },
               value: 9,

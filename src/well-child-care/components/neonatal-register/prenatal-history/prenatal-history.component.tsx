@@ -60,27 +60,27 @@ const PrenatalAntecedents: React.FC<NeonatalSummaryProps> = ({ patientUuid }) =>
       {
         id: 'gravidez',
         label: t('gravidez', 'Gravidez'),
-        value: lastAntecedent.gravidez || 'N/A',
+        value: lastAntecedent.gravidez || '--',
       },
       {
         id: 'partoAlTermino',
         label: t('partoAlTermino', 'Partos a término'),
-        value: lastAntecedent.partoAlTermino || 'N/A',
+        value: lastAntecedent.partoAlTermino || '--',
       },
       {
         id: 'partoPrematuro',
         label: t('partoPrematuro', 'Partos prematuros'),
-        value: lastAntecedent.partoPrematuro || 'N/A',
+        value: lastAntecedent.partoPrematuro || '--',
       },
       {
         id: 'partoAborto',
         label: t('partoAborto', 'Abortos'),
-        value: lastAntecedent.partoAborto || 'N/A',
+        value: lastAntecedent.partoAborto || '--',
       },
       {
         id: 'partoNacidoVivo',
         label: t('partoNacidoVivo', 'Nacidos vivos'),
-        value: lastAntecedent.partoNacidoVivo || 'N/A',
+        value: lastAntecedent.partoNacidoVivo || '--',
       },
     ];
   }, [formattedObs, t]);

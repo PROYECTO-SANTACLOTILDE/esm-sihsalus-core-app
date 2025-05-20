@@ -73,8 +73,8 @@ const NeonatalAttention: React.FC<ImmediateNewbornAttentionProps> = ({ patientUu
       dataKey: '517afc20-481d-4cdf-ba88-5641418aa762',
     },
     {
-      id: 'newbornEvaluations',
-      label: t('newbornEvaluations', 'Evaluaciones del Recién Nacido'),
+      id: 'newbornEvaluation',
+      label: t('newbornEvaluation', 'Evaluación del Recién Nacido'),
       dataKey: 'ebe4e1c4-7f4f-4779-a8b3-8b2e5a5cc9b6',
     },
     { id: 'cordClamping', label: t('cordClamping', 'Clampado'), dataKey: 'b7f5376f-b025-4da5-80e2-bb20065a1b30' },

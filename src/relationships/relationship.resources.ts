@@ -70,7 +70,7 @@ export const relationshipFormSchema = z.object({
   personA: z.string().uuid('Invalid person'),
   personB: z.string().uuid('Invalid person').optional(),
   relationshipType: z.string().uuid(),
-  startDate: z.date({ coerce: true }),
+  startDate: z.date({ coerce: true }).optional().default(new Date()),
   endDate: z.date({ coerce: true }).optional(),
   mode: z.enum(['create', 'search']).default('search'),
   personBInfo: z

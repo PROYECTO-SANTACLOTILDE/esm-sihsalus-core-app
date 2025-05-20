@@ -14,7 +14,14 @@ import {
   TableCell,
 } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
-import { CardHeader, EmptyState, ErrorState, PatientChartPagination } from '@openmrs/esm-patient-common-lib';
+import {
+  CardHeader,
+  EmptyState,
+  ErrorState,
+  useVisitOrOfflineVisit,
+  launchStartVisitPrompt,
+  PatientChartPagination,
+} from '@openmrs/esm-patient-common-lib';
 import {
   launchWorkspace,
   useLayoutType,
@@ -68,33 +75,42 @@ const PatientSummaryTable = <T,>({
   const { t } = useTranslation();
   const isTablet = useLayoutType() === 'tablet';
   const { data, isLoading, error, mutate } = dataHook(patientUuid);
+  const { currentVisit } = useVisitOrOfflineVisit(patientUuid);
 
   const launchForm = useCallback(() => {
     try {
-      if (formWorkspace && typeof launchWorkspace === 'function') {
-        launchWorkspace(formWorkspace, { patientUuid });
-      } else if (onFormLaunch) {
-        onFormLaunch(patientUuid);
-      }
-      if (mutate) {
-        setTimeout(() => mutate(), 1000);
+      if (!currentVisit) {
+        launchStartVisitPrompt();
+      } else {
+        if (formWorkspace && typeof launchWorkspace === 'function') {
+          launchWorkspace(formWorkspace, { patientUuid });
+        } else if (onFormLaunch) {
+          onFormLaunch(patientUuid);
+        }
+        if (mutate) {
+          setTimeout(() => mutate(), 1000);
+        }
       }
     } catch (err) {
       console.error('Failed to launch form:', err);
     }
-  }, [patientUuid, formWorkspace, onFormLaunch, mutate]);
+  }, [patientUuid, currentVisit, formWorkspace, onFormLaunch, mutate]);
 
   const tableRows = useMemo(() => {
     if (!data || data.length === 0) return [];
 
     return data.flatMap((item, index) =>
-      rowConfig.map(({ id, label, dataKey, defaultValue = 'N/A' }) => {
+      rowConfig.map(({ id, label, dataKey, defaultValue = '--' }) => {
         const rawValue = item[dataKey as keyof T];
         let value: string;
 
         const isDateLike = (val: any): boolean => {
-          if (!val) return false;
+          if (!val || typeof val === 'number') return false;
           const strVal = String(val);
+
+          // Check if it matches common date patterns
+          const datePattern = /^\d{4}-\d{2}-\d{2}|^\d{2}\/\d{2}\/\d{4}/;
+          if (!datePattern.test(strVal)) return false;
 
           if (isOmrsDateStrict(strVal)) {
             return true;
@@ -102,7 +118,7 @@ const PatientSummaryTable = <T,>({
 
           try {
             const parsed = parseDate(strVal);
-            return !isNaN(parsed.getTime());
+            return !isNaN(parsed.getTime()) && parsed.getFullYear() > 1900;
           } catch (e) {
             return false;
           }
@@ -155,9 +171,9 @@ const PatientSummaryTable = <T,>({
               kind="ghost"
               renderIcon={(props) => <Add size={16} {...props} />}
               onClick={launchForm}
-              aria-label={t('update')}
+              aria-label={t('add')}
             >
-              {t('update')}
+              {t('add')}
             </Button>
           )}
         </CardHeader>

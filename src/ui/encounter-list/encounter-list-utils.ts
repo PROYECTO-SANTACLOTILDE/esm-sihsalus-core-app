@@ -1,5 +1,4 @@
 import { formatDate, parseDate } from '@openmrs/esm-framework';
-import { ancConceptMap } from '../../maternal-and-child-health/concept-maps/antenatal-care-concepts-map';
 
 export function getEncounterValues(encounter, param: string, isDate?: boolean) {
   if (isDate) {
