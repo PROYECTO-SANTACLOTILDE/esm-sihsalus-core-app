@@ -133,6 +133,21 @@
       "slot": "clinical-view-section"
     },
     {
+      "name": "prenatal-care-dashboard",
+      "slot": "patient-chart-prenatal-care-dashboard-slot",
+      "component": "prenatalCare"
+    },
+    {
+      "name": "labour-and-delivery-dashboard",
+      "slot": "patient-chart-labour-and-delivery-dashboard-slot",
+      "component": "labourAndDelivery"
+    },
+    {
+      "name": "postnatal-care-dashboard",
+      "slot": "patient-chart-postnatal-care-dashboard-slot",
+      "component": "postnatalCare"
+    },
+    {
       "name": "prenatal-care-dashboard-link",
       "component": "prenatalCareLink",
       "slot": "maternal-and-child-health-slot",
@@ -145,9 +160,28 @@
       }
     },
     {
-      "name": "prenatal-care-dashboard",
-      "slot": "patient-chart-prenatal-care-dashboard-slot",
-      "component": "prenatalCare"
+      "name": "labour-and-delivery-dashboard-link",
+      "component": "labourAndDeliveryLink",
+      "slot": "maternal-and-child-health-slot",
+      "meta": {
+        "columns": 1,
+        "columnSpan": 1,
+        "slot": "patient-chart-labour-and-delivery-dashboard-slot",
+        "path": "labour-and-delivery-dashboard",
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "postnatal-care-dashboard-link",
+      "component": "postnatalCareLink",
+      "slot": "maternal-and-child-health-slot",
+      "meta": {
+        "columns": 1,
+        "columnSpan": 1,
+        "slot": "patient-chart-postnatal-care-dashboard-slot",
+        "path": "postnatal-care-dashboard",
+        "layoutMode": "anchored"
+      }
     },
     {
       "name": "maternal-history-chart",
@@ -177,99 +211,67 @@
       }
     },
     {
-      "name": "labour-and-delivery-dashboard-link",
-      "component": "labourAndDeliveryLink",
-      "slot": "maternal-and-child-health-slot",
-      "meta": {
-        "columns": 1,
-        "columnSpan": 1,
-        "slot": "patient-chart-labour-and-delivery-dashboard-slot",
-        "path": "labour-and-delivery-dashboard",
-        "layoutMode": "anchored"
-      }
-    },
-    {
-      "name": "labour-and-delivery-dashboard",
-      "slot": "patient-chart-labour-and-delivery-dashboard-slot",
-      "component": "labourAndDelivery"
-    },
-    {
-      "name": "clinical-history-obstetric-delivery-chart",
-      "component": "clinicalHistoryObstetricDeliveryTable",
-      "slot": "labour-delivery-clinical-history-slot",
-      "order": 1,
-      "meta": {
-        "columns": 1,
-        "columnSpan": 1,
-        "slot": "patient-chart-clinical-encounter-slot",
-        "path": "clinical-encounter",
-        "layoutMode": "anchored"
-      }
-    },
-    {
-      "name": "delivery-or-abortion-chart",
-      "component": "deliveryOrAbortionTable",
+      "name": "deliveryOrAbortion-chart",
+      "component": "maternalHistoryTable",
       "slot": "labour-delivery-delivery-abortion-slot",
       "order": 1,
       "meta": {
-        "columns": 1,
-        "columnSpan": 1,
-        "slot": "patient-chart-relationships-slot",
-        "path": "relationships",
-        "layoutMode": "anchored"
+        "fullWidth": true
       }
     },
     {
-      "name": "summary-of-labor-and-postpartum-chart",
-      "component": "summaryOfLaborAndPostpartumTable",
+      "name": "summaryOfLaborAndPostpartum-chart",
+      "component": "currentPregnancyTable",
       "slot": "labour-delivery-summary-slot",
       "order": 1,
       "meta": {
-        "columns": 1,
-        "columnSpan": 1,
-        "slot": "labour-delivery-summary-slot",
-        "path": "labour-delivery-summary",
-        "layoutMode": "anchored"
+        "fullWidth": true
       }
     },
     {
-      "name": "evolution-and-monitoring-chart",
-      "component": "evolutionAndMonitoringTable",
+      "name": "historiaClinicaObstetricaParto-chart",
+      "component": "prenatalCareChart",
+      "slot": "labour-delivery-clinical-history-slot",
+      "order": 1,
+      "meta": {
+        "fullWidth": true
+      }
+    },
+    {
+      "name": "evolucionYMonitorizacion-chart",
+      "component": "currentPregnancyTable",
       "slot": "labour-delivery-evolution-monitoring-slot",
       "order": 1,
       "meta": {
-        "columns": 1,
-        "columnSpan": 1,
-        "slot": "patient-chart-case-encounter-slot",
-        "path": "case-management-encounters",
-        "layoutMode": "anchored"
+        "fullWidth": true
       }
     },
     {
       "name": "partograph-chart",
-      "component": "partographChart",
+      "component": "prenatalCareChart",
       "slot": "labour-delivery-partograph-slot",
+      "order": 1,
+      "meta": {
+        "fullWidth": true
+      }
+    },
+    {
+      "name": "puerperioInmediato-chart",
+      "component": "",
+      "slot": "postnatal-care-immediate-slot",
+      "order": 1,
+      "meta": {
+        "fullWidth": true
+      }
+    },
+    {
+      "name": "postnatalControls-chart",
+      "component": "",
+      "slot": "postnatal-care-controls-slot",
       "order": 1,
       "meta": {
         "fullWidth": false
       }
-    },
-    {
-      "name": "postnatal-care-dashboard-link",
-      "component": "postnatalCareLink",
-      "slot": "maternal-and-child-health-slot",
-      "meta": {
-        "columns": 1,
-        "columnSpan": 1,
-        "slot": "patient-chart-postnatal-care-dashboard-slot",
-        "path": "postnatal-care-dashboard",
-        "layoutMode": "anchored"
-      }
-    },
-    {
-      "name": "postnatal-care-dashboard",
-      "slot": "patient-chart-postnatal-care-dashboard-slot",
-      "component": "postnatalCare"
     },
     {
       "name": "well-child-care-dashboard-group-link",

@@ -15,7 +15,7 @@ import {
 } from '@carbon/react';
 import { launchPatientWorkspace, CardHeader, EmptyState } from '@openmrs/esm-patient-common-lib';
 import { useConfig, useLayoutType } from '@openmrs/esm-framework';
-import styles from './prenatalCareChart.scss';
+import styles from './postnatalCareChart.scss';
 import dayjs from 'dayjs';
 import { useInmmediatePostpartumPeriod } from '../../../hooks/useInmmediatePostpartum';
 import type { ConfigObject } from '../../../config-schema';

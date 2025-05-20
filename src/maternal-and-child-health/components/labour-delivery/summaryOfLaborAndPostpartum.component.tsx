@@ -15,7 +15,7 @@ import {
 } from '@carbon/react';
 import { launchPatientWorkspace, CardHeader, EmptyState } from '@openmrs/esm-patient-common-lib';
 import { useConfig, useLayoutType } from '@openmrs/esm-framework';
-import styles from './prenatalCareChart.scss';
+import styles from './labour-delivery.scss';
 import dayjs from 'dayjs';
 import { InlineNotification } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
