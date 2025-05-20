@@ -23,7 +23,7 @@ const PrenatalCare: React.FC<PrenatalCareProps> = ({ patient, patientUuid }) => 
     {
       labelKey: 'prenatalCareChart',
       icon: ChartLineData,
-      slotName: 'prenatal-prenatal-care-chart-slot',
+      slotName: 'prenatal-care-chart-slot',
     },
   ];
 

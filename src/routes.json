@@ -490,7 +490,7 @@
     {
       "name": "prenatal-care-chart",
       "component": "prenatalCareChart",
-      "slot": "prenatal-prenatal-care-chart-slot",
+      "slot": "prenatal-care-chart-slot",
       "order": 1,
       "meta": {
         "fullWidth": true
