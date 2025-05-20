@@ -55,7 +55,7 @@ import {
   labourAndDeliveryDashboardMeta,
   postnatalDashboardMeta,
   maternalAndChildHealthNavGroup,
-} from './maternal-and-child-health/mch-dashboard.meta';
+} from './maternal-and-child-health/dashboard.meta';
 
 import PrenatalCareChart from './maternal-and-child-health/tables/prenatalCareChart.component';
 import MaternalHistoryTable from './maternal-and-child-health/tables/maternalHistory.component';

@@ -1,27 +1,27 @@
 export const antenatalDashboardMeta = {
   icon: 'omrs-icon-baby',
   slot: 'patient-chart-antenatal-dashboard-slot',
-  columns: 1,
   title: 'Cuidados Prenatales',
   path: 'antenatal-care-dashboard',
+  moduleName: '@pucp-gidis-hiisc/esm-sihsalus-app',
   config: {},
 };
 
 export const labourAndDeliveryDashboardMeta = {
   icon: 'omrs-icon-hospital-bed',
   slot: 'patient-chart-labour-and-delivery-dashboard-slot',
-  columns: 1,
   title: 'Atención del Parto',
   path: 'labour-and-delivery-dashboard',
+  moduleName: '@pucp-gidis-hiisc/esm-sihsalus-app',
   config: {},
 };
 
 export const postnatalDashboardMeta = {
   icon: 'omrs-icon-mother',
   slot: 'patient-chart-postnatal-dashboard-slot',
-  columns: 1,
   title: 'Puerperio',
   path: 'postnatal-care-dashboard',
+  moduleName: '@pucp-gidis-hiisc/esm-sihsalus-app',
   config: {},
 };
 
