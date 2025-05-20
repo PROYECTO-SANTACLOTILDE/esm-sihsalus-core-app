@@ -1,77 +1,40 @@
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Tabs, Tab, TabList, TabPanel, TabPanels, Layer, Tile } from '@carbon/react';
-import { useConfig, ExtensionSlot } from '@openmrs/esm-framework';
-import styles from './maternal-health-component.scss';
+import React from 'react';
+import { UserFollow, Task, ChartLineData } from '@carbon/react/icons';
+import TabbedDashboard from '../ui/tabbed-dashboard/tabbed-dashboard.component';
+import type { TabConfig } from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 
 interface AntenatalCareProps {
+  patient: fhir.Patient;
   patientUuid: string;
 }
 
-const AntenatalCare: React.FC<AntenatalCareProps> = ({ patientUuid }) => {
-  const { t } = useTranslation();
-  const headerTitle = t('antenatalCare', 'Prenatal Care');
-  const {
-    encounterTypes: { prenatalControl },
-    formsList: { antenatal },
-  } = useConfig();
-
-  const pageSize = 10;
-
-  const tabPanels = useMemo(
-    () => [
-      {
-        label: t('Antecedentes', 'Antecedentes'),
-        slotName: 'maternal-history-slot',
-      },
-      {
-        label: t('embarazoActual', 'Embarazo Actual'),
-        slotName: 'current-pregnancy-slot',
-      },
-      {
-        label: t('AtencionesPrenatales', 'Atenciones Prenatales'),
-        slotName: 'prenatal-care-chart-slot',
-      },
-      /*{
-        label: t('CronogramaPrenatal', 'Cronograma Prenatal'),
-        slotName: <PatientAppointmentsBase patientUuid={patientUuid} />,
-      },
-      {
-        label: t('GraficasObstétricas', 'Graficas Obstétricas'),
-        slotName: <div>Graficas Obstétricas Content</div>,
-      },*/
-    ],
-    [t],
-  );
+const AntenatalCare: React.FC<AntenatalCareProps> = ({ patient, patientUuid }) => {
+  const tabs: TabConfig[] = [
+    {
+      labelKey: 'maternalHistory',
+      icon: UserFollow,
+      slotName: 'antenatal-maternal-history-slot',
+    },
+    {
+      labelKey: 'currentPregnancy',
+      icon: Task,
+      slotName: 'antenatal-current-pregnancy-slot',
+    },
+    {
+      labelKey: 'prenatalCareChart',
+      icon: ChartLineData,
+      slotName: 'antenatal-prenatal-care-chart-slot',
+    },
+  ];
 
   return (
-    <div className={styles.referralsList} data-testid="referralsList-list">
-      <Layer>
-        <Tile>
-          <div className={styles.desktopHeading}>
-            <h4>{headerTitle}</h4>
-          </div>
-        </Tile>
-      </Layer>
-
-      <Layer>
-        <Tabs selected={0}>
-          <TabList aria-label="Content Switcher as Tabs">
-            {tabPanels.map((tab, index) => (
-              <Tab key={index}>{tab.label}</Tab>
-            ))}
-          </TabList>
-
-          <TabPanels>
-            {tabPanels.map((tab, index) => (
-              <TabPanel key={index}>
-                <ExtensionSlot name={tab.slotName} state={{ patientUuid, pageSize }} className={styles.extensionSlot} />
-              </TabPanel>
-            ))}
-          </TabPanels>
-        </Tabs>
-      </Layer>
-    </div>
+    <TabbedDashboard
+      patient={patient}
+      patientUuid={patientUuid}
+      titleKey="antenatalCare"
+      tabs={tabs}
+      ariaLabelKey="antenatalCareTabs"
+    />
   );
 };
 

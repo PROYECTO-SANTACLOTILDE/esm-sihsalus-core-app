@@ -127,10 +127,10 @@
       "offline": false
     },
     {
-      "name": "relationships-link",
-      "component": "relationshipsLink",
-      "slot": "patient-chart-dashboard-slot",
-      "order": 15,
+      "name": "delivery-or-abortion-chart",
+      "component": "deliveryOrAbortionTable",
+      "slot": "labour-delivery-delivery-abortion-slot",
+      "order": 1,
       "meta": {
         "columns": 1,
         "columnSpan": 1,
@@ -140,10 +140,10 @@
       }
     },
     {
-      "name": "procedures-link",
-      "component": "proceduresLink",
-      "slot": "patient-chart-dashboard-slot",
-      "order": 14,
+      "name": "summary-of-labor-and-postpartum-chart",
+      "component": "summaryOfLaborAndPostpartumTable",
+      "slot": "labour-delivery-summary-slot",
+      "order": 1,
       "meta": {
         "columns": 1,
         "columnSpan": 1,
@@ -278,10 +278,10 @@
       "offline": false
     },
     {
-      "name": "clinical-encounter-link",
-      "component": "inPatientClinicalEncounterLink",
-      "slot": "clinical-view-section",
-      "order": 40,
+      "name": "clinical-history-obstetric-delivery-chart",
+      "component": "clinicalHistoryObstetricDeliveryTable",
+      "slot": "labour-delivery-clinical-history-slot",
+      "order": 1,
       "meta": {
         "columns": 1,
         "columnSpan": 1,
@@ -318,10 +318,10 @@
       "offline": false
     },
     {
-      "name": "case-encounter-link",
-      "component": "caseEncounterDashboardLink",
-      "slot": "patient-chart-dashboard-slot",
-      "order": 14,
+      "name": "evolution-and-monitoring-chart",
+      "component": "evolutionAndMonitoringTable",
+      "slot": "labour-delivery-evolution-monitoring-slot",
+      "order": 1,
       "meta": {
         "columns": 1,
         "columnSpan": 1,
@@ -339,9 +339,9 @@
       "offline": false
     },
     {
-      "name": "neonatal-evaluation-chart",
-      "component": "neonatalEvaluationChart",
-      "slot": "neonatal-evaluation-slot",
+      "name": "partograph-chart",
+      "component": "partographChart",
+      "slot": "labour-delivery-partograph-slot",
       "order": 1,
       "meta": {
         "fullWidth": false
@@ -472,7 +472,7 @@
     {
       "name": "maternal-history-chart",
       "component": "maternalHistoryTable",
-      "slot": "maternal-history-slot",
+      "slot": "antenatal-maternal-history-slot",
       "order": 1,
       "meta": {
         "fullWidth": true
@@ -481,7 +481,7 @@
     {
       "name": "current-pregnancy-chart",
       "component": "currentPregnancyTable",
-      "slot": "current-pregnancy-slot",
+      "slot": "antenatal-current-pregnancy-slot",
       "order": 1,
       "meta": {
         "fullWidth": true
@@ -490,7 +490,7 @@
     {
       "name": "prenatal-care-chart",
       "component": "prenatalCareChart",
-      "slot": "prenatal-care-chart-slot",
+      "slot": "antenatal-prenatal-care-chart-slot",
       "order": 1,
       "meta": {
         "fullWidth": true

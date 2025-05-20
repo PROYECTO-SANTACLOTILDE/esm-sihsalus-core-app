@@ -1,68 +1,52 @@
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Tabs, Tab, TabList, TabPanel, TabPanels, Layer, Tile } from '@carbon/react';
-import { useConfig, ExtensionSlot } from '@openmrs/esm-framework';
-import styles from './maternal-health-component.scss';
+import React from 'react';
+import { Report, Document, Activity, ChartMultitype } from '@carbon/react/icons';
+import { BabyIcon } from '@openmrs/esm-framework';
+import TabbedDashboard from '../ui/tabbed-dashboard/tabbed-dashboard.component';
+import type { TabConfig } from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 
-import Partograph from './partography/partograph.component';
-import DeliberyOrAbortionTable from './tables/deliveryOrAbortion.component';
-import SummaryOfLaborAndPostpartum from './tables/summaryOfLaborAndPostpartum.component';
-
-interface LabourDeliveryProps {
+interface LabourDeliveryCareProps {
+  patient: fhir.Patient;
   patientUuid: string;
 }
 
-const LabourDelivery: React.FC<LabourDeliveryProps> = ({ patientUuid }) => {
-  const { t } = useTranslation();
-  const headerTitle = t('antenatalCare', 'Prenatal Care');
-  const {
-    encounterTypes: { prenatalControl },
-    formsList: { antenatal },
-  } = useConfig();
-
-  const pageSize = 10;
-
-  const tabPanels = [
+const LabourDeliveryCare: React.FC<LabourDeliveryCareProps> = ({ patient, patientUuid }) => {
+  const tabs: TabConfig[] = [
     {
-      name: t('parto', 'Parto'),
-      component: <DeliberyOrAbortionTable patientUuid={patientUuid} />,
+      labelKey: 'deliveryOrAbortion',
+      icon: BabyIcon,
+      slotName: 'labour-delivery-delivery-abortion-slot',
     },
     {
-      name: t('historiaClinicaObstetricaParto', 'Historia Clínica Obstétrica de Parto'),
-      //component: <PostpartumControlTable patientUuid={patientUuid} />,
-    },
-
-    {
-      name: t('evolucionYMonitorizacion', 'Evolución Y Monitorización'),
-      //component: <PostpartumControlTable patientUuid={patientUuid} />,
+      labelKey: 'summaryOfLaborAndPostpartum',
+      icon: Report,
+      slotName: 'labour-delivery-summary-slot',
     },
     {
-      name: t('resumenPartoPostparto', 'Resumen de Parto y Postparto'),
-      component: <SummaryOfLaborAndPostpartum patientUuid={patientUuid} />,
+      labelKey: 'historiaClinicaObstetricaParto',
+      icon: Document,
+      slotName: 'labour-delivery-clinical-history-slot',
+    },
+    {
+      labelKey: 'evolucionYMonitorizacion',
+      icon: Activity,
+      slotName: 'labour-delivery-evolution-monitoring-slot',
+    },
+    {
+      labelKey: 'partograph',
+      icon: ChartMultitype,
+      slotName: 'labour-delivery-partograph-slot',
     },
   ];
 
   return (
-    <div className={styles.referralsList} data-testid="referralsList-list">
-      <Tabs selected={0} role="navigation">
-        <div className={styles.tabsContainer}>
-          <TabList aria-label="Content Switcher as Tabs" contained>
-            {tabPanels.map((tab, index) => (
-              <Tab key={index}>{tab.name}</Tab>
-            ))}
-          </TabList>
-        </div>
-
-        <TabPanels>
-          {tabPanels.map((tab, index) => (
-            <TabPanel key={index}>
-              <Layer>{tab.component}</Layer>
-            </TabPanel>
-          ))}
-        </TabPanels>
-      </Tabs>
-    </div>
+    <TabbedDashboard
+      patient={patient}
+      patientUuid={patientUuid}
+      titleKey="labourAndDelivery"
+      tabs={tabs}
+      ariaLabelKey="labourAndDeliveryTabs"
+    />
   );
 };
 
-export default LabourDelivery;
+export default LabourDeliveryCare;
