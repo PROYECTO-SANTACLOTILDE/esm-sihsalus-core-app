@@ -1198,7 +1198,7 @@ export const observationsMockData = [
       uuid: '1590AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
       name: {
         uuid: '1865BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
-        name: 'NUMBER OF ANTENATAL VISITS CURRENT PREGNANCY',
+        name: 'NUMBER OF PRENATAL VISITS CURRENT PREGNANCY',
       },
     },
     value: 12,
@@ -10479,7 +10479,7 @@ export const mockEncounterData = {
                 uuid: '1590AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
                 name: {
                   uuid: '1865BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
-                  name: 'NUMBER OF ANTENATAL VISITS CURRENT PREGNANCY',
+                  name: 'NUMBER OF PRENATAL VISITS CURRENT PREGNANCY',
                 },
               },
               value: 9,
