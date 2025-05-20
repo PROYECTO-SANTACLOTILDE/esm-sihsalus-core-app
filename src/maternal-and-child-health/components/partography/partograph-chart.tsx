@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Tab, Tabs, TabList } from '@carbon/react';
 import styles from './partograph-chart.scss';
 import { LineChart } from '@carbon/charts-react';
-import type { PartograpyComponents } from '../../config-schema';
+import type { PartograpyComponents } from '../../../config-schema';
 
 enum ScaleTypes {
   TIME = 'time',
