@@ -212,7 +212,7 @@
     },
     {
       "name": "deliveryOrAbortion-chart",
-      "component": "maternalHistoryTable",
+      "component": "deliberyOrAbortionTable",
       "slot": "labour-delivery-delivery-abortion-slot",
       "order": 1,
       "meta": {
@@ -221,7 +221,7 @@
     },
     {
       "name": "summaryOfLaborAndPostpartum-chart",
-      "component": "currentPregnancyTable",
+      "component": "summaryOfLaborAndPostpartumTable",
       "slot": "labour-delivery-summary-slot",
       "order": 1,
       "meta": {
@@ -230,7 +230,7 @@
     },
     {
       "name": "historiaClinicaObstetricaParto-chart",
-      "component": "prenatalCareChart",
+      "component": "",
       "slot": "labour-delivery-clinical-history-slot",
       "order": 1,
       "meta": {
@@ -239,7 +239,7 @@
     },
     {
       "name": "evolucionYMonitorizacion-chart",
-      "component": "currentPregnancyTable",
+      "component": "",
       "slot": "labour-delivery-evolution-monitoring-slot",
       "order": 1,
       "meta": {
@@ -248,7 +248,7 @@
     },
     {
       "name": "partograph-chart",
-      "component": "prenatalCareChart",
+      "component": "partograph",
       "slot": "labour-delivery-partograph-slot",
       "order": 1,
       "meta": {
@@ -257,7 +257,7 @@
     },
     {
       "name": "puerperioInmediato-chart",
-      "component": "",
+      "component": "immediatePostpartumTable",
       "slot": "postnatal-care-immediate-slot",
       "order": 1,
       "meta": {
@@ -266,7 +266,7 @@
     },
     {
       "name": "postnatalControls-chart",
-      "component": "",
+      "component": "postpartumControlTable",
       "slot": "postnatal-care-controls-slot",
       "order": 1,
       "meta": {
