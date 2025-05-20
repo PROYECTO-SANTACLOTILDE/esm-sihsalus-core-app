@@ -17,28 +17,27 @@ import { launchPatientWorkspace, CardHeader, EmptyState } from '@openmrs/esm-pat
 import { useConfig, useLayoutType } from '@openmrs/esm-framework';
 import styles from './prenatalCareChart.scss';
 import dayjs from 'dayjs';
-import { usePostpartumControlTable } from '../../hooks/usePostpartumControl';
-import type { ConfigObject } from '../../config-schema';
+import { useInmmediatePostpartumPeriod } from '../../../hooks/useInmmediatePostpartum';
+import type { ConfigObject } from '../../../config-schema';
 
 interface ProgramsDetailedSummaryProps {
   patientUuid: string;
 }
-
 interface RowData {
   id: string;
   rowHeader: string;
   [key: string]: any; // For dynamic column keys like atencion1, atencion2, etc.
 }
 
-const PostpartumControlTable: React.FC<ProgramsDetailedSummaryProps> = ({ patientUuid }) => {
+const InmmediatePostpartumPeriodTable: React.FC<ProgramsDetailedSummaryProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const layout = useLayoutType();
   const isTablet = layout === 'tablet';
-  const headerTitle = t('controlPuerperio', 'Control Puerperio');
+  const headerTitle = t('puerperioInmediato', 'Puerperio Inmediato');
   const config = useConfig() as ConfigObject;
-  const { prenatalEncounters, error, isValidating, mutate } = usePostpartumControlTable(patientUuid);
+  const { prenatalEncounters, error, isValidating, mutate } = useInmmediatePostpartumPeriod(patientUuid);
 
-  const formPrenatalUuid = config.formsList.postpartumControl;
+  const formPrenatalUuid = config.formsList.immediatePostpartumPeriod;
 
   const handleAddPrenatalAttention = () => {
     launchPatientWorkspace('patient-form-entry-workspace', {
@@ -57,38 +56,36 @@ const PostpartumControlTable: React.FC<ProgramsDetailedSummaryProps> = ({ patien
       { id: 'fecha', rowHeader: t('fechaYHoraAtencion', 'Fecha y hora atención'), prefix: 'encounterDatetime' },
       {
         id: 'temperatura',
-        rowHeader: t('EstadoAdministraciónVitaminaA', 'Estado de administración de vitamina A'),
-        prefix: 'Estado de administración de vitamina A',
+        rowHeader: t('temperatura', 'Temperatura (C°)'),
+        prefix: 'Temperatura (C°)',
       },
       {
-        id: 'PlanDeParto',
-        rowHeader: t('Plan de Parto (Control/Visita/No se hizo/NA)', 'Plan de Parto (Control/Visita/No se hizo/NA)'),
+        id: 'frecuenciaCardíaca',
+        rowHeader: t('frecuenciaCardíaca', 'Frecuencia Cardíaca'),
         prefix: 'Frecuencia Cardíaca',
       },
-      { id: 'Talla', rowHeader: t('Talla', 'Talla (cm)'), prefix: 'Talla (cm)' },
-      { id: 'pesoCorporal', rowHeader: t('pesoCorporal', 'Peso Corporal (kg)'), prefix: 'Peso Corporal (kg)' },
-      { id: 'Diagnóstico', rowHeader: t('Diagnóstico', 'Diagnóstico'), prefix: 'Diagnóstico' },
+      { id: 'presiónSistólica', rowHeader: t('presionSistolica', 'Presión sistólica'), prefix: 'Presión sistólica' },
       {
-        id: 'SignosYsíntomasPrincipales',
-        rowHeader: t('SignosYsíntomasPrincipales', 'Signos y síntomas principales'),
-        prefix: 'Signos y síntomas principales',
+        id: 'presionDiastólica',
+        rowHeader: t('presionDiastolica', 'Presión diastólica'),
+        prefix: 'Presión diastólica',
       },
       {
-        id: 'examenFísicoTórax',
-        rowHeader: t('examenFísicoTórax', 'Examen Físico de Tórax'),
-        prefix: 'Examen Físico de Tórax',
+        id: 'involuciónUterina',
+        rowHeader: t('involuciónUterina', 'Involución Uterina'),
+        prefix: 'Involución Uterina',
       },
       {
-        id: 'ExamenGenitalesExternos',
-        rowHeader: t('ExamenGenitalesExternos', 'Examen Genitales Externos'),
-        prefix: 'Examen Genitales Externos',
+        id: 'característicaLoquios',
+        rowHeader: t('característicaLoquios', 'Característica Loquios'),
+        prefix: 'Característica Loquios',
       },
-      { id: 'Abdomen', rowHeader: t('Abdomen', 'Abdomen'), prefix: 'Abdomen' },
-      { id: 'PielYMucosas', rowHeader: t('PielYMucosas', 'Piel y Mucosas'), prefix: 'Piel y Mucosas' },
-      { id: 'EstadoGeneral', rowHeader: t('EstadoGeneral', 'Estado General'), prefix: 'Estado General' },
-      { id: 'Anamnesis', rowHeader: t('Anamnesis', 'Anamnesis'), prefix: 'Anamnesis' },
-      { id: 'proximaCita', rowHeader: t('proximaCita', 'Próxima cita'), prefix: 'Próxima cita' },
-      { id: 'FirmaYSello', rowHeader: t('FirmaYSello', 'Firma y Sello'), prefix: 'Firma y Sello' },
+      {
+        id: 'heridaOperatoria',
+        rowHeader: t('heridaOperatoria', 'Herida Operatoria'),
+        prefix: 'Herida Operatoria',
+      },
+      { id: 'observación', rowHeader: t('observation', 'Observación'), prefix: 'Observación' },
     ],
     [t],
   );
@@ -99,6 +96,7 @@ const PostpartumControlTable: React.FC<ProgramsDetailedSummaryProps> = ({ patien
       // If no data, return a subset of important rows
       return allPossibleRows.slice(0, 9);
     }
+
     // Track which row types we've seen in the data
     const seenPrefixes = new Set<string>();
 
@@ -128,7 +126,7 @@ const PostpartumControlTable: React.FC<ProgramsDetailedSummaryProps> = ({ patien
   // Determine the number of columns based on the number of encounters
   const maxEncounters = useMemo(() => {
     // Get the maximum encounter number or default to 9 if not found
-    if (!prenatalEncounters || prenatalEncounters.length === 0) return 2;
+    if (!prenatalEncounters || prenatalEncounters.length === 0) return 8;
 
     let maxNumber = 0;
     prenatalEncounters.forEach((encounter) => {
@@ -137,7 +135,7 @@ const PostpartumControlTable: React.FC<ProgramsDetailedSummaryProps> = ({ patien
           obs.groupMembers.forEach((member) => {
             const match = member.display.match(/Número de atención puerperio: Atención puerperio (\d+)/);
             if (match) {
-              const encounterNumber = Number.parseInt(match[1], 2);
+              const encounterNumber = Number.parseInt(match[1], 9);
               if (encounterNumber > maxNumber) {
                 maxNumber = encounterNumber;
               }
@@ -153,7 +151,7 @@ const PostpartumControlTable: React.FC<ProgramsDetailedSummaryProps> = ({ patien
         encounter.obs.forEach((obs) => {
           const match = obs.display.match(/Número de atención puerperio: Atención puerperio (\d+)/);
           if (match) {
-            const encounterNumber = Number.parseInt(match[1], 2);
+            const encounterNumber = Number.parseInt(match[1], 9);
             if (encounterNumber > maxNumber) {
               maxNumber = encounterNumber;
             }
@@ -168,16 +166,26 @@ const PostpartumControlTable: React.FC<ProgramsDetailedSummaryProps> = ({ patien
     }
 
     // Return at least 9 columns or more if needed
-    return Math.max(maxNumber + 1, 2);
+    return Math.max(maxNumber + 1, 8);
   }, [prenatalEncounters]);
 
   // Generate table headers dynamically
   const tableHeaders = useMemo(() => {
+    const attentionIntervals = [15, 30, 45, 60, 75, 90, 105, 120];
+    const formatTime = (minutes: number) =>
+      minutes < 60 ? `${minutes}'` : `${Math.floor(minutes / 60)}h ${minutes % 60 ? `${minutes % 60}'` : ''}`;
     return [
       { key: 'rowHeader', header: t('AtencionesPuerperio', 'Atenciones Puerperio') },
       ...Array.from({ length: maxEncounters }, (_, i) => ({
         key: `atencion${i + 1}`,
-        header: <div>{t(`atencion${i + 1}`, `Atención ${i + 1}`)}</div>,
+        header: (
+          <>
+            <div>{t(`atencion${i + 1}`, `Atención ${i + 1}`)}</div>
+            <div style={{ fontSize: '0.8em', color: 'gray', textAlign: 'center' }}>
+              {formatTime(attentionIntervals[i])}
+            </div>
+          </>
+        ),
       })),
     ];
   }, [t, maxEncounters]);
@@ -311,7 +319,7 @@ const PostpartumControlTable: React.FC<ProgramsDetailedSummaryProps> = ({ patien
         ) : (
           <EmptyState
             headerTitle={headerTitle}
-            displayText={t('controlPuerperio', 'Control Puerperio')}
+            displayText={t('puerperioInmediato', 'Puerperio Inmediato')}
             launchForm={handleAddPrenatalAttention}
           />
         )}
@@ -320,4 +328,4 @@ const PostpartumControlTable: React.FC<ProgramsDetailedSummaryProps> = ({ patien
   );
 };
 
-export default PostpartumControlTable;
+export default InmmediatePostpartumPeriodTable;

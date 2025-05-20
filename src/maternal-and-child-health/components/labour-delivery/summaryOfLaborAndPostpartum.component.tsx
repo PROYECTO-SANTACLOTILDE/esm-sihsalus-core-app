@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import {
@@ -17,26 +17,29 @@ import { launchPatientWorkspace, CardHeader, EmptyState } from '@openmrs/esm-pat
 import { useConfig, useLayoutType } from '@openmrs/esm-framework';
 import styles from './prenatalCareChart.scss';
 import dayjs from 'dayjs';
-import { useCurrentPregnancy } from '../../hooks/useCurrentPregnancy';
-import type { ConfigObject } from '../../config-schema';
+import { InlineNotification } from '@carbon/react';
+import { Add } from '@carbon/react/icons';
+import type { ConfigObject } from '../../../config-schema';
+import { useSummaryOfLaborAndPostpartum } from '../../../hooks/useSummaryOfLaborAndPostpartum';
 
 interface ProgramsDetailedSummaryProps {
   patientUuid: string;
 }
 
-const CurrentPregnancyTable: React.FC<ProgramsDetailedSummaryProps> = ({ patientUuid }) => {
+const SummaryOfLaborAndPostpartumTable: React.FC<ProgramsDetailedSummaryProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const layout = useLayoutType();
   const isTablet = layout === 'tablet';
-  const headerTitle = t('Current pregnancy', 'Embarazo actual');
-  const config = useConfig() as ConfigObject;
-  const { prenatalEncounter, error, isValidating, mutate } = useCurrentPregnancy(patientUuid);
+  const displayText = t('noDataAvailable', 'No data available');
+  const { prenatalEncounter, error, isValidating, mutate } = useSummaryOfLaborAndPostpartum(patientUuid);
 
-  const formPrenatalUuid = config.formsList.currentPregnancy;
+  const config = useConfig() as ConfigObject;
+
+  const formPrenatalUuid = config.formsList.SummaryOfLaborAndPostpartum;
 
   const handleAddPrenatalAttention = useCallback(() => {
     launchPatientWorkspace('patient-form-entry-workspace', {
-      workspaceTitle: t('embarazoActual', 'Embarazo Actual'),
+      workspaceTitle: t('Antecedentes', 'Antecedentes'),
       formInfo: {
         encounterUuid: '',
         formUuid: formPrenatalUuid,
@@ -175,7 +178,7 @@ const CurrentPregnancyTable: React.FC<ProgramsDetailedSummaryProps> = ({ patient
         observationTables.map(({ title, rows }) => renderTable(title, rows))
       ) : (
         <EmptyState
-          headerTitle={t('embarazoActual', 'Embarazo Actual')}
+          headerTitle={t('maternalHistory', 'Antecedentes Maternos')}
           displayText={t('noDataAvailableDescription', 'No data available')}
           launchForm={handleAddPrenatalAttention}
         />
@@ -184,4 +187,4 @@ const CurrentPregnancyTable: React.FC<ProgramsDetailedSummaryProps> = ({ patient
   );
 };
 
-export default CurrentPregnancyTable;
+export default SummaryOfLaborAndPostpartumTable;

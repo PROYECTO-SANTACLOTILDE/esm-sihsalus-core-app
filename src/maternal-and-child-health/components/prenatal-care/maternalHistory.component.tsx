@@ -16,28 +16,30 @@ import {
 import { launchPatientWorkspace, CardHeader, EmptyState } from '@openmrs/esm-patient-common-lib';
 import { useConfig, useLayoutType } from '@openmrs/esm-framework';
 import styles from './prenatalCareChart.scss';
+import dayjs from 'dayjs';
+import { useMaternalHistory } from '../../../hooks/useMaternalHistory';
 import { InlineNotification } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
-import type { ConfigObject } from '../../config-schema';
-import { useDeliveryOrAbortion } from '../../hooks/useDeliveryOrAbortion';
+import type { ConfigObject } from '../../../config-schema';
 
-interface FormDetailedSummaryProps {
+interface ProgramsDetailedSummaryProps {
   patientUuid: string;
 }
 
-const DeliberyOrAbortionTable: React.FC<FormDetailedSummaryProps> = ({ patientUuid }) => {
+const MaternalHistoryTable: React.FC<ProgramsDetailedSummaryProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const layout = useLayoutType();
   const isTablet = layout === 'tablet';
-  const { prenatalEncounter, error, isValidating, mutate } = useDeliveryOrAbortion(patientUuid);
+  const displayText = t('noDataAvailable', 'No data available');
+  const { prenatalEncounter, error, isValidating, mutate } = useMaternalHistory(patientUuid);
 
   const config = useConfig() as ConfigObject;
 
-  const formPrenatalUuid = config.formsList.deliveryOrAbortion;
+  const formPrenatalUuid = config.formsList.maternalHistory;
 
   const handleAddPrenatalAttention = useCallback(() => {
     launchPatientWorkspace('patient-form-entry-workspace', {
-      workspaceTitle: t('deliveryOrAbortion', 'Parto o aborto'),
+      workspaceTitle: t('Antecedentes', 'Antecedentes'),
       formInfo: {
         encounterUuid: '',
         formUuid: formPrenatalUuid,
@@ -153,7 +155,7 @@ const DeliberyOrAbortionTable: React.FC<FormDetailedSummaryProps> = ({ patientUu
         </div>
       );
     },
-    [tableHeaders, isTablet, isValidating, t, handleAddPrenatalAttention],
+    [tableHeaders, isTablet, isValidating, t, handleAddPrenatalAttention], //handleAddPrenatalAttention is correctly included as a dependency
   );
 
   if (error) {
@@ -176,7 +178,7 @@ const DeliberyOrAbortionTable: React.FC<FormDetailedSummaryProps> = ({ patientUu
         observationTables.map(({ title, rows }) => renderTable(title, rows))
       ) : (
         <EmptyState
-          headerTitle={t('deliveryOrAbortion', 'Parto o aborto')}
+          headerTitle={t('maternalHistory', 'Antecedentes Maternos')}
           displayText={t('noDataAvailableDescription', 'No data available')}
           launchForm={handleAddPrenatalAttention}
         />
@@ -185,4 +187,4 @@ const DeliberyOrAbortionTable: React.FC<FormDetailedSummaryProps> = ({ patientUu
   );
 };
 
-export default DeliberyOrAbortionTable;
+export default MaternalHistoryTable;

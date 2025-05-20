@@ -4,12 +4,12 @@ import { BabyIcon } from '@openmrs/esm-framework';
 import TabbedDashboard from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 import type { TabConfig } from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 
-interface LabourDeliveryCareProps {
+interface LabourDeliveryProps {
   patient: fhir.Patient;
   patientUuid: string;
 }
 
-const LabourDeliveryCare: React.FC<LabourDeliveryCareProps> = ({ patient, patientUuid }) => {
+const LabourDelivery: React.FC<LabourDeliveryProps> = ({ patient, patientUuid }) => {
   const tabs: TabConfig[] = [
     {
       labelKey: 'deliveryOrAbortion',
@@ -49,4 +49,4 @@ const LabourDeliveryCare: React.FC<LabourDeliveryCareProps> = ({ patient, patien
   );
 };
 
-export default LabourDeliveryCare;
+export default LabourDelivery;
