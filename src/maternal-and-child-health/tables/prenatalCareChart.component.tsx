@@ -39,14 +39,14 @@ const PrenatalCareChart: React.FC<ProgramsDetailedSummaryProps> = ({ patientUuid
   const config = useConfig() as ConfigObject;
   const { prenatalEncounters, error, isValidating, mutate } = usePrenatalCare(patientUuid);
 
-  const formAntenatalUuid = config.formsList.prenatalCare;
+  const formPrenatalUuid = config.formsList.prenatalCare;
 
   const handleAddPrenatalAttention = () => {
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: t('Nueva Atención Prenatal', 'Nueva Atención Prenatal'),
       formInfo: {
         encounterUuid: '',
-        formUuid: formAntenatalUuid,
+        formUuid: formPrenatalUuid,
         additionalProps: {},
       },
     });

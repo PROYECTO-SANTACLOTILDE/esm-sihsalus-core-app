@@ -1,8 +1,8 @@
-export const antenatalDashboardMeta = {
+export const prenatalDashboardMeta = {
   icon: 'omrs-icon-baby',
-  slot: 'patient-chart-antenatal-dashboard-slot',
+  slot: 'patient-chart-prenatal-dashboard-slot',
   title: 'Cuidados Prenatales',
-  path: 'antenatal-care-dashboard',
+  path: 'prenatal-care-dashboard',
   moduleName: '@pucp-gidis-hiisc/esm-sihsalus-app',
   config: {},
 };

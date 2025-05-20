@@ -32,18 +32,18 @@ const CurrentPregnancyTable: React.FC<ProgramsDetailedSummaryProps> = ({ patient
   const config = useConfig() as ConfigObject;
   const { prenatalEncounter, error, isValidating, mutate } = useCurrentPregnancy(patientUuid);
 
-  const formAntenatalUuid = config.formsList.currentPregnancy;
+  const formPrenatalUuid = config.formsList.currentPregnancy;
 
   const handleAddPrenatalAttention = useCallback(() => {
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: t('embarazoActual', 'Embarazo Actual'),
       formInfo: {
         encounterUuid: '',
-        formUuid: formAntenatalUuid,
+        formUuid: formPrenatalUuid,
         additionalProps: {},
       },
     });
-  }, [t, formAntenatalUuid]);
+  }, [t, formPrenatalUuid]);
 
   // Define table headers
   const tableHeaders = useMemo(

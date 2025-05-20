@@ -33,18 +33,18 @@ const DeliberyOrAbortionTable: React.FC<FormDetailedSummaryProps> = ({ patientUu
 
   const config = useConfig() as ConfigObject;
 
-  const formAntenatalUuid = config.formsList.deliveryOrAbortion;
+  const formPrenatalUuid = config.formsList.deliveryOrAbortion;
 
   const handleAddPrenatalAttention = useCallback(() => {
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: t('deliveryOrAbortion', 'Parto o aborto'),
       formInfo: {
         encounterUuid: '',
-        formUuid: formAntenatalUuid,
+        formUuid: formPrenatalUuid,
         additionalProps: {},
       },
     });
-  }, [t, formAntenatalUuid]);
+  }, [t, formPrenatalUuid]);
 
   // Define table headers
   const tableHeaders = useMemo(

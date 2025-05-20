@@ -38,14 +38,14 @@ const PostpartumControlTable: React.FC<ProgramsDetailedSummaryProps> = ({ patien
   const config = useConfig() as ConfigObject;
   const { prenatalEncounters, error, isValidating, mutate } = usePostpartumControlTable(patientUuid);
 
-  const formAntenatalUuid = config.formsList.postpartumControl;
+  const formPrenatalUuid = config.formsList.postpartumControl;
 
   const handleAddPrenatalAttention = () => {
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: t('Nueva Atención Postnatal', 'Nueva Atención Postnatal'),
       formInfo: {
         encounterUuid: '',
-        formUuid: formAntenatalUuid,
+        formUuid: formPrenatalUuid,
         additionalProps: {},
       },
     });

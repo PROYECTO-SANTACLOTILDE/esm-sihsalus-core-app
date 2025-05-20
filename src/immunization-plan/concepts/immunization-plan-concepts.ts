@@ -31,8 +31,8 @@ export const outcomeStatus = '160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 export const infantVisitDate = '159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 export const finalTestResults = '164460AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 
-//Antenatal
-export const antenatalEncounterType = '2549af50-75c8-4aeb-87ca-4bb2cef6c69a';
+//Prenatal
+export const prenatalEncounterType = '2549af50-75c8-4aeb-87ca-4bb2cef6c69a';
 export const visitDateConcept = '163260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 export const hivTestResultConcept = '159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 export const partnerHivStatus = '1436AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
@@ -65,9 +65,9 @@ export const motherHivStatusReport = 'ed50a889-dd5b-4759-861c-b54e3c686fe7';
 
 //MCH Summary
 export const mchEncounterType = '12de5bc5-352e-4faf-9961-a2125085a75c';
-export const antenatalVisitType = '164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+export const prenatalVisitType = '164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 export const mchVisitType = '140084BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB';
-export const mchVisitsTypes = ['Antenatal', 'Labor and Delivery', 'Mother Postnatal'];
+export const mchVisitsTypes = ['Prenatal', 'Labor and Delivery', 'Mother Postnatal'];
 
 export const encounterRepresentation =
   'custom:(uuid,encounterDatetime,encounterType,location:(uuid,name),' +

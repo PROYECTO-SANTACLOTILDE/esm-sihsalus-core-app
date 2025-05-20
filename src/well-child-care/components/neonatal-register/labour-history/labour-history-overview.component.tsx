@@ -24,15 +24,15 @@ const LabourHistoryOverview: React.FC<LabourHistoryOverviewProps> = ({ patientUu
 
   const config = useConfig();
   const { prenatalEncounter, error, isValidating, mutate } = useCurrentPregnancy(patientUuid);
-  const formAntenatalUuid = config.formsList.deliveryOrAbortion;
+  const formPrenatalUuid = config.formsList.deliveryOrAbortion;
 
   const launchLabourForm = useCallback(() => {
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: t('labourDetails', 'Labour Details'),
       mutateForm: mutate,
-      formInfo: { formUuid: formAntenatalUuid, patientUuid, additionalProps: {} },
+      formInfo: { formUuid: formPrenatalUuid, patientUuid, additionalProps: {} },
     });
-  }, [patientUuid, formAntenatalUuid, mutate, t]);
+  }, [patientUuid, formPrenatalUuid, mutate, t]);
 
   const tableHeaders = useMemo(
     () => [

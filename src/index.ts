@@ -47,11 +47,11 @@ import BirthDateCalculator from './relationships/modals/birthdate-calculator.mod
 import { OtherRelationships } from './other-relationships/other-relationships.component';
 import { OtherRelationshipsForm } from './other-relationships/other-relationships.workspace';
 
-import AntenatalCare from './maternal-and-child-health/antenatal-care.component';
+import PrenatalCare from './maternal-and-child-health/prenatal-care.component';
 import PostnatalCare from './maternal-and-child-health/postnatal-care.component';
 import LabourDelivery from './maternal-and-child-health/labour-delivery.component';
 import {
-  antenatalDashboardMeta,
+  prenatalDashboardMeta,
   labourAndDeliveryDashboardMeta,
   postnatalDashboardMeta,
   maternalAndChildHealthNavGroup,
@@ -175,11 +175,11 @@ export const maternalAndChildHealthSideNavGroup = getSyncLifecycle(
   createDashboardGroup(maternalAndChildHealthNavGroup),
   options,
 );
-export const antenatalCare = getSyncLifecycle(AntenatalCare, options);
+export const prenatalCare = getSyncLifecycle(PrenatalCare, options);
 export const postnatalCare = getSyncLifecycle(PostnatalCare, options);
 export const labourAndDelivery = getSyncLifecycle(LabourDelivery, options);
-export const antenatalCareLink = getSyncLifecycle(
-  createDashboardLink({ ...antenatalDashboardMeta, moduleName }),
+export const prenatalCareLink = getSyncLifecycle(
+  createDashboardLink({ ...prenatalDashboardMeta, moduleName }),
   options,
 );
 export const postnatalCareLink = getSyncLifecycle(

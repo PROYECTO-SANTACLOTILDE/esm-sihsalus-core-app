@@ -68,7 +68,7 @@ export const configSchema = {
     _type: Type.Object,
     _description: 'List of form UUIDs',
     _default: {
-      antenatal: 'e8f98494-af35-4bb8-9fc7-c409c8fed843',
+      prenatal: 'e8f98494-af35-4bb8-9fc7-c409c8fed843',
       postNatal: '72aa78e0-ee4b-47c3-9073-26f3b9ecc4a7',
       atencionImmediataNewborn: '(Página 5) ATENCIÓN INMEDIATA DEL RECIÉN NACIDO',
       maternalHistory: 'OBST-001-ANTECEDENTES',
@@ -1369,7 +1369,7 @@ export interface ConfigObject {
     encounterTypeUuid: string;
   }>;
   formsList: {
-    antenatal: string;
+    prenatal: string;
     postnatal: string;
     labourAndDelivery: string;
     atencionImmediataNewborn: string;

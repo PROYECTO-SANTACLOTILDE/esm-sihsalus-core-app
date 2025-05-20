@@ -35,18 +35,18 @@ const MaternalHistoryTable: React.FC<ProgramsDetailedSummaryProps> = ({ patientU
 
   const config = useConfig() as ConfigObject;
 
-  const formAntenatalUuid = config.formsList.maternalHistory;
+  const formPrenatalUuid = config.formsList.maternalHistory;
 
   const handleAddPrenatalAttention = useCallback(() => {
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: t('Antecedentes', 'Antecedentes'),
       formInfo: {
         encounterUuid: '',
-        formUuid: formAntenatalUuid,
+        formUuid: formPrenatalUuid,
         additionalProps: {},
       },
     });
-  }, [t, formAntenatalUuid]);
+  }, [t, formPrenatalUuid]);
 
   // Define table headers
   const tableHeaders = useMemo(

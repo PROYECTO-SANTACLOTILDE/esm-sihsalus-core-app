@@ -3,27 +3,27 @@ import { UserFollow, Task, ChartLineData } from '@carbon/react/icons';
 import TabbedDashboard from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 import type { TabConfig } from '../ui/tabbed-dashboard/tabbed-dashboard.component';
 
-interface AntenatalCareProps {
+interface PrenatalCareProps {
   patient: fhir.Patient;
   patientUuid: string;
 }
 
-const AntenatalCare: React.FC<AntenatalCareProps> = ({ patient, patientUuid }) => {
+const PrenatalCare: React.FC<PrenatalCareProps> = ({ patient, patientUuid }) => {
   const tabs: TabConfig[] = [
     {
       labelKey: 'maternalHistory',
       icon: UserFollow,
-      slotName: 'antenatal-maternal-history-slot',
+      slotName: 'prenatal-maternal-history-slot',
     },
     {
       labelKey: 'currentPregnancy',
       icon: Task,
-      slotName: 'antenatal-current-pregnancy-slot',
+      slotName: 'prenatal-current-pregnancy-slot',
     },
     {
       labelKey: 'prenatalCareChart',
       icon: ChartLineData,
-      slotName: 'antenatal-prenatal-care-chart-slot',
+      slotName: 'prenatal-prenatal-care-chart-slot',
     },
   ];
 
@@ -31,11 +31,11 @@ const AntenatalCare: React.FC<AntenatalCareProps> = ({ patient, patientUuid }) =
     <TabbedDashboard
       patient={patient}
       patientUuid={patientUuid}
-      titleKey="antenatalCare"
+      titleKey="prenatalCare"
       tabs={tabs}
-      ariaLabelKey="antenatalCareTabs"
+      ariaLabelKey="prenatalCareTabs"
     />
   );
 };
 
-export default AntenatalCare;
+export default PrenatalCare;

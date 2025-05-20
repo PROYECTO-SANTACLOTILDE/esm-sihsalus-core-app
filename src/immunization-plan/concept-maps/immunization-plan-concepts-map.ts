@@ -265,7 +265,7 @@ export const ancConceptMap = {
     answers: {},
   },
   '161074AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': {
-    display: 'Has the client undergone antenatal exercises?',
+    display: 'Has the client undergone prenatal exercises?',
     answers: {
       '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'Yes',
       '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 'No',

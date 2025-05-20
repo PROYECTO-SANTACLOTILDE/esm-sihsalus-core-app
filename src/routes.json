@@ -165,21 +165,21 @@
       "component": "contactListForm"
     },
     {
-      "name": "antenatal-care-dashboard-link",
-      "component": "antenatalCareLink",
+      "name": "prenatal-care-dashboard-link",
+      "component": "prenatalCareLink",
       "slot": "maternal-and-child-health-slot",
       "meta": {
         "columns": 1,
         "columnSpan": 1,
-        "slot": "patient-chart-antenatal-care-dashboard-slot",
-        "path": "antenatal-care-dashboard",
+        "slot": "patient-chart-prenatal-care-dashboard-slot",
+        "path": "prenatal-care-dashboard",
         "layoutMode": "anchored"
       }
     },
     {
-      "name": "antenatal-care-dashboard",
-      "slot": "patient-chart-antenatal-care-dashboard-slot",
-      "component": "antenatalCare"
+      "name": "prenatal-care-dashboard",
+      "slot": "patient-chart-prenatal-care-dashboard-slot",
+      "component": "prenatalCare"
     },
     {
       "name": "labour-and-delivery-dashboard-link",
@@ -472,7 +472,7 @@
     {
       "name": "maternal-history-chart",
       "component": "maternalHistoryTable",
-      "slot": "antenatal-maternal-history-slot",
+      "slot": "prenatal-maternal-history-slot",
       "order": 1,
       "meta": {
         "fullWidth": true
@@ -481,7 +481,7 @@
     {
       "name": "current-pregnancy-chart",
       "component": "currentPregnancyTable",
-      "slot": "antenatal-current-pregnancy-slot",
+      "slot": "prenatal-current-pregnancy-slot",
       "order": 1,
       "meta": {
         "fullWidth": true
@@ -490,7 +490,7 @@
     {
       "name": "prenatal-care-chart",
       "component": "prenatalCareChart",
-      "slot": "antenatal-prenatal-care-chart-slot",
+      "slot": "prenatal-prenatal-care-chart-slot",
       "order": 1,
       "meta": {
         "fullWidth": true
