@@ -57,9 +57,9 @@ import {
   maternalAndChildHealthNavGroup,
 } from './maternal-and-child-health/dashboard.meta';
 
-import PrenatalCareChart from './maternal-and-child-health/components/prenatalCareChart.component';
-import MaternalHistoryTable from './maternal-and-child-health/components/maternalHistory.component';
-import CurrentPregnancyTable from './maternal-and-child-health/components/currentPregnancy.component';
+import PrenatalCareChart from './maternal-and-child-health/components/prenatal-care/prenatalCareChart.component';
+import MaternalHistoryTable from './maternal-and-child-health/components/prenatal-care/maternalHistory.component';
+import CurrentPregnancyTable from './maternal-and-child-health/components/prenatal-care/currentPregnancy.component';
 
 import NeonatalCare from './well-child-care/neonatal-care.component';
 import WellChildControl from './well-child-care/well-child-control.component';
@@ -85,7 +85,7 @@ import CredControlsCheckout from './well-child-care/components/cred-controls-tim
 import CredControlsMatrix from './well-child-care/components/cred-controls-timeline/cred-matrix.component';
 
 import VaccinationSchedule from './well-child-care/components/vaccination-schema-widget/vaccinationSchedule.component';
-import { AdverseReactionForm } from './well-child-care/components/vaccination-schema-widget/adverseReaction.component';
+import { AdverseReactionForm } from './well-child-care/workspace/adverse-reaction/adverseReaction.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 

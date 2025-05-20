@@ -29,7 +29,7 @@ interface RowData {
   [key: string]: any; // For dynamic column keys like atencion1, atencion2, etc.
 }
 
-const InmmediatePostpartumPeriodTable: React.FC<ProgramsDetailedSummaryProps> = ({ patientUuid }) => {
+const ImmediatePostpartumTable: React.FC<ProgramsDetailedSummaryProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const layout = useLayoutType();
   const isTablet = layout === 'tablet';
@@ -328,4 +328,4 @@ const InmmediatePostpartumPeriodTable: React.FC<ProgramsDetailedSummaryProps> = 
   );
 };
 
-export default InmmediatePostpartumPeriodTable;
+export default ImmediatePostpartumTable;
