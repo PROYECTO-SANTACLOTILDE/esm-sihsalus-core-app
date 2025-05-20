@@ -24,7 +24,7 @@ import {
 } from '@openmrs/esm-patient-common-lib';
 import { formatDate, isDesktop, parseDate, useLayoutType } from '@openmrs/esm-framework';
 import styles from './labour-delivery.scss';
-import { usePartograph } from '../../../hooks/usePartograph';
+import { usePartograph } from '../../../../hooks/usePartograph';
 import dayjs from 'dayjs';
 import {
   CervicalDilation,
@@ -33,7 +33,7 @@ import {
   PartographEncounterFormUuid,
   SurgicalProcedure,
   descentOfHeadObj,
-} from '../../../utils/constants';
+} from '../../../../utils/constants';
 import PartographChart from './partograph-chart';
 
 interface PartographyProps {

@@ -1,9 +1,8 @@
 //Pedro este es tu slot y tu procedimiento
-export const proceduresDashboardMeta = {
-  icon: 'omrs-icon-user-follow',
+export const caseManagementDashboardMeta = {
+  title: 'Solicitudes FUA',
+  path: 'procedures',
   slot: 'patient-chart-procedures-slot',
   columns: 1,
-  title: 'Procedimientos',
-  path: 'procedures',
   config: {},
 };

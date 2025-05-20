@@ -1,6 +1,6 @@
+import type { ReactNode } from 'react';
 import { Layer, Search } from '@carbon/react';
 import classNames from 'classnames';
-import type { ReactNode } from 'react'; // HTMLAttributes might not be needed
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './autosuggest.scss';
 
