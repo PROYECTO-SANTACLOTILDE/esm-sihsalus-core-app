@@ -20,7 +20,7 @@ interface TabbedDashboardProps {
   ariaLabelKey: string;
   pageSize?: number;
   className?: string;
-  state?: Record<string, any>; // Optional custom state to pass to extensions
+  state?: Record<string, any>;
 }
 
 const TabbedDashboard: React.FC<TabbedDashboardProps> = ({
